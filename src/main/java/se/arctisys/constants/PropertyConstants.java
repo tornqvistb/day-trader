@@ -21,5 +21,4 @@ public class PropertyConstants {
 	public static final String MEDIUM_MOVING_AVERAGE = "medium-moving-average";
 	public static final String SHORT_MOVING_AVERAGE = "short-moving-average";
 	
-	
 }

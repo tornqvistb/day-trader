@@ -32,11 +32,11 @@ import se.arctisys.repository.ShareRepository;
  * Created by Björn Törnqvist, ArctiSys AB, 2016-02
  */
 @Service
-public class MainImportService {
+public class FileImportService {
 
 	private static final String GENERAL_FILE_ERROR = "Fel vid inläsning av fil. ";
 	
-	private static final Logger LOG = LoggerFactory.getLogger(MainImportService.class);
+	private static final Logger LOG = LoggerFactory.getLogger(FileImportService.class);
 
     private ErrorRepository errorRepo;
     private PropertyService propService;

@@ -27,6 +27,8 @@ public class Share {
 	private Set<StockHolding> stockHoldings = new HashSet<StockHolding>();
 	private Set<ShareTransaction> transactions = new HashSet<ShareTransaction>();
 	private Date creationDate;
+	private Date lastBuyDate;
+	private Date lastSellDate;
 	
 	public Share() {
 		super();
@@ -124,5 +126,17 @@ public class Share {
 	}
 	public void setFrequency(Long frequency) {
 		this.frequency = frequency;
+	}
+	public Date getLastBuyDate() {
+		return lastBuyDate;
+	}
+	public void setLastBuyDate(Date lastBuyDate) {
+		this.lastBuyDate = lastBuyDate;
+	}
+	public Date getLastSellDate() {
+		return lastSellDate;
+	}
+	public void setLastSellDate(Date lastSellDate) {
+		this.lastSellDate = lastSellDate;
 	}	
 }
