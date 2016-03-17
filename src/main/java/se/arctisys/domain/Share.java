@@ -138,5 +138,17 @@ public class Share {
 	}
 	public void setLastSellDate(Date lastSellDate) {
 		this.lastSellDate = lastSellDate;
-	}	
+	}
+	@Transient
+	public ShareDayRate getLastDayRate() {		
+		ShareDayRate dayRate = null;
+		if (dayRates != null && dayRates.size() > 0) {
+			for (ShareDayRate rate : dayRates) {
+				dayRate = rate;
+				break;
+			}
+		}
+		return dayRate;
+	}
+
 }

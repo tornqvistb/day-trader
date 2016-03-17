@@ -18,6 +18,11 @@ insert into system_property (id, string_value, number_value) values ('default-ma
 insert into system_property (id, string_value, number_value) values ('file-incoming-folder', 'C:/Projekt/arctisys/filedirs/incoming', 0);
 insert into system_property (id, string_value, number_value) values ('file-processed-folder', 'C:/Projekt/arctisys/filedirs/processed', 0);
 insert into system_property (id, string_value, number_value) values ('file-error-folder', 'C:/Projekt/arctisys/filedirs/error', 0);
+
+insert into system_property (id, string_value, number_value) values ('trading-time', '17:00', 0);
+insert into system_property (id, string_value, number_value) values ('last-trading-date', '2016-01-01', 0);
 commit;
+
+
 
 //UPDATE DATABASECHANGELOGLOCK SET LOCKED=FALSE, LOCKGRANTED=null, LOCKEDBY=null where ID=1;

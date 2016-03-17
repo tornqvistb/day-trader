@@ -74,5 +74,15 @@ public class Util {
 	public static Long daysBeforeNow(Date date) {
 	    return (long)( (new Date().getTime() - date.getTime()) / (1000 * 60 * 60 * 24));
 	}
+	public static boolean timeHasPassed(String time) throws ParseException {
+		boolean result = false;
+		Date now = new Date();
+		String checkDateStr = dateToString(now) + " " + time;
+		Date checkDate = stringToDateAndTime(checkDateStr);
+		if (now.after(checkDate)) {
+			result = true;
+		}
+		return result;
+	}
 	
 }

@@ -183,5 +183,21 @@ public class ShareDayRate {
 		}
 		return result;
 	}
-
+	@Transient
+	public boolean isBuyCandidate() {
+		boolean result = false;
+		if (buyRate <= lowFrequencyRate) {
+			result = true;
+		}
+		return result;
+	}
+	@Transient
+	public boolean isSellCandidate() {
+		boolean result = false;
+		if (sellRate >= highFrequencyRate) {
+			result = true;
+		}
+		return result;
+	}
+	
 }
