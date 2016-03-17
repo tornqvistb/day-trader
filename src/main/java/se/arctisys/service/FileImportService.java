@@ -59,17 +59,11 @@ public class FileImportService {
 				Path errorTarget = Paths.get(fileErrorFolder + "/" + fileEntry.getName());
 				String shareId = getShareIdFromFileName(fileEntry.getName());
 				Share share = shareRepo.findOne(shareId);
-				if (share == null) {
-					
-					
-					
+				if (share == null) {					
 					share = new Share(shareId,
 							TradeConstants.STRATEGY_LONG,
 							shareId,
-							TradeConstants.CURRENCY_SEK,
-							propService.getLong(PropertyConstants.DEFAULT_BUY_AMOUNT),
-							propService.getLong(PropertyConstants.DEFAULT_MAX_HOLDING_AMOUNT),
-							propService.getLong(PropertyConstants.DEFAULT_RATE_FREQUENCY)
+							TradeConstants.CURRENCY_SEK
 							);
 					share.setId(shareId);
 					shareRepo.save(share);
@@ -85,7 +79,7 @@ public class FileImportService {
 							saveError(GENERAL_FILE_ERROR + row);
 						}
 					}
-					calculatorService.updateAverageAndFrequence(shareId, share.getFrequency());
+					calculatorService.updateAverageAndFrequence(shareId, share.getDefaultFrequency());
 					Files.move(source, target, StandardCopyOption.REPLACE_EXISTING);
 				} catch (IOException e) {
 					e.printStackTrace();

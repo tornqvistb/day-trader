@@ -20,15 +20,8 @@ public class Share {
 	private String strategy;
 	private String description;
 	private String currency;
-	private Long buyAmount;
-	private Long maxHoldingAmount;
-	private Long frequency;
 	private Set<ShareDayRate> dayRates = new HashSet<ShareDayRate>();
-	private Set<StockHolding> stockHoldings = new HashSet<StockHolding>();
-	private Set<ShareTransaction> transactions = new HashSet<ShareTransaction>();
 	private Date creationDate;
-	private Date lastBuyDate;
-	private Date lastSellDate;
 	
 	public Share() {
 		super();
@@ -36,16 +29,12 @@ public class Share {
 		this.strategy = TradeConstants.STRATEGY_LONG;
 		this.currency = TradeConstants.CURRENCY_SEK;		
 	}
-	public Share(String id, String strategy, String description, String currency, Long buyAmount,
-			Long maxHoldingAmount, Long frequency) {
+	public Share(String id, String strategy, String description, String currency) {
 		super();
 		this.id = id;
 		this.strategy = strategy;
 		this.description = description;
 		this.currency = currency;
-		this.buyAmount = buyAmount;
-		this.maxHoldingAmount = maxHoldingAmount;
-		this.frequency = frequency;
 		this.creationDate = new Date();
 	}
 	@Id
@@ -74,34 +63,6 @@ public class Share {
 	public void setCurrency(String currency) {
 		this.currency = currency;
 	}
-	public Long getBuyAmount() {
-		return buyAmount;
-	}
-	public void setBuyAmount(Long buyAmount) {
-		this.buyAmount = buyAmount;
-	}
-	public Long getMaxHoldingAmount() {
-		return maxHoldingAmount;
-	}
-	public void setMaxHoldingAmount(Long maxHoldingAmount) {
-		this.maxHoldingAmount = maxHoldingAmount;
-	}
-	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER, mappedBy="share")
-	@OrderBy("creationDate")
-	public Set<StockHolding> getStockHoldings() {
-		return stockHoldings;
-	}
-	public void setStockHoldings(Set<StockHolding> stockHoldings) {
-		this.stockHoldings = stockHoldings;
-	}
-	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER, mappedBy="share")
-	@OrderBy("creationDate")
-	public Set<ShareTransaction> getTransactions() {
-		return transactions;
-	}
-	public void setTransactions(Set<ShareTransaction> transactions) {
-		this.transactions = transactions;
-	}
 	public Date getCreationDate() {
 		return creationDate;
 	}
@@ -121,24 +82,6 @@ public class Share {
 	public void setDayRates(Set<ShareDayRate> dayRates) {
 		this.dayRates = dayRates;
 	}
-	public Long getFrequency() {
-		return frequency;
-	}
-	public void setFrequency(Long frequency) {
-		this.frequency = frequency;
-	}
-	public Date getLastBuyDate() {
-		return lastBuyDate;
-	}
-	public void setLastBuyDate(Date lastBuyDate) {
-		this.lastBuyDate = lastBuyDate;
-	}
-	public Date getLastSellDate() {
-		return lastSellDate;
-	}
-	public void setLastSellDate(Date lastSellDate) {
-		this.lastSellDate = lastSellDate;
-	}
 	@Transient
 	public ShareDayRate getLastDayRate() {		
 		ShareDayRate dayRate = null;
@@ -149,6 +92,12 @@ public class Share {
 			}
 		}
 		return dayRate;
+	}
+	@Transient
+	public Long getDefaultFrequency() {
+		//TODO get this from sys user instead
+		Long result = 4L;
+		return result;
 	}
 
 }

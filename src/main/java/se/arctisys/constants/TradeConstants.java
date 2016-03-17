@@ -11,4 +11,8 @@ public class TradeConstants {
 	public static final String TRANSACTION_TYPE_BUY = "Buy";
 	public static final String TRANSACTION_TYPE_SELL = "Sell";
 	
+	public static final String TRANSACTION_STATUS_NEW = "new";
+	
+	public static final String EMAIL_STATUS_NEW = "new";
+	public static final String EMAIL_STATUS_SENT = "sent";
 }

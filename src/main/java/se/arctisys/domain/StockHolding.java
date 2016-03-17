@@ -4,18 +4,18 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
 @Entity
 public class StockHolding {
-	private String id;
-	private Share share;
+	private Long id;
 	private Double lastBuyRate;
 	private Double amount;
 	private Integer numberOfShares;
 	private Date creationDate;
+	private UserShare userShare;
 
 	public Integer getNumberOfShares() {
 		return numberOfShares;
@@ -29,19 +29,13 @@ public class StockHolding {
 		this.creationDate = new Date();
 	}
 	@Id
-	public String getId() {
+	@GeneratedValue
+	public Long getId() {
 		return id;
 	}
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}	
-	@ManyToOne()
-	public Share getShare() {
-		return share;
-	}
-	public void setShare(Share share) {
-		this.share = share;
-	}
 	
 	public Date getCreationDate() {
 		return creationDate;
@@ -65,6 +59,12 @@ public class StockHolding {
 	}
 	public void setAmount(Double amount) {
 		this.amount = amount;
+	}
+	public UserShare getUserShare() {
+		return userShare;
+	}
+	public void setUserShare(UserShare userShare) {
+		this.userShare = userShare;
 	}
 	
 }

@@ -11,6 +11,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.Transient;
 
@@ -21,6 +22,7 @@ public class Account {
 	private Double minimumBalance;
 	private Set<AccountHistory> accountHistory = new HashSet<AccountHistory>();
 	private Date creationDate;
+	private TradingUser tradingUser;
 	
 	public Account() {
 		super();
@@ -64,6 +66,17 @@ public class Account {
 	}
 	public void setMinimumBalance(Double minimumBalance) {
 		this.minimumBalance = minimumBalance;
+	}
+	@Transient
+	public void increaseBalance(Double increase) {
+		this.actualBalance = actualBalance + increase;
+	}
+	@OneToOne
+	public TradingUser getTradingUser() {
+		return tradingUser;
+	}
+	public void setTradingUser(TradingUser tradingUser) {
+		this.tradingUser = tradingUser;
 	}
 	
 }

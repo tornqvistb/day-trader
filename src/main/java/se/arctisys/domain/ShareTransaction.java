@@ -4,14 +4,15 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
 @Entity
 public class ShareTransaction {
-	private String id;
-	private Share share;
+	private Long id;
+	private UserShare userShare;
 	private String type;	
 	private Date actualDate;
 	private Double amount;
@@ -23,18 +24,19 @@ public class ShareTransaction {
 		this.creationDate = new Date();
 	}
 	@Id
-	public String getId() {
+	@GeneratedValue
+	public Long getId() {
 		return id;
 	}
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	@ManyToOne()
-	public Share getShare() {
-		return share;
+	public UserShare getUserShare() {
+		return userShare;
 	}
-	public void setShare(Share share) {
-		this.share = share;
+	public void setUserShare(UserShare userShare) {
+		this.userShare = userShare;
 	}
 	public Date getActualDate() {
 		return actualDate;
