@@ -36,6 +36,11 @@ public class PropertyService {
 		}
 		return result;
 	}
-
-	
+	public void updateStringValue(String propertyId, String newValue) {
+		SystemProperty prop = propertyRepo.findOne(propertyId);
+		if (prop != null) {
+			prop.setStringValue(newValue);
+			propertyRepo.save(prop);
+		}
+	}
 }

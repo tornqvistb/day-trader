@@ -14,14 +14,14 @@ public class StockHolding {
 	private Long id;
 	private Double lastBuyRate;
 	private Double amount;
-	private Integer numberOfShares;
+	private Long numberOfShares;
 	private Date creationDate;
 	private UserShare userShare;
 
-	public Integer getNumberOfShares() {
+	public Long getNumberOfShares() {
 		return numberOfShares;
 	}
-	public void setNumberOfShares(Integer numberOfShares) {
+	public void setNumberOfShares(Long numberOfShares) {
 		this.numberOfShares = numberOfShares;
 	}
 	

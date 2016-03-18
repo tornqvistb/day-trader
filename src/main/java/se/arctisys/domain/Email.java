@@ -7,6 +7,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 
+import org.apache.commons.lang3.StringUtils;
+
 import se.arctisys.constants.TradeConstants;
 
 @Entity
@@ -73,5 +75,13 @@ public class Email {
 	@Transient
 	public void addContent(String newContent) {
 		this.content = this.content + newContent + "\n";
+	}
+	@Transient
+	public boolean hasContent() {
+		boolean result = false;
+		if (StringUtils.isNotEmpty(content)) {
+			result = true;
+		}
+		return result;
 	}
 }

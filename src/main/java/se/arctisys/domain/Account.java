@@ -71,6 +71,10 @@ public class Account {
 	public void increaseBalance(Double increase) {
 		this.actualBalance = actualBalance + increase;
 	}
+	@Transient
+	public void decreaseBalance(Double decrease) {
+		this.actualBalance = actualBalance - decrease;
+	}
 	@ManyToOne()
 	public TradingUser getTradingUser() {
 		return tradingUser;
