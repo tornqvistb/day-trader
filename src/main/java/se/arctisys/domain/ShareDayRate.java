@@ -9,8 +9,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
-import se.arctisys.util.Util;
-
 @Entity
 public class ShareDayRate {
 	private Long id;

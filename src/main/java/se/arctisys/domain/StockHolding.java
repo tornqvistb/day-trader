@@ -6,6 +6,7 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
 @Entity
@@ -60,6 +61,7 @@ public class StockHolding {
 	public void setAmount(Double amount) {
 		this.amount = amount;
 	}
+	@ManyToOne()
 	public UserShare getUserShare() {
 		return userShare;
 	}

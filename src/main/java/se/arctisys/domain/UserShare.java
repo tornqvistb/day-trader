@@ -11,7 +11,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.Transient;
 
@@ -26,7 +25,7 @@ public class UserShare {
 	private Date lastSellDate;
 	private Long buyAmount;
 	private Long frequency;
-	private StockHolding stockHolding;
+	private Set<StockHolding> stockHoldings = new HashSet<StockHolding>();
 	private Set<ShareTransaction> transactions = new HashSet<ShareTransaction>();
 	
 	public UserShare() {
@@ -43,11 +42,11 @@ public class UserShare {
 		this.id = id;
 	}
 	@ManyToOne
-	public TradingUser getUser() {
+	public TradingUser getTradingUser() {
 		return tradingUser;
 	}
 
-	public void setUser(TradingUser tradingUser) {
+	public void setTradingUser(TradingUser tradingUser) {
 		this.tradingUser = tradingUser;
 	}
 
@@ -96,12 +95,12 @@ public class UserShare {
 		this.frequency = frequency;
 	}
 
-	@OneToOne(cascade=CascadeType.ALL, fetch=FetchType.EAGER, mappedBy="userShare")
-	public StockHolding getStockHolding() {
-		return stockHolding;
+	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER, mappedBy="userShare")
+	public Set<StockHolding> getStockHolding() {
+		return stockHoldings;
 	}
-	public void setStockHolding(StockHolding stockHolding) {
-		this.stockHolding = stockHolding;
+	public void setStockHolding(Set<StockHolding> stockHoldings) {
+		this.stockHoldings = stockHoldings;
 	}
 	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER, mappedBy="userShare")
 	@OrderBy("creationDate")
@@ -114,10 +113,20 @@ public class UserShare {
 	@Transient
 	public boolean hasStockHolding() {
 		boolean result = false;
-		if (this.stockHolding != null) {
+		if (this.stockHoldings != null && this.stockHoldings.size() > 0) {
 			result = true;
 		}
 		return result;
 	}
-	
+	@Transient
+	public StockHolding getMainStockHolding() {
+		StockHolding holding = null;
+		if (stockHoldings.size() > 0) {
+			for (StockHolding sh : stockHoldings) {
+				holding = sh;
+				break;
+			}
+		}
+		return holding;
+	}
 }

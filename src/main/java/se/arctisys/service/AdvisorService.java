@@ -57,7 +57,7 @@ public class AdvisorService {
 							if (userShare.hasStockHolding() && dayRate.isSellCandidate()) {								
 								// If yes sell all shares
 								// create transaction record
-								Double amount = userShare.getStockHolding().getNumberOfShares() * dayRate.getSellRate();
+								Double amount = userShare.getMainStockHolding().getNumberOfShares() * dayRate.getSellRate();
 								ShareTransaction transaction = new ShareTransaction();
 								transaction.setActualDate(new Date());
 								transaction.setAmount(amount);
@@ -66,9 +66,9 @@ public class AdvisorService {
 								transaction.setStatus(TradeConstants.TRANSACTION_STATUS_NEW);
 								transactionRepo.save(transaction);								
 								// delete stock holding record
-								holdingRepo.delete(userShare.getStockHolding().getId());
+								holdingRepo.delete(userShare.getMainStockHolding().getId());
 								// Update account with incoming amount
-								Account account = user.getAccount();
+								Account account = user.getMainAccount();
 								account.increaseBalance(amount);
 								account.setTradingUser(user);
 								accountRepo.save(account);
