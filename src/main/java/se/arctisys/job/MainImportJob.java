@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import se.arctisys.service.AdvisorService;
 import se.arctisys.service.FileImportService;
+import se.arctisys.service.MailSenderService;
 import se.arctisys.service.SiteReaderService;
 
 /**
@@ -21,6 +22,8 @@ public class MainImportJob implements Job {
     private SiteReaderService readerService;
     @Autowired
     private AdvisorService advisorService;
+    @Autowired
+    private MailSenderService mailService;
     
 
     @Override
@@ -29,6 +32,7 @@ public class MainImportJob implements Job {
 			importService.moveFiles();
 			readerService.storeSiteValues();
 			advisorService.checkForSignals();
+			mailService.checkMailsToSend();
 		} catch (ParseException | IOException e) {
 			e.printStackTrace();
 		}

@@ -2,7 +2,7 @@ ALTER TABLE error_record CHANGE message message VARCHAR(10000) default NULL;
 
 insert into system_property (id, string_value, number_value) values ('mailjob-frequency', '', 30);
 insert into system_property (id, string_value, number_value) values ('mail-host', 'pop.gmail.com', 0);
-insert into system_property (id, string_value, number_value) values ('mail-username', 'daytrader.arctisys@gmail.com', 0);
+insert into system_property (id, string_value, number_value) values ('mail-username', 'trader.arctisys@gmail.com', 0);
 insert into system_property (id, string_value, number_value) values ('mail-password', 'Arctisys1000', 0);
 insert into system_property (id, string_value, number_value) values ('mail-smtps-host', 'smtp.gmail.com', 0);
 
