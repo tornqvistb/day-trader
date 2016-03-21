@@ -3,6 +3,8 @@ package se.arctisys.service;
 import java.text.ParseException;
 import java.util.Date;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,22 +40,29 @@ public class AdvisorService {
 	@Autowired
 	private EmailRepository emailRepo;
 	
+	private static final Logger LOG = LoggerFactory.getLogger(CalculatorService.class);
 	
 	public void checkForSignals() throws ParseException {
 		// Check if time has passed trading time (property 17.00)
 		if (timeToTrade()) {
+			
 			// loop through the TradingUsers
 			for (TradingUser user : userRepo.findAll()) {
+				LOG.info("Time to trade");
 				Email email = new Email();
 				// loop through the shares
 				for (UserShare userShare : user.getUserShares()) {
+					LOG.info("Usershare: " + userShare.getTradingUser().getName() + ", " + userShare.getShare().getId());
 					// for each share, check day rate for today
 					ShareDayRate dayRate = userShare.getShare().getLastDayRate();
 					if (dayRate != null && Util.isToday(dayRate.getActualDate())) {
+						LOG.info("Dayrate today");
 						//if we have holding of this share check if its time to sell
 						if (userShare.hasStockHolding() && dayRate.isSellCandidate()) {
+							LOG.info("Sell candidate");
 							email.addContent(doSell(userShare, dayRate, user));
 						} else if (!userShare.hasStockHolding() && dayRate.isBuyCandidate()) {
+							LOG.info("Buy candidate");
 							email.addContent(doBuy(userShare, dayRate, user));	
 						}
 					}
@@ -126,6 +135,7 @@ public class AdvisorService {
 		transaction.setType(TradeConstants.TRANSACTION_TYPE_BUY);
 		transaction.setUserShare(userShare);
 		transaction.setStatus(TradeConstants.TRANSACTION_STATUS_NEW);
+		LOG.info("Before save transaction");
 		transactionRepo.save(transaction);												
 		// create stock holding record
 		StockHolding holding = new StockHolding();
@@ -133,11 +143,13 @@ public class AdvisorService {
 		holding.setLastBuyRate(dayRate.getBuyRate());
 		holding.setNumberOfShares(noOfShares);
 		holding.setUserShare(userShare);
+		LOG.info("Before save holding");
 		holdingRepo.save(holding);
 		// Update account with outgoing amount
 		Account account = user.getMainAccount();
 		account.decreaseBalance(buyAmount);
 		account.setTradingUser(user);
+		LOG.info("Before save account");
 		accountRepo.save(account);	
 		// Update user share
 		userShare.setLastBuyDate(new Date());

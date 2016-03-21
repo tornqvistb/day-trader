@@ -30,7 +30,7 @@ public class MainImportJob implements Job {
     public void execute(JobExecutionContext jobExecutionContext) {
     	try {
 			importService.moveFiles();
-			readerService.storeSiteValues();
+			//readerService.storeSiteValues();
 			advisorService.checkForSignals();
 			mailService.checkMailsToSend();
 		} catch (ParseException | IOException e) {

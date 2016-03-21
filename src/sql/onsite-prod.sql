@@ -21,6 +21,7 @@ insert into system_property (id, string_value, number_value) values ('file-error
 
 insert into system_property (id, string_value, number_value) values ('trading-time', '17:00', 0);
 insert into system_property (id, string_value, number_value) values ('last-trading-date', '2016-01-01', 0);
+
 commit;
 
 
