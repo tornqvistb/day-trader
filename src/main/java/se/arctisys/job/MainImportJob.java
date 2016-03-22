@@ -2,6 +2,8 @@ package se.arctisys.job;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
@@ -29,8 +31,9 @@ public class MainImportJob implements Job {
     @Override
     public void execute(JobExecutionContext jobExecutionContext) {
     	try {
-			importService.moveFiles();
-			//readerService.storeSiteValues();
+			readerService.storeAllStocksOnMarket();
+			importService.readHistory();
+			readerService.storeDaylyValues();			
 			advisorService.checkForSignals();
 			mailService.checkMailsToSend();
 		} catch (ParseException | IOException e) {

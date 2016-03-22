@@ -26,6 +26,7 @@ public class ShareDayRate {
 	private Double movingAverageMedium;
 	private Double movingAverageLong;
 	private Date creationDate;
+	private Long tradedVolume;
 	
 	public ShareDayRate() {
 		super();
@@ -44,6 +45,7 @@ public class ShareDayRate {
 		this.movingAverageShort = 0.0;
 		this.movingAverageMedium = 0.0;
 		this.movingAverageLong = 0.0;
+		this.tradedVolume = 0L;
 	}
 	@Id
 	@GeneratedValue
@@ -196,6 +198,12 @@ public class ShareDayRate {
 			result = true;
 		}
 		return result;
+	}
+	public Long getTradedVolume() {
+		return tradedVolume;
+	}
+	public void setTradedVolume(Long tradedVolume) {
+		this.tradedVolume = tradedVolume;
 	}
 	
 }

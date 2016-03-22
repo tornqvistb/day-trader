@@ -27,15 +27,23 @@ public class Util {
 		Date date = format.parse(dateStr);
 		return date;		
 	}
-	public static Double stringToDouble(String value) {
+	public static Double stringToDouble(String value, Locale locale) {
 		Double doubleValue = 0.0;
 		try {
-			NumberFormat format = NumberFormat.getInstance(Locale.FRANCE);
+			NumberFormat format = NumberFormat.getInstance(locale);
 			Number number = format.parse(value);
 			doubleValue = number.doubleValue();
 		} catch (ParseException e) {
 		}
 		return doubleValue;
+	}
+	public static Long stringToLong(String value) {
+		Long longValue = 0L;
+		try {
+			longValue = Long.valueOf(value);
+		} catch (Exception e) {
+		}
+		return longValue;
 	}
 	public static boolean isToday(Date date) {
 		boolean result = false;

@@ -2,6 +2,7 @@ package se.arctisys;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.Locale;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -24,7 +25,7 @@ public class GeneralTester {
 				if (tds.size() > 2) {						
 					System.out.println("Aktie: " + tds.get(0).text());
 					System.out.println("Senaste: " + tds.get(1).text());
-					System.out.println("%: " + Util.stringToDouble(tds.get(2).text()));
+					System.out.println("%: " + Util.stringToDouble(tds.get(2).text(), Locale.FRANCE));
 					System.out.println("+/-: " + tds.get(3).text());
 					System.out.println("Köp: " + tds.get(4).text());
 					System.out.println("Sälj: " + tds.get(5).text());
