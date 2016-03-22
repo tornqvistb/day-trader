@@ -123,6 +123,7 @@ public class SiteReaderService {
 	private ShareDayRate getDayRateFromRow(Elements tds) throws ParseException {
 		ShareDayRate rate = new ShareDayRate();
 		rate.setActualDate(new Date());
+		rate.setEmptyValues();
 		rate.setBuyRate(Util.stringToDouble(tds.get(3).text(), Locale.FRANCE));
 		rate.setSellRate(Util.stringToDouble(tds.get(4).text(), Locale.FRANCE));
 		rate.setMaxRate(Util.stringToDouble(tds.get(6).text(), Locale.FRANCE));

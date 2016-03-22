@@ -23,5 +23,6 @@ public class PropertyConstants {
 	
 	public static final String TRADING_TIME = "trading-time";
 	public static final String LAST_TRADING_DATE = "last-trading-date";
+	public static final String FILE_IMPORT_URL = "file-import-url";
 	
 }

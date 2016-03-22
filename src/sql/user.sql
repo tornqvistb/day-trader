@@ -15,5 +15,8 @@ insert into user_share (id, trading_user_userId, share_id, buy_amount, frequency
 insert into user_share (id, trading_user_userId, share_id, buy_amount, frequency) values (1, 'tornqvistb', 'Skanska B', 5000, 4);
 insert into user_share (id, trading_user_userId, share_id, buy_amount, frequency) values (1, 'tornqvistb', 'Tele2 A', 5000, 4);
 
+insert into user_share (id, trading_user_userId, share_id, buy_amount, frequency) values (1, 'tornqvistb', 'AAK.ST', 5000, 4);
+insert into user_share (id, trading_user_userId, share_id, buy_amount, frequency) values (1, 'tornqvistb', 'ACAN-B.ST', 5000, 4);
+insert into user_share (id, trading_user_userId, share_id, buy_amount, frequency) values (1, 'tornqvistb', 'ALFA.ST', 5000, 4);
 
 commit;

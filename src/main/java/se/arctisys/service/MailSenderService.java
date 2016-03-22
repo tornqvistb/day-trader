@@ -58,7 +58,7 @@ public class MailSenderService {
 				props.put("mail.smtps.port", "465");
 				Session session = Session.getInstance(props, null);
 				Message msg = new MimeMessage(session);
-				msg.setFrom(new InternetAddress(mailUsername, "LanTeam"));
+				msg.setFrom(new InternetAddress(mailUsername, "ArctiSys Trader"));
 				msg.setReplyTo(InternetAddress.parse(email.getSender(), false));
 				msg.setRecipients(Message.RecipientType.TO,
 						InternetAddress.parse(email.getReceiver(), false));

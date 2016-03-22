@@ -8,6 +8,8 @@ import java.net.URL;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -17,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import se.arctisys.constants.PropertyConstants;
 import se.arctisys.constants.TradeConstants;
 import se.arctisys.domain.ErrorRecord;
 import se.arctisys.domain.Share;
@@ -35,7 +38,6 @@ import se.arctisys.util.Util;
 public class FileImportService {
 
 	private static final String GENERAL_FILE_ERROR = "Fel vid inläsning av fil. ";
-	private static final String GENERAL_STOCK_HISTORY_URL = "http://real-chart.finance.yahoo.com/table.csv?s=#1&a=00&b=1&c=2015&d=02&e=21&f=2016&g=d&ignore=.csv";
 
 	private static final Logger LOG = LoggerFactory.getLogger(FileImportService.class);
 
@@ -61,7 +63,7 @@ public class FileImportService {
 				share = shareRepo.findOne(shareId);
 			}
 			try {
-				String url = GENERAL_STOCK_HISTORY_URL.replace("#1", shareId);
+				String url = getFileImportUrl(shareId);
 				InputStream input = new URL(url).openStream();
 
 				BufferedReader in = new BufferedReader(new InputStreamReader(input));
@@ -86,6 +88,30 @@ public class FileImportService {
 		}
 	}
 
+	private String getFileImportUrl(String shareId) {
+		String url = propService.getString(PropertyConstants.FILE_IMPORT_URL);
+		url = url.replace("#ID", shareId);
+		
+		LocalDate yesterday = LocalDate.now().minusDays(1);
+		
+		String yahooMonth = String.valueOf(yesterday.getMonth().getValue() - 1);
+		if (yahooMonth.length() == 1) {
+			yahooMonth = "0" + yahooMonth;
+		}
+		String year = String.valueOf(yesterday.getYear());
+		String lastYear = String.valueOf(yesterday.getYear() - 1);
+		String day = String.valueOf(yesterday.getDayOfMonth());
+
+		url = url.replace("#FR_MON", yahooMonth);
+		url = url.replace("#FR_DAY", day);
+		url = url.replace("#FR_YEAR", lastYear);
+		url = url.replace("#TO_MON", yahooMonth);
+		url = url.replace("#TO_DAY", day);
+		url = url.replace("#TO_YEAR", year);
+				
+		return url;
+	}
+	
 	private ShareDayRate getDayRate(String row, Share share) {
 		ShareDayRate dayRate = null;
 		try {

@@ -15,9 +15,8 @@ insert into system_property (id, string_value, number_value) values ('mainjob-fr
 insert into system_property (id, string_value, number_value) values ('default-rate-frequency', '', 4);
 insert into system_property (id, string_value, number_value) values ('default-buy-amount', '', 10000);
 insert into system_property (id, string_value, number_value) values ('default-max-holding-amount', '', 10000);
-insert into system_property (id, string_value, number_value) values ('file-incoming-folder', 'C:/Projekt/arctisys/filedirs/incoming', 0);
-insert into system_property (id, string_value, number_value) values ('file-processed-folder', 'C:/Projekt/arctisys/filedirs/processed', 0);
-insert into system_property (id, string_value, number_value) values ('file-error-folder', 'C:/Projekt/arctisys/filedirs/error', 0);
+
+insert into system_property (id, string_value, number_value) values ('file-import-url', 'http://real-chart.finance.yahoo.com/table.csv?s=#ID&a=#FR_MON&b=#FR_DAY&c=#FR_YEAR&d=#TO_MON&e=#TO_DA&f=#TO_YEAR&g=d&ignore=.csv');
 
 insert into system_property (id, string_value, number_value) values ('trading-time', '17:00', 0);
 insert into system_property (id, string_value, number_value) values ('last-trading-date', '2016-01-01', 0);
