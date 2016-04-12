@@ -1,4 +1,5 @@
 ALTER TABLE error_record CHANGE message message VARCHAR(10000) default NULL;
+ALTER TABLE system_property CHANGE string_value string_value VARCHAR(10000);
 
 insert into system_property (id, string_value, number_value) values ('mailjob-frequency', '', 30);
 insert into system_property (id, string_value, number_value) values ('mail-host', 'pop.gmail.com', 0);
@@ -16,7 +17,7 @@ insert into system_property (id, string_value, number_value) values ('default-ra
 insert into system_property (id, string_value, number_value) values ('default-buy-amount', '', 10000);
 insert into system_property (id, string_value, number_value) values ('default-max-holding-amount', '', 10000);
 
-insert into system_property (id, string_value, number_value) values ('file-import-url', 'http://real-chart.finance.yahoo.com/table.csv?s=#ID&a=#FR_MON&b=#FR_DAY&c=#FR_YEAR&d=#TO_MON&e=#TO_DA&f=#TO_YEAR&g=d&ignore=.csv');
+insert into system_property (id, string_value, number_value) values ('file-import-url', 'http://real-chart.finance.yahoo.com/table.csv?s=#ID&a=#FR_MON&b=#FR_DAY&c=#FR_YEAR&d=#TO_MON&e=#TO_DA&f=#TO_YEAR&g=d&ignore=.csv',0);
 
 insert into system_property (id, string_value, number_value) values ('trading-time', '17:00', 0);
 insert into system_property (id, string_value, number_value) values ('last-trading-date', '2016-01-01', 0);
