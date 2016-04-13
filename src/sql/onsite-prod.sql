@@ -1,5 +1,4 @@
 ALTER TABLE error_record CHANGE message message VARCHAR(10000) default NULL;
-ALTER TABLE system_property CHANGE string_value string_value VARCHAR(10000);
 
 insert into system_property (id, string_value, number_value) values ('mailjob-frequency', '', 30);
 insert into system_property (id, string_value, number_value) values ('mail-host', 'pop.gmail.com', 0);
