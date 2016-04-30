@@ -15,7 +15,7 @@ import se.arctisys.repository.ShareRepository;
 public class StockListController {
 	
 	@Autowired
-	//private ShareRepository shareRepo;
+	private ShareRepository shareRepo;
 	
 	@RequestMapping("/")
 	public String showStartPage() {
@@ -25,8 +25,8 @@ public class StockListController {
 	@RequestMapping("shares")
 	public String showOrderList(ModelMap model) {
 		model.addAttribute("reqAttr", new RequestAttributes(0));
-		//List<Share> shares = shareRepo.findAll();
-		//model.addAttribute("shares", shares);
+		List<Share> shares = shareRepo.findAll();
+		model.addAttribute("shares", shares);
 		return "shares";
 	}
 	

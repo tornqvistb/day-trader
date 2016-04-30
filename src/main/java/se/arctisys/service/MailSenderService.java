@@ -64,7 +64,7 @@ public class MailSenderService {
 						InternetAddress.parse(email.getReceiver(), false));
 				msg.setSubject(email.getSubject());
 				msg.setText(email.getContent());
-				msg.setHeader("Trader - ArctiSys", "E-post från Trader");
+				msg.setHeader("Trader - ArctiSys", "E-mail from Trader");
 				msg.setSentDate(new Date());
 				SMTPTransport t =
 				    (SMTPTransport)session.getTransport("smtps");

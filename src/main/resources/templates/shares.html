@@ -60,35 +60,45 @@
 												<h3>Lista på samtliga aktier</h3>
 												<table>
 													<colgroup>
-														<col style="width: 14%" />
-														<col style="width: 30%" />
-														<col style="width: 12%" />
-														<col style="width: 12%" />
-														<col style="width: 20%" />
-														<col style="width: 12%" />
+														<col style="width: 10%" />
+														<col style="width: 19%" />
+														<col style="width: 6%" />
+														<col style="width: 16%" />
+														<col style="width: 5%" />
+														<col style="width: 8%" />
+														<col style="width: 8%" />
+														<col style="width: 10%" />
+														<col style="width: 10%" />
+														<col style="width: 8%" />
 													</colgroup>
 													<thead>
 														<tr>
 															<th scope="col">ID</th>
 															<th scope="col">Beskrivning</th>
-															<th scope="col">Valuta</th>
-															<th scope="col">Inköpsbelopp</th>
-															<th scope="col">Max innehavsbelopp</th>
 															<th scope="col">Strategi</th>
+															<th scope="col">Datum</th>
+															<th scope="col">Kurs</th>
+															<th scope="col">Högst idag</th>
+															<th scope="col">Lägst idag</th>
+															<th scope="col">Hög frekvens</th>
+															<th scope="col">Låg frekvens</th>
+															<th scope="col">Glid MV</th>
 														</tr>
 													</thead>
-													<!-- 
 													<tbody>
 														<tr th:each="share : ${shares}">
 															<td><a th:text="${share.id}" th:href="@{/share/view/} + ${share.id}">ERICSSON A</a></td>
 															<td th:text="${share.description}">Ericsson A</td>
-															<td th:text="${share.currency}">SEK</td>
-															<td th:text="${share.buyAmount}">1000</td>
-															<td th:text="${share.maxHoldingAmount}">10000</td>
-															<td th:text="${share.strategy}">short</td>															
+															<td th:text="${share.strategy}">Long</td>
+															<td th:text="${share.lastDayRate.creationDate}">2015-10-01</td>
+															<td th:text="${share.lastDayRate.buyRate}">100</td>
+															<td th:text="${share.lastDayRate.minRate}">90</td>
+															<td th:text="${share.lastDayRate.maxRate}">110</td>
+															<td th:text="${share.lastDayRate.highFrequencyRate}">100</td>
+															<td th:text="${share.lastDayRate.lowFrequencyRate}">100</td>
+															<td th:text="${share.lastDayRate.movingAverageShort}">100</td>
 														</tr>
 													</tbody>
- -->
 												</table>
 											</div>
 										</form>

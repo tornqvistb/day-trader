@@ -71,7 +71,7 @@ public class AdvisorService {
 				if (email.hasContent()) {
 					email.setReceiver(user.getEmail());
 					email.setSender(propertyService.getString(PropertyConstants.MAIL_USERNAME));
-					email.setSubject("Köp/Sälj rekommendationer från ArctiSys Trader");
+					email.setSubject("Trading recommendations from ArctiSys Trader");
 					emailRepo.save(email);
 				}				
 			}			
@@ -115,7 +115,7 @@ public class AdvisorService {
 		userShare.setLastSellDate(new Date());
 		userShare.setTradingUser(user);
 		//TODO Save
-		return "Rekommendation: Sälj " + userShare.getShare().getDescription()  + ", antal aktier: " + userShare.getMainStockHolding().getNumberOfShares() + ", belopp: " + amount;
+		return "Recommendation: Sell " + userShare.getShare().getDescription()  + ", no of shares: " + userShare.getMainStockHolding().getNumberOfShares() + ", amount: " + amount;
 	}
 
 	
@@ -156,7 +156,7 @@ public class AdvisorService {
 		userShare.setTradingUser(user);
 		//TODO Save
 		// add content to mail																
-		return "Rekommendation: Köp " + userShare.getShare().getDescription() + ", antal aktier: " + noOfShares + ", belopp: " + buyAmount;
+		return "Recommendation: Buy " + userShare.getShare().getDescription() + ", no of shares: " + noOfShares + ", amount: " + buyAmount;
 	}
 
 }
