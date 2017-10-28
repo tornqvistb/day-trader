@@ -14,7 +14,7 @@ import se.arctisys.domain.Account;
 import se.arctisys.domain.Email;
 import se.arctisys.domain.ShareDayRate;
 import se.arctisys.domain.ShareTransaction;
-import se.arctisys.domain.StockHolding;
+import se.arctisys.domain.ShareHolding;
 import se.arctisys.domain.TradingUser;
 import se.arctisys.domain.UserShare;
 import se.arctisys.repository.AccountRepository;
@@ -58,13 +58,15 @@ public class AdvisorService {
 					if (dayRate != null && Util.isToday(dayRate.getActualDate())) {
 						LOG.info("Dayrate today");
 						//if we have holding of this share check if its time to sell
+						/* Commented for now 20171028
 						if (userShare.hasStockHolding() && dayRate.isSellCandidate()) {
 							LOG.info("Sell candidate");
 							email.addContent(doSell(userShare, dayRate, user));
 						} else if (!userShare.hasStockHolding() && dayRate.isBuyCandidate()) {
 							LOG.info("Buy candidate");
-							email.addContent(doBuy(userShare, dayRate, user));	
+							email.addContent(doBuy(userShare, dayRate, user));
 						}
+						*/
 					}
 				}				
 				// If mail has content, send mail to user
@@ -96,7 +98,7 @@ public class AdvisorService {
 	}
 	
 	private String doSell(UserShare userShare, ShareDayRate dayRate, TradingUser user) {
-		Double amount = userShare.getMainStockHolding().getNumberOfShares() * dayRate.getSellRate();
+		Double amount = userShare.getShareHolding().getNumberOfShares() * dayRate.getSellRate();
 		ShareTransaction transaction = new ShareTransaction();
 		transaction.setActualDate(new Date());
 		transaction.setAmount(amount);
@@ -105,9 +107,9 @@ public class AdvisorService {
 		transaction.setStatus(TradeConstants.TRANSACTION_STATUS_NEW);
 		transactionRepo.save(transaction);								
 		// delete stock holding record
-		holdingRepo.delete(userShare.getMainStockHolding().getId());
+		holdingRepo.delete(userShare.getShareHolding().getId());
 		// Update account with incoming amount
-		Account account = user.getMainAccount();
+		Account account = user.getAccount();
 		account.increaseBalance(amount);
 		account.setTradingUser(user);
 		accountRepo.save(account);
@@ -115,7 +117,7 @@ public class AdvisorService {
 		userShare.setLastSellDate(new Date());
 		userShare.setTradingUser(user);
 		//TODO Save
-		return "Recommendation: Sell " + userShare.getShare().getDescription()  + ", no of shares: " + userShare.getMainStockHolding().getNumberOfShares() + ", amount: " + amount;
+		return "Recommendation: Sell " + userShare.getShare().getDescription()  + ", no of shares: " + userShare.getShareHolding().getNumberOfShares() + ", amount: " + amount;
 	}
 
 	
@@ -123,8 +125,8 @@ public class AdvisorService {
 		
 		// Calculate how many shares to buy (based on share buy amount and money on account)
 		Long amountToBuyFor = userShare.getBuyAmount();
-		if (user.getMainAccount().getActualBalance() < amountToBuyFor) {
-			amountToBuyFor = Math.round(user.getMainAccount().getActualBalance());
+		if (user.getAccount().getActualBalance() < amountToBuyFor) {
+			amountToBuyFor = Math.round(user.getAccount().getActualBalance());
 		}		
 		Long noOfShares = Math.round(amountToBuyFor/dayRate.getBuyRate());		
 		Double buyAmount = noOfShares * dayRate.getBuyRate();
@@ -138,7 +140,7 @@ public class AdvisorService {
 		LOG.info("Before save transaction");
 		transactionRepo.save(transaction);												
 		// create stock holding record
-		StockHolding holding = new StockHolding();
+		ShareHolding holding = new ShareHolding();
 		holding.setAmount(buyAmount);
 		holding.setLastBuyRate(dayRate.getBuyRate());
 		holding.setNumberOfShares(noOfShares);
@@ -146,7 +148,7 @@ public class AdvisorService {
 		LOG.info("Before save holding");
 		holdingRepo.save(holding);
 		// Update account with outgoing amount
-		Account account = user.getMainAccount();
+		Account account = user.getAccount();
 		account.decreaseBalance(buyAmount);
 		account.setTradingUser(user);
 		LOG.info("Before save account");

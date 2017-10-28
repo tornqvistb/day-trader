@@ -153,8 +153,8 @@ public class SiteReaderService {
 		dayRate.setMovingAverageShort(calculatorService.getFloatingAvarage(share, Util.getDateByDaysBack(propService.getLong(PropertyConstants.SHORT_MOVING_AVERAGE), dayRate.getActualDate()), dayRate.getActualDate()));
 		dayRate.setMovingAverageMedium(calculatorService.getFloatingAvarage(share, Util.getDateByDaysBack(propService.getLong(PropertyConstants.MEDIUM_MOVING_AVERAGE), dayRate.getActualDate()), dayRate.getActualDate()));
 		dayRate.setMovingAverageLong(calculatorService.getFloatingAvarage(share, Util.getDateByDaysBack(propService.getLong(PropertyConstants.LONG_MOVING_AVERAGE), dayRate.getActualDate()), dayRate.getActualDate()));
-		dayRate.setLowFrequencyRate(calculatorService.getLowFrequence(share, Util.getDateByDaysBack(share.getDefaultFrequency(), dayRate.getActualDate()), dayRate.getActualDate()));
-		dayRate.setHighFrequencyRate(calculatorService.getHighFrequence(share, Util.getDateByDaysBack(share.getDefaultFrequency(), dayRate.getActualDate()), dayRate.getActualDate()));
+		//dayRate.setLowFrequencyRate(calculatorService.getLowFrequence(share, Util.getDateByDaysBack(share.getDefaultFrequency(), dayRate.getActualDate()), dayRate.getActualDate()));
+		//dayRate.setHighFrequencyRate(calculatorService.getHighFrequence(share, Util.getDateByDaysBack(share.getDefaultFrequency(), dayRate.getActualDate()), dayRate.getActualDate()));
 		// calculate new values
 		dayRateRepo.save(dayRate);
 	}

@@ -2,8 +2,6 @@ package se.arctisys.job;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;

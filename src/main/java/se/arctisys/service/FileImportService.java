@@ -9,8 +9,9 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -30,6 +31,10 @@ import se.arctisys.repository.ShareDayRateRepository;
 import se.arctisys.repository.ShareOnMarketRepository;
 import se.arctisys.repository.ShareRepository;
 import se.arctisys.util.Util;
+import yahoofinance.Stock;
+import yahoofinance.YahooFinance;
+import yahoofinance.histquotes.HistoricalQuote;
+import yahoofinance.histquotes.Interval;
 
 /**
  * Created by Björn Törnqvist, ArctiSys AB, 2016-02
@@ -49,20 +54,30 @@ public class FileImportService {
 	private ShareOnMarketRepository somRepo;
 	private CalculatorService calculatorService;
 
+
 	public void readHistory() throws ParseException, IOException {
-		LOG.info("Looking for files to move!");
+		LOG.info("Looking history!");
 		List<ShareOnMarket> sharesToImport = somRepo.findSOMByStatus(TradeConstants.SHARE_STATUS_START_IMPORT);
 		for (ShareOnMarket som : sharesToImport) {
 			String shareId =  som.getId();
 			LOG.info("Share Id : " + shareId);
 			Share share = shareRepo.findOne(shareId);
 			if (share == null) {
-				share = new Share(shareId, TradeConstants.STRATEGY_LONG, som.getDescription(), TradeConstants.CURRENCY_SEK);
+				share = new Share(shareId, som.getDescription(), som);
 				share.setId(shareId);
 				shareRepo.save(share);
 				share = shareRepo.findOne(shareId);
 			}
 			try {
+				// Should be one year ago
+				Calendar calendar = new GregorianCalendar(2017,0,1);
+				Stock stockYahoo = YahooFinance.get(share.getId(), calendar, Interval.DAILY);
+				
+				for (HistoricalQuote quote : stockYahoo.getHistory()) {
+					ShareDayRate dayRate = getDayRate(quote, share);
+					dayRateRepo.save(dayRate);
+				}
+/*				
 				String url = getFileImportUrl(shareId);
 				InputStream input = new URL(url).openStream();
 
@@ -78,7 +93,8 @@ public class FileImportService {
 					}
 				}
 				in.close();
-				calculatorService.updateAverageAndFrequence(shareId, share.getDefaultFrequency());
+				*/
+				// Commented for now 20171028 calculatorService.updateAverageAndFrequence(shareId, share.getDefaultFrequency());
 			} catch (IOException e) {
 				e.printStackTrace();
 				throw e;
@@ -87,6 +103,8 @@ public class FileImportService {
 			somRepo.save(som);
 		}
 	}
+
+
 
 	private String getFileImportUrl(String shareId) {
 		String url = propService.getString(PropertyConstants.FILE_IMPORT_URL);
@@ -110,6 +128,19 @@ public class FileImportService {
 		url = url.replace("#TO_YEAR", year);
 				
 		return url;
+	}
+	
+	private ShareDayRate getDayRate(HistoricalQuote quote, Share share) {
+		ShareDayRate dayRate = new ShareDayRate();
+		dayRate.setEmptyValues();
+		dayRate.setShare(share);
+		dayRate.setCreationDate(new Date());
+		dayRate.setActualDate(quote.getDate().getTime());
+		dayRate.setBuyRate(quote.getClose().doubleValue());
+		dayRate.setMaxRate(quote.getHigh().doubleValue());
+		dayRate.setMinRate(quote.getLow().doubleValue());
+		dayRate.setSellRate(quote.getClose().doubleValue());
+		return dayRate;
 	}
 	
 	private ShareDayRate getDayRate(String row, Share share) {

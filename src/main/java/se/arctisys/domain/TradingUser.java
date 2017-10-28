@@ -9,7 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.Transient;
+import javax.persistence.OneToOne;
 
 @Entity
 public class TradingUser {
@@ -17,7 +17,7 @@ public class TradingUser {
 	private String name;
 	private String email;
 	private Date creationDate;
-	private Set<Account> accounts = new HashSet<Account>();
+	private Account account;
 	private Set<UserShare> userShares = new HashSet<UserShare>();	
 	
 	public TradingUser() {
@@ -58,32 +58,21 @@ public class TradingUser {
 		this.creationDate = creationDate;
 	}
 	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER, mappedBy="tradingUser")
-	public Set<Account> getAccount() {
-		return accounts;
-	}
-
-	public void setAccount(Set<Account> accounts) {
-		this.accounts = accounts;
-	}
-	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER, mappedBy="tradingUser")
 	public Set<UserShare> getUserShares() {
 		return userShares;
 	}
 
 	public void setUserShares(Set<UserShare> userShares) {
 		this.userShares = userShares;
-	}	
-	@Transient
-	public Account getMainAccount() {
-		Account account = null;
-		if (accounts.size() > 0) {
-			for (Account acc : accounts) {
-				account = acc;
-				break;
-			}
-		}
+	}
+	@OneToOne(cascade=CascadeType.ALL, fetch=FetchType.EAGER, mappedBy="tradingUser")
+	public Account getAccount() {
 		return account;
 	}
+
+	public void setAccount(Account account) {
+		this.account = account;
+	}	
 	
 	
 }

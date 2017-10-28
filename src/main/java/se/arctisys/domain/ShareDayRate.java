@@ -20,8 +20,6 @@ public class ShareDayRate {
 	private Double maxRate;
 	private Double changeThisYearPerc;
 	private Double ATH;
-	private Double lowFrequencyRate;
-	private Double highFrequencyRate;	
 	private Double movingAverageShort;
 	private Double movingAverageMedium;
 	private Double movingAverageLong;
@@ -40,8 +38,6 @@ public class ShareDayRate {
 		this.maxRate = 0.0;
 		this.changeThisYearPerc = 0.0;
 		this.ATH = 0.0;
-		this.lowFrequencyRate = 0.0;
-		this.highFrequencyRate = 0.0;
 		this.movingAverageShort = 0.0;
 		this.movingAverageMedium = 0.0;
 		this.movingAverageLong = 0.0;
@@ -128,22 +124,6 @@ public class ShareDayRate {
 		ATH = aTH;
 	}
 
-	public Double getLowFrequencyRate() {
-		return lowFrequencyRate;
-	}
-
-	public void setLowFrequencyRate(Double lowFrequencyRate) {
-		this.lowFrequencyRate = lowFrequencyRate;
-	}
-
-	public Double getHighFrequencyRate() {
-		return highFrequencyRate;
-	}
-
-	public void setHighFrequencyRate(Double highFrequencyRate) {
-		this.highFrequencyRate = highFrequencyRate;
-	}
-
 	public Double getMovingAverageShort() {
 		return movingAverageShort;
 	}
@@ -168,33 +148,9 @@ public class ShareDayRate {
 		this.movingAverageLong = movingAverageLong;
 	}
 	@Transient
-	public boolean isComplete() {
-		boolean result = false;
-		if (lowFrequencyRate > 0 && highFrequencyRate > 0 && buyRate > 0 && sellRate > 0) {
-			result = true;
-		}
-		return result;
-	}
-	@Transient
 	public boolean inDateRange(Date startDate, Date endDate) {
 		boolean result = false;
 		if (startDate.before(actualDate) && endDate.after(actualDate)) {
-			result = true;
-		}
-		return result;
-	}
-	@Transient
-	public boolean isBuyCandidate() {
-		boolean result = false;
-		if (buyRate <= lowFrequencyRate) {
-			result = true;
-		}
-		return result;
-	}
-	@Transient
-	public boolean isSellCandidate() {
-		boolean result = false;
-		if (sellRate >= highFrequencyRate) {
 			result = true;
 		}
 		return result;

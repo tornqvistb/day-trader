@@ -84,7 +84,8 @@ public class CalculatorService {
 		Integer noOfShares = 0;
 		if (share != null) {
 			for (ShareDayRate dayRate : share.getDayRates()) {
-				if (dayRate.isComplete() && dayRate.inDateRange(startDate, endDate)) {
+				/* Moved stuff, commented for now 20171028 
+				 
 					if (nextTransactionType.equals(TradeConstants.TRANSACTION_TYPE_BUY)) {
 						if (dayRate.getBuyRate() <= dayRate.getLowFrequencyRate()) {
 							noOfShares = amount / dayRate.getBuyRate().intValue();
@@ -98,6 +99,7 @@ public class CalculatorService {
 						}						
 					}
 				}
+				*/
 			}
 			Integer size = profit.getTransactions().size();
 			if (size > 1) {
@@ -140,8 +142,8 @@ public class CalculatorService {
 			rate.setMovingAverageShort(getFloatingAvarage(share, Util.getDateByDaysBack(20L, rate.getActualDate()), rate.getActualDate()));
 			rate.setMovingAverageMedium(getFloatingAvarage(share, Util.getDateByDaysBack(50L, rate.getActualDate()), rate.getActualDate()));
 			rate.setMovingAverageLong(getFloatingAvarage(share, Util.getDateByDaysBack(200L, rate.getActualDate()), rate.getActualDate()));
-			rate.setLowFrequencyRate(getLowFrequence(share, Util.getDateByDaysBack(frequency, rate.getActualDate()), rate.getActualDate()));
-			rate.setHighFrequencyRate(getHighFrequence(share, Util.getDateByDaysBack(frequency, rate.getActualDate()), rate.getActualDate()));
+			//rate.setLowFrequencyRate(getLowFrequence(share, Util.getDateByDaysBack(frequency, rate.getActualDate()), rate.getActualDate()));
+			//rate.setHighFrequencyRate(getHighFrequence(share, Util.getDateByDaysBack(frequency, rate.getActualDate()), rate.getActualDate()));
 			rate.setShare(share);
 			dayRateRepo.save(rate);
 		}

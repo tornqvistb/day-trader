@@ -11,8 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
-import javax.persistence.Transient;
 
 @Entity
 public class UserShare {
@@ -25,8 +25,9 @@ public class UserShare {
 	private Date lastSellDate;
 	private Long buyAmount;
 	private Long frequency;
-	private Set<StockHolding> stockHoldings = new HashSet<StockHolding>();
+	private ShareHolding shareHolding;
 	private Set<ShareTransaction> transactions = new HashSet<ShareTransaction>();
+	private Strategy strategy;
 	
 	public UserShare() {
 		super();
@@ -96,13 +97,6 @@ public class UserShare {
 	}
 
 	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER, mappedBy="userShare")
-	public Set<StockHolding> getStockHolding() {
-		return stockHoldings;
-	}
-	public void setStockHolding(Set<StockHolding> stockHoldings) {
-		this.stockHoldings = stockHoldings;
-	}
-	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER, mappedBy="userShare")
 	@OrderBy("creationDate")
 	public Set<ShareTransaction> getTransactions() {
 		return transactions;
@@ -110,23 +104,21 @@ public class UserShare {
 	public void setTransactions(Set<ShareTransaction> transactions) {
 		this.transactions = transactions;
 	}
-	@Transient
-	public boolean hasStockHolding() {
-		boolean result = false;
-		if (this.stockHoldings != null && this.stockHoldings.size() > 0) {
-			result = true;
-		}
-		return result;
+
+	@OneToOne
+	public Strategy getStrategy() {
+		return strategy;
 	}
-	@Transient
-	public StockHolding getMainStockHolding() {
-		StockHolding holding = null;
-		if (stockHoldings.size() > 0) {
-			for (StockHolding sh : stockHoldings) {
-				holding = sh;
-				break;
-			}
-		}
-		return holding;
+
+	public void setStrategy(Strategy strategy) {
+		this.strategy = strategy;
+	}
+	@OneToOne(cascade=CascadeType.ALL, fetch=FetchType.EAGER, mappedBy="userShare")
+	public ShareHolding getShareHolding() {
+		return shareHolding;
+	}
+
+	public void setShareHolding(ShareHolding shareHolding) {
+		this.shareHolding = shareHolding;
 	}
 }

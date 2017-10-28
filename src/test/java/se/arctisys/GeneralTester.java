@@ -1,22 +1,29 @@
 package se.arctisys;
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.util.Locale;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
-import se.arctisys.util.Util;
+import yahoofinance.Stock;
+import yahoofinance.YahooFinance;
+import yahoofinance.histquotes.Interval;
 
 public class GeneralTester {
 
-	
-	
-	public static void main(String[] args) {
+	public static void main(String[] args) {		
 		
+		Calendar calendar = new GregorianCalendar(2017,0,1);
+		try {
+			//Stock stock = YahooFinance.get("ABB.ST", calendar, Interval.DAILY);
+			Stock stock = YahooFinance.get("ABB.ST");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+		
+		/*
 		try {
 			Document doc = Jsoup.connect("http://www.di.se/borssidor/large-cap/").get();
 			Element table = doc.select("table.fh-table-strip").get(0); //select the table.
@@ -44,6 +51,7 @@ public class GeneralTester {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		*
 		
 	}
 		/*

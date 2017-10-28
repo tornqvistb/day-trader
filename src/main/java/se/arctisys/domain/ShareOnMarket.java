@@ -13,6 +13,7 @@ public class ShareOnMarket {
 	private String description;
 	private Date creationDate;
 	private String status;
+	private String currency;
 	
 	public ShareOnMarket() {
 		super();
@@ -49,6 +50,12 @@ public class ShareOnMarket {
 	}
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	public String getCurrency() {
+		return currency;
+	}
+	public void setCurrency(String currency) {
+		this.currency = currency;
 	}
 
 }

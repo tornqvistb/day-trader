@@ -10,8 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.Transient;
 
@@ -75,7 +75,7 @@ public class Account {
 	public void decreaseBalance(Double decrease) {
 		this.actualBalance = actualBalance - decrease;
 	}
-	@ManyToOne()
+	@OneToOne
 	public TradingUser getTradingUser() {
 		return tradingUser;
 	}
