@@ -13,7 +13,7 @@ public class ShareOnMarket {
 	private String description;
 	private Date creationDate;
 	private String status;
-	private String currency;
+	private String currency = TradeConstants.CURRENCY_SEK;
 	
 	public ShareOnMarket() {
 		super();

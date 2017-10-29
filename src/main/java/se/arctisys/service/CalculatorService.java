@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import se.arctisys.constants.PropertyConstants;
 import se.arctisys.constants.TradeConstants;
 import se.arctisys.domain.Share;
 import se.arctisys.domain.ShareDayRate;
@@ -22,18 +23,21 @@ public class CalculatorService {
 
     private ShareRepository shareRepo;
     private ShareDayRateRepository dayRateRepo;
+	private PropertyService propService;
 
 	private static final Logger LOG = LoggerFactory.getLogger(CalculatorService.class);
 	
-	public Double getFloatingAvarage(Share share, Date startDate, Date endDate) throws ParseException {
+	protected Double getMovingAvarage(Share share, Date startDate, Date endDate) throws ParseException {
 		Double result = 0.0;		
 		Integer counter = 0;
 		Double stockSum = 0.0;
 
 		for (ShareDayRate rate : share.getDayRates()) {
 			if (rate.getActualDate().after(startDate) && rate.getActualDate().before(endDate)) {
-				counter++;
-				stockSum = stockSum + rate.getSellRate();
+				if (rate.getSellRate() > 0) {
+					counter++;
+					stockSum = stockSum + rate.getSellRate();
+				}
 			}
 			if (rate.getActualDate().before(startDate)) {
 				break;
@@ -43,6 +47,22 @@ public class CalculatorService {
 		result = Util.round(stockSum / counter, 2);
 		
 		return result;
+	}
+	
+	public void updateMovingAverages(String shareId) throws ParseException {
+		Share share = shareRepo.findOne(shareId);
+		Long daysMovingAvShort = propService.getLong(PropertyConstants.MOVING_AVERAGE_SHORT);
+		Long daysMovingAvMedium = propService.getLong(PropertyConstants.MOVING_AVERAGE_MEDIUM);
+		Long daysMovingAvLong = propService.getLong(PropertyConstants.MOVING_AVERAGE_LONG);
+		for (ShareDayRate rate : share.getDayRates()) {
+			rate.setMovingAverageShort(getMovingAvarage(share, Util.getDateByDaysBack(daysMovingAvShort, rate.getActualDate()), rate.getActualDate()));
+			rate.setMovingAverageMedium(getMovingAvarage(share, Util.getDateByDaysBack(daysMovingAvMedium, rate.getActualDate()), rate.getActualDate()));
+			rate.setMovingAverageLong(getMovingAvarage(share, Util.getDateByDaysBack(daysMovingAvLong, rate.getActualDate()), rate.getActualDate()));
+			//rate.setLowFrequencyRate(getLowFrequence(share, Util.getDateByDaysBack(frequency, rate.getActualDate()), rate.getActualDate()));
+			//rate.setHighFrequencyRate(getHighFrequence(share, Util.getDateByDaysBack(frequency, rate.getActualDate()), rate.getActualDate()));
+			rate.setShare(share);
+			dayRateRepo.save(rate);
+		}
 	}
 
 	public Double getHighFrequence(Share share, Date startDate, Date endDate) throws ParseException {
@@ -136,18 +156,6 @@ public class CalculatorService {
 		trans.setType(transactionType);
 		return trans;
 	}
-	public void updateAverageAndFrequence(String shareId, Long frequency) throws ParseException {
-		Share share = shareRepo.findOne(shareId);
-		for (ShareDayRate rate : share.getDayRates()) {
-			rate.setMovingAverageShort(getFloatingAvarage(share, Util.getDateByDaysBack(20L, rate.getActualDate()), rate.getActualDate()));
-			rate.setMovingAverageMedium(getFloatingAvarage(share, Util.getDateByDaysBack(50L, rate.getActualDate()), rate.getActualDate()));
-			rate.setMovingAverageLong(getFloatingAvarage(share, Util.getDateByDaysBack(200L, rate.getActualDate()), rate.getActualDate()));
-			//rate.setLowFrequencyRate(getLowFrequence(share, Util.getDateByDaysBack(frequency, rate.getActualDate()), rate.getActualDate()));
-			//rate.setHighFrequencyRate(getHighFrequence(share, Util.getDateByDaysBack(frequency, rate.getActualDate()), rate.getActualDate()));
-			rate.setShare(share);
-			dayRateRepo.save(rate);
-		}
-	}
 	@Autowired
 	public void setShareRepo(ShareRepository shareRepo) {
 		this.shareRepo = shareRepo;
@@ -155,5 +163,9 @@ public class CalculatorService {
 	@Autowired
 	public void setShareDayRateRepo(ShareDayRateRepository dayRateRepo) {
 		this.dayRateRepo = dayRateRepo;
+	}
+	@Autowired
+	public void setPropService(PropertyService propService) {
+		this.propService = propService;
 	}
 }

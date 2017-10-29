@@ -25,4 +25,10 @@ public class PropertyConstants {
 	public static final String LAST_TRADING_DATE = "last-trading-date";
 	public static final String FILE_IMPORT_URL = "file-import-url";
 	
+	public static final String STOCK_SITE_URL = "stock-site-url";
+	public static final String YEARS_TO_COLLECT_HISTORY = "years-to-collect-history";
+	public static final String MOVING_AVERAGE_SHORT = "moving-average-short";
+	public static final String MOVING_AVERAGE_MEDIUM = "moving-average-medium";
+	public static final String MOVING_AVERAGE_LONG = "moving-average-long";
+	
 }

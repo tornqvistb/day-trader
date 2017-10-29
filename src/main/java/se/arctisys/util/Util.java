@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -93,4 +94,9 @@ public class Util {
 		return result;
 	}
 	
+	public static Calendar getYearsFromNow(int years) {
+		Calendar cal = Calendar.getInstance();
+	    cal.add(Calendar.YEAR, -years);
+	    return cal;
+	}
 }

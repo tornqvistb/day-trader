@@ -28,6 +28,14 @@ public class PropertyService {
 		}
 		return result;		
 	}
+	public int getInt(String propertyId) {
+		int result = 0;
+		SystemProperty prop = propertyRepo.findOne(propertyId);
+		if (prop != null) {
+			result = (int) (long) prop.getNumberValue();
+		}
+		return result;		
+	}
 	public Long getLongMillis(String propertyId) {
 		Long result = 0L;
 		SystemProperty prop = propertyRepo.findOne(propertyId);

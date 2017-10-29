@@ -8,7 +8,7 @@ import org.quartz.JobExecutionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import se.arctisys.service.AdvisorService;
-import se.arctisys.service.FileImportService;
+import se.arctisys.service.FinanceAPIService;
 import se.arctisys.service.MailSenderService;
 import se.arctisys.service.SiteReaderService;
 
@@ -17,7 +17,7 @@ import se.arctisys.service.SiteReaderService;
  */
 public class MainImportJob implements Job {
     @Autowired
-    private FileImportService importService;
+    private FinanceAPIService importService;
     @Autowired
     private SiteReaderService readerService;
     @Autowired
@@ -31,9 +31,9 @@ public class MainImportJob implements Job {
     	try {
 			readerService.storeAllStocksOnMarket();
 			importService.readHistory();
-			readerService.storeDaylyValues();			
+			/*readerService.storeDaylyValues();			
 			advisorService.checkForSignals();
-			mailService.checkMailsToSend();
+			mailService.checkMailsToSend();*/
 		} catch (ParseException | IOException e) {
 			e.printStackTrace();
 		}

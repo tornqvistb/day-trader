@@ -20,6 +20,12 @@ insert into system_property (id, string_value, number_value) values ('file-impor
 
 insert into system_property (id, string_value, number_value) values ('trading-time', '17:00', 0);
 insert into system_property (id, string_value, number_value) values ('last-trading-date', '2016-01-01', 0);
+insert into system_property (id, string_value, number_value) values ('stock-site-url', 'http://bors.six.se/ttspektra-web/gpse/equities?entry=stockholm-omx-all', 0);
+insert into system_property (id, string_value, number_value) values ('years-to-collect-history', '', 1);
+
+insert into system_property (id, string_value, number_value) values ('moving-average-short', '', 5);
+insert into system_property (id, string_value, number_value) values ('moving-average-medium', '', 20);
+insert into system_property (id, string_value, number_value) values ('moving-average-long', '', 50);
 
 commit;
 
