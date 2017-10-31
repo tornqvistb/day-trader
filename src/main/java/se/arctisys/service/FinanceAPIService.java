@@ -16,7 +16,6 @@ import se.arctisys.constants.TradeConstants;
 import se.arctisys.domain.Share;
 import se.arctisys.domain.ShareDayRate;
 import se.arctisys.domain.ShareOnMarket;
-import se.arctisys.repository.ErrorRepository;
 import se.arctisys.repository.ShareDayRateRepository;
 import se.arctisys.repository.ShareOnMarketRepository;
 import se.arctisys.repository.ShareRepository;
@@ -35,7 +34,6 @@ public class FinanceAPIService {
 
 	private static final Logger LOG = LoggerFactory.getLogger(FinanceAPIService.class);
 
-	private ErrorRepository errorRepo;
 	private PropertyService propService;
 	private ShareRepository shareRepo;
 	private ShareDayRateRepository dayRateRepo;
@@ -45,7 +43,7 @@ public class FinanceAPIService {
 
 
 	public void readHistory() throws ParseException, IOException {
-		LOG.info("Looking history!");
+		LOG.info("Looking for history!");
 		List<ShareOnMarket> sharesToImport = somRepo.findSOMByStatus(TradeConstants.SHARE_STATUS_START_IMPORT);
 		for (ShareOnMarket som : sharesToImport) {
 			String shareId =  som.getId();
@@ -87,9 +85,9 @@ public class FinanceAPIService {
 				ShareDayRate lastRate = share.getDayRates().iterator().next();
 				if (Util.isToday(lastRate.getActualDate())) {
 					dayRate.setId(lastRate.getId());
-					System.out.println("Is today");
+					LOG.debug("Is today: " + share.getId());
 				} else {
-					System.out.println("Is not today");						
+					LOG.debug("Is not today: " + share.getId());						
 				}				
 			}
 			Stock stockYahoo = YahooFinance.get(share.getId());
@@ -101,7 +99,6 @@ public class FinanceAPIService {
 	private ShareDayRate getDayRate(StockQuote quote, Share share, ShareDayRate dayRate) {
 		dayRate.setEmptyValues();
 		dayRate.setShare(share);
-		dayRate.setCreationDate(new Date());		
 		try {
 			dayRate.setActualDate(new Date());
 			dayRate.setBuyRate(quote.getBid().doubleValue());
@@ -120,7 +117,6 @@ public class FinanceAPIService {
 		ShareDayRate dayRate = new ShareDayRate();
 		dayRate.setEmptyValues();
 		dayRate.setShare(share);
-		dayRate.setCreationDate(new Date());		
 		try {
 			dayRate.setActualDate(quote.getDate().getTime());
 			dayRate.setBuyRate(quote.getClose().doubleValue());
@@ -131,11 +127,6 @@ public class FinanceAPIService {
 			LOG.debug("Failed to parse HistoricalQuote, returning empty record");			
 		}
 		return dayRate;
-	}
-
-	@Autowired
-	public void setErrorRepo(ErrorRepository errorRepo) {
-		this.errorRepo = errorRepo;
 	}
 
 	@Autowired
