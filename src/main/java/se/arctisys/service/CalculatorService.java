@@ -48,19 +48,22 @@ public class CalculatorService {
 		
 		return result;
 	}
-	
-	public void updateMovingAverages(String shareId) throws ParseException {
-		Share share = shareRepo.findOne(shareId);
+
+	public ShareDayRate setMovingAverages(ShareDayRate rate, Share share) throws ParseException {
 		Long daysMovingAvShort = propService.getLong(PropertyConstants.MOVING_AVERAGE_SHORT);
 		Long daysMovingAvMedium = propService.getLong(PropertyConstants.MOVING_AVERAGE_MEDIUM);
 		Long daysMovingAvLong = propService.getLong(PropertyConstants.MOVING_AVERAGE_LONG);
+		rate.setMovingAverageShort(getMovingAvarage(share, Util.getDateByDaysBack(daysMovingAvShort, rate.getActualDate()), rate.getActualDate()));
+		rate.setMovingAverageMedium(getMovingAvarage(share, Util.getDateByDaysBack(daysMovingAvMedium, rate.getActualDate()), rate.getActualDate()));
+		rate.setMovingAverageLong(getMovingAvarage(share, Util.getDateByDaysBack(daysMovingAvLong, rate.getActualDate()), rate.getActualDate()));
+		rate.setShare(share);
+		return rate;
+	}
+	
+	public void updateMovingAverages(String shareId) throws ParseException {
+		Share share = shareRepo.findOne(shareId);
 		for (ShareDayRate rate : share.getDayRates()) {
-			rate.setMovingAverageShort(getMovingAvarage(share, Util.getDateByDaysBack(daysMovingAvShort, rate.getActualDate()), rate.getActualDate()));
-			rate.setMovingAverageMedium(getMovingAvarage(share, Util.getDateByDaysBack(daysMovingAvMedium, rate.getActualDate()), rate.getActualDate()));
-			rate.setMovingAverageLong(getMovingAvarage(share, Util.getDateByDaysBack(daysMovingAvLong, rate.getActualDate()), rate.getActualDate()));
-			//rate.setLowFrequencyRate(getLowFrequence(share, Util.getDateByDaysBack(frequency, rate.getActualDate()), rate.getActualDate()));
-			//rate.setHighFrequencyRate(getHighFrequence(share, Util.getDateByDaysBack(frequency, rate.getActualDate()), rate.getActualDate()));
-			rate.setShare(share);
+			rate = setMovingAverages(rate, share);
 			dayRateRepo.save(rate);
 		}
 	}

@@ -1,19 +1,10 @@
 package se.arctisys.service;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Locale;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import se.arctisys.constants.PropertyConstants;
 import se.arctisys.constants.TradeConstants;
-import se.arctisys.domain.ErrorRecord;
 import se.arctisys.domain.Share;
 import se.arctisys.domain.ShareDayRate;
 import se.arctisys.domain.ShareOnMarket;
@@ -35,6 +25,7 @@ import yahoofinance.Stock;
 import yahoofinance.YahooFinance;
 import yahoofinance.histquotes.HistoricalQuote;
 import yahoofinance.histquotes.Interval;
+import yahoofinance.quotes.stock.StockQuote;
 
 /**
  * Created by Björn Törnqvist, ArctiSys AB, 2016-02
@@ -74,7 +65,7 @@ public class FinanceAPIService {
 				List<HistoricalQuote> quotes = stockYahoo.getHistory();
 				
 				for (HistoricalQuote quote : quotes) {
-					ShareDayRate dayRate = getDayRate(quote, share);
+					ShareDayRate dayRate = getDayRateHist(quote, share);
 					
 					dayRateRepo.save(dayRate);
 				}
@@ -87,7 +78,45 @@ public class FinanceAPIService {
 			somRepo.save(som);
 		}
 	}
-	private ShareDayRate getDayRate(HistoricalQuote quote, Share share) {
+	
+	public void storeCurrentRates() throws IOException {
+		for (Share share : shareRepo.findAll()) {
+			
+			ShareDayRate dayRate = new ShareDayRate();
+			if (share.getDayRates().size() > 0) {				
+				ShareDayRate lastRate = share.getDayRates().iterator().next();
+				if (Util.isToday(lastRate.getActualDate())) {
+					dayRate.setId(lastRate.getId());
+					System.out.println("Is today");
+				} else {
+					System.out.println("Is not today");						
+				}				
+			}
+			Stock stockYahoo = YahooFinance.get(share.getId());
+			dayRate = getDayRate(stockYahoo.getQuote(), share, dayRate);
+			dayRateRepo.save(dayRate);
+		}
+	}
+
+	private ShareDayRate getDayRate(StockQuote quote, Share share, ShareDayRate dayRate) {
+		dayRate.setEmptyValues();
+		dayRate.setShare(share);
+		dayRate.setCreationDate(new Date());		
+		try {
+			dayRate.setActualDate(new Date());
+			dayRate.setBuyRate(quote.getBid().doubleValue());
+			dayRate.setMaxRate(quote.getDayHigh().doubleValue());
+			dayRate.setMinRate(quote.getDayLow().doubleValue());
+			dayRate.setSellRate(quote.getAsk().doubleValue());
+			dayRate = calculatorService.setMovingAverages(dayRate, share);
+		} catch (Exception e) {
+			LOG.debug("Failed to parse Quote, returning empty record");			
+		}
+		return dayRate;
+	}
+
+	
+	private ShareDayRate getDayRateHist(HistoricalQuote quote, Share share) {
 		ShareDayRate dayRate = new ShareDayRate();
 		dayRate.setEmptyValues();
 		dayRate.setShare(share);
