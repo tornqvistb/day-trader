@@ -13,8 +13,8 @@ import se.arctisys.constants.TradeConstants;
 import se.arctisys.domain.Account;
 import se.arctisys.domain.Email;
 import se.arctisys.domain.ShareDayRate;
-import se.arctisys.domain.ShareTransaction;
 import se.arctisys.domain.ShareHolding;
+import se.arctisys.domain.ShareTransaction;
 import se.arctisys.domain.TradingUser;
 import se.arctisys.domain.UserShare;
 import se.arctisys.repository.AccountRepository;
@@ -22,6 +22,7 @@ import se.arctisys.repository.EmailRepository;
 import se.arctisys.repository.ShareTransactionRepository;
 import se.arctisys.repository.StockHoldingRepository;
 import se.arctisys.repository.TradingUserRepository;
+import se.arctisys.repository.UserShareRepository;
 import se.arctisys.util.Util;
 
 @Service
@@ -39,6 +40,10 @@ public class AdvisorService {
 	private StockHoldingRepository holdingRepo;
 	@Autowired
 	private EmailRepository emailRepo;
+	@Autowired
+	private StrategyService strategyService;
+	@Autowired
+	private UserShareRepository userShareRepo;
 	
 	private static final Logger LOG = LoggerFactory.getLogger(CalculatorService.class);
 	
@@ -54,19 +59,11 @@ public class AdvisorService {
 				for (UserShare userShare : user.getUserShares()) {
 					LOG.info("Usershare: " + userShare.getTradingUser().getName() + ", " + userShare.getShare().getId());
 					// for each share, check day rate for today
-					ShareDayRate dayRate = userShare.getShare().getLastDayRate();
-					if (dayRate != null && Util.isToday(dayRate.getActualDate())) {
-						LOG.info("Dayrate today");
-						//if we have holding of this share check if its time to sell
-						/* Commented for now 20171028
-						if (userShare.hasStockHolding() && dayRate.isSellCandidate()) {
-							LOG.info("Sell candidate");
-							email.addContent(doSell(userShare, dayRate, user));
-						} else if (!userShare.hasStockHolding() && dayRate.isBuyCandidate()) {
-							LOG.info("Buy candidate");
-							email.addContent(doBuy(userShare, dayRate, user));
-						}
-						*/
+					String action = strategyService.checkForAction(userShare);
+					if (action.equals(TradeConstants.ACTION_BUY)) {
+						email.addContent(doBuy(userShare, user));
+					} else if (action.equals(TradeConstants.ACTION_SELL)) {
+						email.addContent(doSell(userShare, user));
 					}
 				}				
 				// If mail has content, send mail to user
@@ -97,7 +94,8 @@ public class AdvisorService {
 		return result;
 	}
 	
-	private String doSell(UserShare userShare, ShareDayRate dayRate, TradingUser user) {
+	private String doSell(UserShare userShare, TradingUser user) {
+		ShareDayRate dayRate = userShare.getShare().getLastDayRate();
 		Double amount = userShare.getShareHolding().getNumberOfShares() * dayRate.getSellRate();
 		ShareTransaction transaction = new ShareTransaction();
 		transaction.setActualDate(new Date());
@@ -116,13 +114,14 @@ public class AdvisorService {
 		// Update user share
 		userShare.setLastSellDate(new Date());
 		userShare.setTradingUser(user);
-		//TODO Save
+		userShareRepo.save(userShare);
 		return "Recommendation: Sell " + userShare.getShare().getDescription()  + ", no of shares: " + userShare.getShareHolding().getNumberOfShares() + ", amount: " + amount;
 	}
 
 	
-	private String doBuy(UserShare userShare, ShareDayRate dayRate, TradingUser user) {
+	private String doBuy(UserShare userShare, TradingUser user) {
 		
+		ShareDayRate dayRate = userShare.getShare().getLastDayRate();
 		// Calculate how many shares to buy (based on share buy amount and money on account)
 		Long amountToBuyFor = userShare.getBuyAmount();
 		if (user.getAccount().getActualBalance() < amountToBuyFor) {
@@ -156,8 +155,7 @@ public class AdvisorService {
 		// Update user share
 		userShare.setLastBuyDate(new Date());
 		userShare.setTradingUser(user);
-		//TODO Save
-		// add content to mail																
+		userShareRepo.save(userShare);
 		return "Recommendation: Buy " + userShare.getShare().getDescription() + ", no of shares: " + noOfShares + ", amount: " + buyAmount;
 	}
 

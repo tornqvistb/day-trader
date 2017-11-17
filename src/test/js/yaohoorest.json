@@ -1,0 +1,67 @@
+/**
+ * 
+ */
+{
+	"quoteResponse": {
+		"result": [
+			{
+				"language": "en-US",
+				"quoteType": "EQUITY",
+				"quoteSourceName": "Free Realtime Quote",
+				"currency": "SEK",
+				"fiftyTwoWeekHighChange": -9.0,
+				"fiftyTwoWeekHighChangePercent": -0.08256881,
+				"fiftyTwoWeekLow": 90.5,
+				"fiftyTwoWeekHigh": 109.0,
+				"trailingAnnualDividendRate": 5.5,
+				"trailingPE": 12.653423,
+				"priceHint": 2,
+				"marketCap": 216878006272,
+				"priceToBook": 1.566956,
+				"sourceInterval": 15,
+				"exchangeTimezoneName": "Europe/Stockholm",
+				"exchangeTimezoneShortName": "CET",
+				"gmtOffSetMilliseconds": 3600000,
+				"exchangeDataDelayedBy": 0,
+				"epsTrailingTwelveMonths": 7.903,
+				"regularMarketPreviousClose": 101.0,
+				"bid": 100.0,
+				"ask": 100.1,
+				"messageBoardId": "finmb_671797",
+				"bidSize": 0,
+				"askSize": 0,
+				"trailingAnnualDividendYield": 0.054455444,
+				"regularMarketPrice": 100.0,
+				"regularMarketTime": 1510917043,
+				"regularMarketChange": -1.0,
+				"regularMarketOpen": 101.0,
+				"regularMarketDayHigh": 101.6,
+				"regularMarketDayLow": 99.65,
+				"regularMarketVolume": 1922481,
+				"exchange": "STO",
+				"market": "se_market",
+				"tradeable": false,
+				"regularMarketChangePercent": -0.990099,
+				"shortName": "Skandinaviska Enskilda Banken s",
+				"twoHundredDayAverageChangePercent": -0.037041772,
+				"marketState": "REGULAR",
+				"sharesOutstanding": 2144839936,
+				"bookValue": 63.818,
+				"fiftyDayAverage": 103.815384,
+				"fiftyDayAverageChange": -3.815384,
+				"fiftyDayAverageChangePercent": -0.036751624,
+				"twoHundredDayAverage": 103.846664,
+				"twoHundredDayAverageChange": -3.8466644,
+				"fullExchangeName": "Stockholm",
+				"longName": "Skandinaviska Enskilda Banken AB (publ)",
+				"financialCurrency": "SEK",
+				"averageDailyVolume3Month": 4219730,
+				"averageDailyVolume10Day": 4224688,
+				"fiftyTwoWeekLowChange": 9.5,
+				"fiftyTwoWeekLowChangePercent": 0.10497238,
+				"symbol": "SEB-A.ST"
+			}
+		],
+		"error": null
+	}
+}

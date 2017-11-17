@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
+import javax.persistence.Transient;
 
 @Entity
 public class UserShare {
@@ -121,4 +122,12 @@ public class UserShare {
 	public void setShareHolding(ShareHolding shareHolding) {
 		this.shareHolding = shareHolding;
 	}
+	@Transient
+	public boolean hasShareHolding() {
+		boolean result = false;
+		if (this.shareHolding != null) {
+			result = true;
+		}
+		return result;
+	}	
 }

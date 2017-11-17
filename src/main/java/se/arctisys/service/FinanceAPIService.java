@@ -24,6 +24,8 @@ import yahoofinance.Stock;
 import yahoofinance.YahooFinance;
 import yahoofinance.histquotes.HistoricalQuote;
 import yahoofinance.histquotes.Interval;
+import yahoofinance.histquotes2.QueryInterval;
+import yahoofinance.query2v8.HistQuotesQuery2V8Request;
 import yahoofinance.quotes.stock.StockQuote;
 
 /**
@@ -58,9 +60,10 @@ public class FinanceAPIService {
 			try {
 				// Should be one year ago
 				Calendar calendar = Util.getYearsFromNow(propService.getInt(PropertyConstants.YEARS_TO_COLLECT_HISTORY));
-				Stock stockYahoo = YahooFinance.get(share.getId(), calendar, Interval.DAILY);
 				
-				List<HistoricalQuote> quotes = stockYahoo.getHistory();
+				HistQuotesQuery2V8Request request = new HistQuotesQuery2V8Request(share.getId(), calendar, Calendar.getInstance(), QueryInterval.DAILY);
+				
+				List<HistoricalQuote> quotes = request.getResult();
 				
 				for (HistoricalQuote quote : quotes) {
 					ShareDayRate dayRate = getDayRateHist(quote, share);
@@ -90,6 +93,12 @@ public class FinanceAPIService {
 					LOG.debug("Is not today: " + share.getId());						
 				}				
 			}
+			/*
+			Calendar today = Calendar.getInstance();
+			HistQuotesQuery2V8Request request = new HistQuotesQuery2V8Request("SEB-A.ST", today, today);
+			List<HistoricalQuote> quotes = request.getResult();
+			*/
+			
 			Stock stockYahoo = YahooFinance.get(share.getId());
 			dayRate = getDayRate(stockYahoo.getQuote(), share, dayRate);
 			dayRateRepo.save(dayRate);

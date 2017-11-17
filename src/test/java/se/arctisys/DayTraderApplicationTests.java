@@ -34,15 +34,6 @@ public class DayTraderApplicationTests {
 	@Test
 	public void contextLoads() {
 	}
-
-	@Test
-	public void updateFrequenceRate() throws ParseException {
-		List<Share> shares = shareRepo.findAll();
-		for (Share share : shares) {
-			LOG.info("Updating: " + share.getId());
-			calcService.updateAverageAndFrequence(share.getId(), 7L);
-		}
-	}
 	
 	@Test
 	public void calculateProfits() throws ParseException {
@@ -72,7 +63,5 @@ public class DayTraderApplicationTests {
 		}
 		LOG.info("Total result: " + totalResult);
 	}
-	
-
-	
+		
 }
