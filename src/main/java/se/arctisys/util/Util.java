@@ -99,4 +99,9 @@ public class Util {
 	    cal.add(Calendar.YEAR, -years);
 	    return cal;
 	}
+	public static Calendar getDaysFromNow(int days) {
+		Calendar cal = Calendar.getInstance();
+	    cal.add(Calendar.HOUR, -days*24);
+	    return cal;
+	}
 }

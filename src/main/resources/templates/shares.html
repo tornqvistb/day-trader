@@ -2,115 +2,63 @@
 
 <html lang="sv" class="js" xmlns:th="http://www.thymeleaf.org">
 
-<meta charset="utf-8"/>
+<meta charset="utf-8" />
 <head th:include="head" th:remove="tag" />
 
-<body class="layout-2">
-	<div id="body">
-		<!-- <div class="include" data-include="header"></div> -->
-		<div th:include="header" th:remove="tag"></div>
-		<div id="main" class="cf">
-			<div id="content">
-				<div th:include="sub-header" th:remove="tag"></div>
-				<!-- <div class="include" data-include="sub-header"></div> -->
-				<div id="service-portal" class="sp-layout-4">
-					<div class="content-1">
-						<div class="m m-1 m-page cf">
-							<div class="m-h main-header cf">
-								<div class="page-heading">
-									<h2>Hantera aktier</h2>
-								</div>
-							</div>
-							<!-- Här kan man lägga på en vänster meny -->
-							<div class="m-form">
-								<div class="content e-tjansteplattform hamster">
-									<div class="form-step">
-										<!-- Här kan man lägga på ett tack meddelande -->
-										<!--
-										<form class="form-general" th:action= "@{/order-list/search}" th:object="${reqAttr}" method="get">
-											<div class="form-section">
-												<h3 class="expandtrigger">Filtrera och visa</h3>
-												<div class="row cols-2 cf">
-													<div class="select">
-														<label for="status">Välj status</label> 
-														<select
-															th:field="${reqAttr.orderStatus}"
-															id="orderStatus" name="orderStatus"
-															>
-															<option value="active">Aktiva</option>
-															<option value="new">&nbsp;&nbsp;- Ny</option>
-															<option value="started">&nbsp;&nbsp;- Påbörjad</option>
-															<option value="registration_done">&nbsp;&nbsp;- Registrering klar</option>
-															<option value="not_accepted">&nbsp;&nbsp;- Ej
-																accepterad</option>
-															<option value="inactive">Ej aktiva</option>
-															<option value="sent">&nbsp;&nbsp;- Skickad</option>
-															<option value="transferred">&nbsp;&nbsp;- Överförd
-																till Intraservice</option>
+<body>
+	<div th:include="header" th:remove="tag"></div>
+	<div class="container">
 
-														</select>
-													</div>
-												</div>
-												<input class="btn" type="submit" value="Visa" />
-											</div>
-										</form>
-										-->
-										<form>
-											<div class="form-section" id="search-results">
-												<h3>Lista på samtliga aktier</h3>
-												<table>
-													<colgroup>
-														<col style="width: 10%" />
-														<col style="width: 19%" />
-														<col style="width: 6%" />
-														<col style="width: 16%" />
-														<col style="width: 5%" />
-														<col style="width: 8%" />
-														<col style="width: 8%" />
-														<col style="width: 10%" />
-														<col style="width: 10%" />
-														<col style="width: 8%" />
-													</colgroup>
-													<thead>
-														<tr>
-															<th scope="col">ID</th>
-															<th scope="col">Beskrivning</th>
-															<th scope="col">Strategi</th>
-															<th scope="col">Datum</th>
-															<th scope="col">Kurs</th>
-															<th scope="col">Lägst idag</th>
-															<th scope="col">Högst idag</th>
-															<th scope="col">Hög frekvens</th>
-															<th scope="col">Låg frekvens</th>
-															<th scope="col">Glid MV</th>
-														</tr>
-													</thead>
-													<tbody>
-														<tr th:each="share : ${shares}">
-															<td><a th:text="${share.id}" th:href="@{/share/view/} + ${share.id}">ERICSSON A</a></td>
-															<td th:text="${share.description}">Ericsson A</td>
-															<td th:text="${share.strategy}">Long</td>
-															<td th:text="${share.lastDayRate.creationDate}">2015-10-01</td>
-															<td th:text="${share.lastDayRate.buyRate}">100</td>
-															<td th:text="${share.lastDayRate.minRate}">90</td>
-															<td th:text="${share.lastDayRate.maxRate}">110</td>
-															<td th:text="${share.lastDayRate.highFrequencyRate}">100</td>
-															<td th:text="${share.lastDayRate.lowFrequencyRate}">100</td>
-															<td th:text="${share.lastDayRate.movingAverageShort}">100</td>
-														</tr>
-													</tbody>
-												</table>
-											</div>
-										</form>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div th:include="footer" th:remove="tag"></div>
+		<ul class="nav nav-pills">
+		  <li class="nav-item">
+		    <a class="nav-link active" href="/DayTrader/shares/">Mina aktier</a>
+		  </li>
+		  <li class="nav-item">
+		    <a class="nav-link" href="/DayTrader/settings">Mina uppgifter</a>
+		  </li>
+		</ul>
 	</div>
+	<hr />
+	<div class="container">
+		<h2>Mina aktier</h2>
+		<p>Nedan listas de aktier som du handlar med</p>
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Namn</th>
+					<th>Senaste värdet</th>
+					<th>Antal innehav</th>
+					<th>Innehavets värde</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>ACAN-B.ST</td>
+					<td>Acando B</td>
+					<td>25,50</td>
+					<td>0</td>
+					<td>0</td>
+				</tr>
+				<tr>
+					<td>CATE.ST</td>
+					<td>Catena</td>
+					<td>50,50</td>
+					<td>1</td>
+					<td>4870</td>
+				</tr>
+				<tr>
+					<td>GUNN.ST</td>
+					<td>Gunnebo</td>
+					<td>75,50</td>
+					<td>1</td>
+					<td>5310</td>
+				</tr>
+			</tbody>
+		</table>
+		<a class="btn btn-primary" href="#" role="button">Lägg till aktie »</a>
+		<hr />		
+	</div>
+	<div th:include="footer" th:remove="tag" />
 </body>
 </html>

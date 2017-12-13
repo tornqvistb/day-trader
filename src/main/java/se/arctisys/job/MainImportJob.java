@@ -31,7 +31,7 @@ public class MainImportJob implements Job {
     	try {
 			readerService.storeAllStocksOnMarket();
 			importService.readHistory();
-			//importService.storeCurrentRates();
+			importService.storeCurrentRates();
 			advisorService.checkForSignals();
 			mailService.checkMailsToSend();
 		} catch (ParseException | IOException e) {

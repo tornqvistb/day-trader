@@ -4,9 +4,9 @@ import java.util.Calendar;
 import java.util.List;
 
 import se.arctisys.util.Util;
-import yahoofinance.histquotes.HistoricalQuote;
-import yahoofinance.histquotes2.QueryInterval;
-import yahoofinance.query2v8.HistQuotesQuery2V8Request;
+import se.arctisys.yahoofinance.HistQuotesQuery2V8Request;
+import se.arctisys.yahoofinance.HistoricalQuote;
+import se.arctisys.yahoofinance.QueryInterval;
 
 public class YahooTester {
 
@@ -29,8 +29,10 @@ public class YahooTester {
 	private static void getCurrent() {
 		
 		try {
+			Calendar yesterday = Util.getDaysFromNow(7);
 			Calendar today = Calendar.getInstance();
-			HistQuotesQuery2V8Request request = new HistQuotesQuery2V8Request("SEB-A.ST", today, today);
+			//HistQuotesQuery2V8Request request = new HistQuotesQuery2V8Request("SEB-A.ST", yesterday, today, QueryInterval.DAILY);
+			HistQuotesQuery2V8Request request = new HistQuotesQuery2V8Request("ACAN-B.ST", yesterday, today, QueryInterval.MINUTE);
 			List<HistoricalQuote> quotes = request.getResult();
 			for (HistoricalQuote quote : quotes) {
 				System.out.println(quote.toString());
@@ -43,7 +45,7 @@ public class YahooTester {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		getCurrent();
-		getHistory();		
+		//getHistory();		
 	}
 
 }

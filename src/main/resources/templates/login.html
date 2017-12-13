@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+
+<html lang="sv" class="js" xmlns:th="http://www.thymeleaf.org">
+
+<meta charset="utf-8" />
+<head th:include="head" th:remove="tag" />
+
+<body>
+	<div th:include="header" th:remove="tag"></div>
+	<div class="container mb-5">
+
+		<div class="row h-300 justify-content-center align-items-center">
+			
+			<div class="col-5">
+				<form role="form">
+					<fieldset>
+						<h2>Logga in</h2>
+						<hr />
+						<div class="form-group">
+							<input type="email" name="email" id="email"
+								class="form-control input-lg" placeholder="E-postadress" />
+						</div>
+						<div class="form-group">
+							<input type="password" name="password" id="password"
+								class="form-control input-lg" placeholder="Lösenord" />
+						</div>
+						<div class="row">
+							<a href="" class="btn btn-link pull-right">Glömt lösenordet?</a>
+						</div>
+						<hr />
+						<div class="row">
+							<div class="col-xs-6 col-sm-6 col-md-6">
+								<input type="submit" class="btn btn-lg btn-success btn-block"
+									value="Logga In" />
+							</div>
+							<div class="col-xs-6 col-sm-6 col-md-6">
+								<a href="" class="btn btn-lg btn-primary btn-block">Registrera
+									dig</a>
+							</div>
+						</div>
+					</fieldset>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div th:include="footer" th:remove="tag" />
+</body>
+</html>

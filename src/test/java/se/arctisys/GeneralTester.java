@@ -1,25 +1,28 @@
 package se.arctisys;
 
 import java.io.IOException;
+import java.security.Timestamp;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 import yahoofinance.Stock;
 import yahoofinance.YahooFinance;
-import yahoofinance.histquotes.Interval;
 
 public class GeneralTester {
 
 	public static void main(String[] args) {		
 		
 		Calendar calendar = new GregorianCalendar(2017,0,1);
-		try {
-			//Stock stock = YahooFinance.get("ABB.ST", calendar, Interval.DAILY);
-			Stock stock = YahooFinance.get("ABB.ST");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		//Stock stock = YahooFinance.get("ABB.ST", calendar, Interval.DAILY);
+		
+		//,1511276040,1511276100,1511276160
+		java.util.Date time=new java.util.Date((long)1511276040*1000);
+		System.out.println(time);
+		time=new java.util.Date((long)1511276100*1000);
+		System.out.println(time);
+		time=new java.util.Date((long)1511276160*1000);
+		System.out.println(time);
 		
 	}
 		

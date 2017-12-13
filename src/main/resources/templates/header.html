@@ -1,26 +1,53 @@
-<div id="header" class="cf" role="banner">
-	<div id="skip">
-		<a href="#content-primary">Hoppa till innehåll</a>
-	</div>
-	<div id="logo">
-		<a src="#"><img src="/im/img/arctisys60.jpg" th:src="@{/img/arctisys60.jpg}" alt="Arctisys Trader" /></a>
-	</div>
-	<div class="main-heading">
-		<div>
-			<span>Trader</span>
-			<div class="user-settings">
-				<span class="area">Ett system för trading</span>
-			</div>
-		</div>
-	</div>
-	<div class="nav-supp cf">
-				<!--Start helplinks-->
-				
-		<h2 class="structural">Hjälplänkar</h2>
-		<ul>
-			<li>
-				<a th:href="@{/settings}">Inställningar</a>	
+<nav
+	class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
+	<button class="navbar-toggler navbar-toggler-right" type="button"
+		data-toggle="collapse" data-target="#navbarsExampleDefault"
+		aria-controls="navbarsExampleDefault" aria-expanded="false"
+		aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+	<a class="navbar-brand" href="#">ArctiSys Trader</a>
+
+	<div class="collapse navbar-collapse" id="navbarsExampleDefault">
+		<ul class="navbar-nav mr-auto">
+			<li class="nav-item active"><a class="nav-link" href="/DayTrader/index">Hem
+					<span class="sr-only">(current)</span>
+			</a></li>
+			<!-- 
+			<li class="nav-item"><a class="nav-link" href="#">Link</a></li>
+			<li class="nav-item"><a class="nav-link disabled" href="#">Disabled</a>
+			</li>
+			<li class="nav-item dropdown"><a
+				class="nav-link dropdown-toggle" href="http://example.com"
+				id="dropdown01" data-toggle="dropdown" aria-haspopup="true"
+				aria-expanded="false">Dropdown</a>
+				<div class="dropdown-menu" aria-labelledby="dropdown01">
+					<a class="dropdown-item" href="#">Action</a> <a
+						class="dropdown-item" href="#">Another action</a> <a
+						class="dropdown-item" href="#">Something else here</a>
+				</div>
+			</li>
+			 -->
+		</ul>
+		<ul class="navbar-nav vabra-right">
+			<li class="nav-item"><a class="nav-link" href="/DayTrader/shares">Mina sidor</a></li>
+			<li class="nav-item"><a class="nav-link" href="/DayTrader/login">Logga in</a></li>
+			<li class="nav-item dropdown"><a
+				class="nav-link dropdown-toggle" href="http://example.com"
+				id="dropdown01" data-toggle="dropdown" aria-haspopup="true"
+				aria-expanded="false"><strong>Björn Törnqvist</strong></a>
+				<div class="dropdown-menu" aria-labelledby="dropdown01">
+					<a class="dropdown-item" href="/DayTrader/shares">Mina sidor</a>
+					<a class="dropdown-item" href="/DayTrader/settings">Mina uppgifter</a> 
+					<a class="dropdown-item" href="/DayTrader/logout">Logga ut</a>
+				</div>
 			</li>
 		</ul>
+	</div>
+</nav>
+<div class="jumbotron">
+	<div class="container">
+		<h1 class="display-3">Välkommen till ArctiSys Trader!</h1>
+		<p>Välkommen bästa användare. Hoppas du gillar detta system!</p>
 	</div>
 </div>

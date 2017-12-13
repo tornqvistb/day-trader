@@ -93,15 +93,17 @@ public class FinanceAPIService {
 					LOG.debug("Is not today: " + share.getId());						
 				}				
 			}
-			/*
-			Calendar today = Calendar.getInstance();
-			HistQuotesQuery2V8Request request = new HistQuotesQuery2V8Request("SEB-A.ST", today, today);
-			List<HistoricalQuote> quotes = request.getResult();
-			*/
 			
-			Stock stockYahoo = YahooFinance.get(share.getId());
-			dayRate = getDayRate(stockYahoo.getQuote(), share, dayRate);
-			dayRateRepo.save(dayRate);
+			Calendar today = Calendar.getInstance();
+			HistQuotesQuery2V8Request request = new HistQuotesQuery2V8Request(share.getId(), today, today);
+			List<HistoricalQuote> quotes = request.getResult();
+			
+			if (!quotes.isEmpty()) {
+				HistoricalQuote quoteToday = quotes.get(0);
+				dayRate = getDayRateHist(quoteToday, share);
+				dayRateRepo.save(dayRate);
+			}
+			
 		}
 	}
 

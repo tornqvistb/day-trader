@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+
+<html lang="sv" class="js" xmlns:th="http://www.thymeleaf.org">
+
+<meta charset="utf-8" />
+<head th:include="head" th:remove="tag" />
+
+<body>
+	<div th:include="header" th:remove="tag"></div>
+	<div class="container">
+		<h2>Hemma på startsidan!</h2>
+	</div>
+	<div th:include="footer" th:remove="tag" />
+</body>
+</html>
