@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+
+<html lang="sv" class="js" xmlns:th="http://www.thymeleaf.org">
+
+<meta charset="utf-8" />
+<head th:include="head" th:remove="tag" />
+
+<body>
+	<div th:include="header" th:remove="tag"></div>	
+	<div class="container">
+		<h2>Mina sidor</h2>
+		<hr />
+		<ul class="nav nav-pills">
+		  <li class="nav-item">
+		    <a class="nav-link" th:href="@{/user/mystocks}">Min portfölj</a>
+		  </li>
+		  <li class="nav-item">
+		    <a class="nav-link" th:href="@{/user/account}">Mina uppgifter</a>
+		  </li>
+		  <li class="nav-item">
+		    <a class="nav-link active" th:href="@{/user/allstocks}">Alla aktier</a>
+		  </li>
+		  <li class="nav-item">
+		    <a class="nav-link" th:href="@{/user/historytest}">Historiktest</a>
+		  </li>
+		</ul>
+	</div>
+	<hr />
+	<div class="container">		
+		<h3>Alla aktier</h3>
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Namn</th>
+					<th>Köpkurs</th>
+					<th>Säljkurs</th>
+					<th>Högst</th>
+					<th>Lägst</th>
+					<th>Glidande medelvärde (L - M - S)</th>
+					<th>Köp</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td><a th:href="@{/user/stockdetails}">ACAN-B.ST</a></td>
+					<td>Acando B</td>
+					<td>25,50</td>
+					<td>25,30</td>
+					<td>26,50</td>
+					<td>24,50</td>
+					<td>24,5 - 24,7 - 24,9</td>
+					<td>Äger</td>
+				</tr>
+				<tr>
+					<td><a th:href="@{/user/stockdetails}">CATE.ST</a></td>
+					<td>Catena</td>
+					<td>25,50</td>
+					<td>25,30</td>
+					<td>26,50</td>
+					<td>24,50</td>
+					<td>24,5 - 24,7 - 24,9</td>
+					<td><a href="">Köp</a></td>
+				</tr>
+				<tr>
+					<td><a th:href="@{/user/stockdetails}">GUNN.ST</a></td>
+					<td>Gunnebo</td>
+					<td>25,50</td>
+					<td>25,30</td>
+					<td>26,50</td>
+					<td>24,50</td>
+					<td>24,5 - 24,7 - 24,9</td>
+					<td><a href="">Köp</a></td>
+				</tr>
+			</tbody>
+		</table>
+		<a class="btn btn-primary" th:href="@{/user/addstock}" role="button">Lägg till aktie »</a>
+		<hr />		
+	</div>
+	<div th:include="footer" th:remove="tag" />
+</body>
+</html>

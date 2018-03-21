@@ -22,7 +22,7 @@ public class StockListController {
 		return "redirect:shares";
 	}
 		
-	@RequestMapping("shares")
+	@RequestMapping("/shares")
 	public String showOrderList(ModelMap model) {
 		model.addAttribute("reqAttr", new RequestAttributes(0));
 		List<Share> shares = shareRepo.findAll();

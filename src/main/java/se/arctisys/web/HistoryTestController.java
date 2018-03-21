@@ -6,16 +6,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-public class LoginController {
+public class HistoryTestController {
 	
-	 @GetMapping("/login")
-	public String showLoginForm(ModelMap model) {
-		System.out.println("Hej");
-		return "login";
-	}
-	@RequestMapping("/index")
-	public String showStartPage(ModelMap model) {
-		return "index";
+	@GetMapping("/user/historytest")
+	public String showHistoryTest(ModelMap model) {		
+		return "userHistoryTest";
 	}
 	
 }

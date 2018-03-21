@@ -17,7 +17,7 @@ public class SettingsController {
 	@Autowired
 	private ShareRepository shareRepo;
 			
-	@RequestMapping("settings")
+	@RequestMapping("/settings")
 	public String showOrderList(ModelMap model) {
 		model.addAttribute("reqAttr", new RequestAttributes(0));
 		List<Share> shares = shareRepo.findAll();

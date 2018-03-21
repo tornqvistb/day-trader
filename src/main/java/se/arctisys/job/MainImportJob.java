@@ -33,6 +33,7 @@ public class MainImportJob implements Job {
 			importService.readHistory();
 			importService.storeCurrentRates();
 			advisorService.checkForSignals();
+			// execute orders with bank...
 			mailService.checkMailsToSend();
 		} catch (ParseException | IOException e) {
 			e.printStackTrace();

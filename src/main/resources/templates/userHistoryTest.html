@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+
+<html lang="sv" class="js" xmlns:th="http://www.thymeleaf.org">
+
+<meta charset="utf-8" />
+<head th:include="head" th:remove="tag" />
+
+<body>
+	<div th:include="header" th:remove="tag"></div>	
+	<div class="container">
+		<h2>Mina sidor</h2>
+		<hr />
+		<ul class="nav nav-pills">
+		  <li class="nav-item">
+		    <a class="nav-link" th:href="@{/user/mystocks}">Min portfölj</a>
+		  </li>
+		  <li class="nav-item">
+		    <a class="nav-link" th:href="@{/user/account}">Mina uppgifter</a>
+		  </li>
+		  <li class="nav-item">
+		    <a class="nav-link" th:href="@{/user/allstocks}">Alla aktier</a>
+		  </li>
+		  <li class="nav-item">
+		    <a class="nav-link active" th:href="@{/user/historytest}">Historiktest</a>
+		  </li>
+		</ul>
+	</div>
+	<hr />
+	<div class="container">		
+		<h3>Historiktest</h3>
+		<form action="">
+						
+			<div class="form-group">
+				<label class="control-label" for="startdate">Startdatum:</label> 
+				<input type="date" class="form-control" id="startdate" />
+			</div>
+			<div class="form-group">
+				<label class="control-label" for="enddate">Slutdatum:</label> 
+				<input type="date" class="form-control" id="enddate" />
+			</div>
+						<div class="form-group">
+	  			<label for="stock">Välj aktie:</label>
+	  			<select class="form-control" id="stock">
+	  				<option>Astra Zenica</option>
+					<option>Volvo</option>
+				    <option>ABB</option>
+				</select>
+			</div>
+						
+			<div class="form-group">
+				<label for="amount">Köpbelopp:</label> <input type="number"
+					class="form-control" id="amount" />
+			</div>
+			<div class="form-group">
+	  			<label for="strategy">Välj strategi:</label>
+	  			<select class="form-control" id="stock">
+	  				<option>Defensiv</option>
+					<option>Medel</option>
+				    <option>Offensiv</option>
+				</select>
+			</div>
+			
+			<button type="submit" class="btn btn-primary">Kör</button>
+		</form>
+		<hr />
+		<h4>Resultat</h4>
+		<h5>Värdeförändring</h5>
+		<p>Startvärde: 50000</p>
+		<p>Slutvärde: 70000</p>
+		<p>Värdeförändring: 20000kr (35%)</p>
+		<h5>Transaktioner</h5>
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Tidpunkt</th>
+					<th>ID</th>
+					<th>Namn</th>
+					<th>Köp/Sälj</th>					
+					<th>Kurs</th>
+					<th>Antal aktier</th>
+					<th>Summa</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>2018-03-01 10:32</td>
+					<td>CATE.ST</td>
+					<td>Catena</td>
+					<td>Köp</td>
+					<td>25,50</td>
+					<td>7</td>
+					<td>4870</td>
+				</tr>
+				<tr>
+					<td>2018-02-28 12:32</td>
+					<td>CATE.ST</td>
+					<td>Catena</td>
+					<td>Sälj</td>
+					<td>27,50</td>
+					<td>7</td>
+					<td>5070</td>
+				</tr>
+				<tr>
+					<td>s0a8-03-01 10:32</td>
+					<td>CATE.ST</td>
+					<td>Catena</td>
+					<td>Köp</td>
+					<td>23,50</td>
+					<td>7</td>
+					<td>4770</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div th:include="footer" th:remove="tag" />
+</body>
+</html>
