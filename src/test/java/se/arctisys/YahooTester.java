@@ -29,22 +29,49 @@ public class YahooTester {
 	private static void getCurrent() {
 		
 		try {
-			Calendar yesterday = Util.getDaysFromNow(7);
-			Calendar today = Calendar.getInstance();
+			//Calendar yesterday = Util.getMinutesFromNow(1440);
+			Calendar yesterday = Util.getMinutesFromNow(5);
+			
+			Calendar tomorrow = Util.getTomorrow();
+			//Calendar today = Calendar.getInstance();
 			//HistQuotesQuery2V8Request request = new HistQuotesQuery2V8Request("SEB-A.ST", yesterday, today, QueryInterval.DAILY);
-			HistQuotesQuery2V8Request request = new HistQuotesQuery2V8Request("ACAN-B.ST", yesterday, today, QueryInterval.MINUTE);
+			HistQuotesQuery2V8Request request = new HistQuotesQuery2V8Request("ACAN-B.ST", yesterday, tomorrow, QueryInterval.MINUTE);
+			System.out.println("Test 1");
 			List<HistoricalQuote> quotes = request.getResult();
+			System.out.println("Test 2");
 			for (HistoricalQuote quote : quotes) {
 				System.out.println(quote.toString());
 			}
 		} catch (Exception e) {
+			System.out.println("Exception: " + e.getMessage());
+		}
+	}
+
+	private static void getCurrentDay() {
+		
+		try {
+			//Calendar yesterday = Util.getMinutesFromNow(1440);
+			Calendar yesterday = Util.getDaysFromNow(1);
+			
+			Calendar tomorrow = Util.getTomorrow();
+			//Calendar today = Calendar.getInstance();
+			//HistQuotesQuery2V8Request request = new HistQuotesQuery2V8Request("SEB-A.ST", yesterday, today, QueryInterval.DAILY);
+			HistQuotesQuery2V8Request request = new HistQuotesQuery2V8Request("ACAN-B.ST", yesterday, tomorrow, QueryInterval.DAILY);
+			System.out.println("Test 1");
+			List<HistoricalQuote> quotes = request.getResult();
+			System.out.println("Test 2");
+			for (HistoricalQuote quote : quotes) {
+				System.out.println(quote.toString());
+			}
+		} catch (Exception e) {
+			System.out.println("Exception: " + e.getMessage());
 		}
 	}
 
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		getCurrent();
+		getCurrentDay();
 		//getHistory();		
 	}
 

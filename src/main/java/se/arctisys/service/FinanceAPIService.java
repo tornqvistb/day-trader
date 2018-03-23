@@ -9,6 +9,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import se.arctisys.constants.PropertyConstants;
@@ -20,10 +21,7 @@ import se.arctisys.repository.ShareDayRateRepository;
 import se.arctisys.repository.ShareOnMarketRepository;
 import se.arctisys.repository.ShareRepository;
 import se.arctisys.util.Util;
-import yahoofinance.Stock;
-import yahoofinance.YahooFinance;
 import yahoofinance.histquotes.HistoricalQuote;
-import yahoofinance.histquotes.Interval;
 import yahoofinance.histquotes2.QueryInterval;
 import yahoofinance.query2v8.HistQuotesQuery2V8Request;
 import yahoofinance.quotes.stock.StockQuote;
@@ -52,7 +50,7 @@ public class FinanceAPIService {
 			LOG.info("Share Id : " + shareId);
 			Share share = shareRepo.findOne(shareId);
 			if (share == null) {
-				share = new Share(shareId, som.getDescription(), som);
+				share = new Share(shareId, som.getName(), som);
 				share.setId(shareId);
 				shareRepo.save(share);
 				share = shareRepo.findOne(shareId);
@@ -66,7 +64,7 @@ public class FinanceAPIService {
 				List<HistoricalQuote> quotes = request.getResult();
 				
 				for (HistoricalQuote quote : quotes) {
-					ShareDayRate dayRate = getDayRateHist(quote, share);
+					ShareDayRate dayRate = getDayRateHist(quote, share, new ShareDayRate());
 					
 					dayRateRepo.save(dayRate);
 				}
@@ -88,20 +86,27 @@ public class FinanceAPIService {
 				ShareDayRate lastRate = share.getDayRates().iterator().next();
 				if (Util.isToday(lastRate.getActualDate())) {
 					dayRate.setId(lastRate.getId());
-					LOG.debug("Is today: " + share.getId());
+					LOG.info("Is today: " + share.getId() + " rate id: " + lastRate.getId());
 				} else {
-					LOG.debug("Is not today: " + share.getId());						
+					LOG.info("Is not today: " + share.getId());						
 				}				
 			}
-			
-			Calendar today = Calendar.getInstance();
-			HistQuotesQuery2V8Request request = new HistQuotesQuery2V8Request(share.getId(), today, today);
+			Calendar yesterday = Util.getDaysFromNow(1);
+			Calendar tomorrow = Util.getTomorrow();
+			HistQuotesQuery2V8Request request = new HistQuotesQuery2V8Request(share.getId(), yesterday, tomorrow, QueryInterval.DAILY);
 			List<HistoricalQuote> quotes = request.getResult();
 			
 			if (!quotes.isEmpty()) {
-				HistoricalQuote quoteToday = quotes.get(0);
-				dayRate = getDayRateHist(quoteToday, share);
-				dayRateRepo.save(dayRate);
+				HistoricalQuote quoteToday = quotes.get(quotes.size() - 1);
+				if (Util.isToday(quoteToday.getDate().getTime())) {
+					dayRate = getDayRateHist(quoteToday, share, dayRate);
+					try {
+						dayRate = calculatorService.setMovingAverages(dayRate, share);
+					} catch (ParseException e) {
+						LOG.error("Parse exception when update moving averages, go on...");
+					}
+					dayRateRepo.save(dayRate);
+				}
 			}
 			
 		}
@@ -116,6 +121,7 @@ public class FinanceAPIService {
 			dayRate.setMaxRate(quote.getDayHigh().doubleValue());
 			dayRate.setMinRate(quote.getDayLow().doubleValue());
 			dayRate.setSellRate(quote.getAsk().doubleValue());
+			dayRate.setTradedVolume(quote.getVolume());
 			dayRate = calculatorService.setMovingAverages(dayRate, share);
 		} catch (Exception e) {
 			LOG.debug("Failed to parse Quote, returning empty record");			
@@ -124,8 +130,7 @@ public class FinanceAPIService {
 	}
 
 	
-	private ShareDayRate getDayRateHist(HistoricalQuote quote, Share share) {
-		ShareDayRate dayRate = new ShareDayRate();
+	private ShareDayRate getDayRateHist(HistoricalQuote quote, Share share, ShareDayRate dayRate) {
 		dayRate.setEmptyValues();
 		dayRate.setShare(share);
 		try {
@@ -134,6 +139,7 @@ public class FinanceAPIService {
 			dayRate.setMaxRate(quote.getHigh().doubleValue());
 			dayRate.setMinRate(quote.getLow().doubleValue());
 			dayRate.setSellRate(quote.getClose().doubleValue());
+			dayRate.setTradedVolume(quote.getVolume());
 		} catch (Exception e) {
 			LOG.debug("Failed to parse HistoricalQuote, returning empty record");			
 		}

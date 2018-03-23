@@ -7,6 +7,4 @@ import se.arctisys.domain.ShareDayRate;
 
 @Repository
 public interface ShareDayRateRepository extends JpaRepository<ShareDayRate, Long> {
-	
-	
 }

@@ -104,30 +104,35 @@ public class HistQuotesQuery2V8Request {
         JsonNode highs = quotes.get("high");
         JsonNode lows = quotes.get("low");
         //JsonNode adjCloses = indicators.get("adjclose").get(0).get("adjclose");
-        JsonNode adjCloses = indicators.get("quote").get(0);
+        //JsonNode adjCloses = indicators.get("quote").get(0);
 
         List<HistoricalQuote> result = new ArrayList<HistoricalQuote>();
         for (int i = 0; i < timestamps.size(); i++) {
-            long timestamp = timestamps.get(i).asLong();
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTimeInMillis(timestamp * 1000);
-            BigDecimal adjClose = adjCloses.get(i).decimalValue();
-            long volume = volumes.get(i).asLong();
-            BigDecimal open = opens.get(i).decimalValue();
-            BigDecimal high = highs.get(i).decimalValue();
-            BigDecimal low = lows.get(i).decimalValue();
-            BigDecimal close = closes.get(i).decimalValue();
+            try {
+				long timestamp = timestamps.get(i).asLong();
+				Calendar calendar = Calendar.getInstance();
+				calendar.setTimeInMillis(timestamp * 1000);
+				//BigDecimal adjClose = adjCloses.get(i).decimalValue();
+				long volume = volumes.get(i).asLong();
+				BigDecimal open = opens.get(i).decimalValue();
+				BigDecimal high = highs.get(i).decimalValue();
+				BigDecimal low = lows.get(i).decimalValue();
+				BigDecimal close = closes.get(i).decimalValue();
 
-            HistoricalQuote quote = new HistoricalQuote(
-                symbol,
-                calendar,
-                open,
-                low,
-                high,
-                close,
-                adjClose,
-                volume);
-            result.add(quote);
+				HistoricalQuote quote = new HistoricalQuote(
+				    symbol,
+				    calendar,
+				    open,
+				    low,
+				    high,
+				    close,
+				    close,
+				    volume);
+				result.add(quote);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
         }
 
         return result;

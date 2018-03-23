@@ -104,4 +104,14 @@ public class Util {
 	    cal.add(Calendar.HOUR, -days*24);
 	    return cal;
 	}
+	public static Calendar getMinutesFromNow(int minutes) {
+		Calendar cal = Calendar.getInstance();
+	    cal.add(Calendar.MINUTE, -minutes);
+	    return cal;
+	}
+	public static Calendar getTomorrow() {
+		Calendar cal = Calendar.getInstance();
+	    cal.add(Calendar.HOUR, 24);
+	    return cal;
+	}
 }

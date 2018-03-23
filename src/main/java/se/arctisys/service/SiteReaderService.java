@@ -40,38 +40,43 @@ public class SiteReaderService {
 			List<String> sites = new ArrayList<String>();
 			
 			sites.add(propService.getString(PropertyConstants.STOCK_SITE_URL));
+			String stockStartSiteUrl = propService.getString(PropertyConstants.STOCK_SITE_URL_START);
 			for (String site : sites) {
 				Document doc = Jsoup.connect(site).get();
-				Element table = doc.select("table.table-sortable").get(0); //select the table.
+				Element table = doc.select("table#listedCompanies").get(0); //select the table.
 				for (Element row : table.select("tr")) {
 					Elements tds = row.select("td");
-					storeShareOnMarket(tds.first());
+					storeShareOnMarket(tds, stockStartSiteUrl);
 				}
 			}
 		} catch (IOException e) {
+			LOG.error("Ett fel uppstod i storeAllStocksOnMarket: ", e);
 			saveError(GENERAL_FILE_ERROR + "IOException");
 		}
 	}
 	
 	
-	private String getShareIdFromLink(Element link) {
-		String href = link.attr("href");
-		int startId = href.indexOf("id=") + 3;
-		int endId = href.indexOf("&entry");
-		return href.substring(startId, endId).replace(".SE", ".ST");
+	private String getShareIdFromSymbol(String symbol) {
+		return symbol.replace(" ", "-") + ".ST";
 	}
+
+
 	
-	private void storeShareOnMarket(Element td) {
-		if (td != null && td.select("a[href]").size() > 0) {
-			Element link = td.select("a[href]").get(0);
-			ShareOnMarket som = new ShareOnMarket(getShareIdFromLink(link), link.text());
+	private void storeShareOnMarket(Elements tds, String stockSiteStartUrl) {
+		if (tds != null && tds.size() > 4) {
+			ShareOnMarket som = new ShareOnMarket(
+					getShareIdFromSymbol(tds.get(1).text()),
+					tds.get(0).text(),
+					tds.get(2).text(),
+					tds.get(4).text(),
+					stockSiteStartUrl + tds.get(0).select("a[href]").attr("href")
+					);
 			if (SOMRepo.findOne(som.getId()) == null) {
 				SOMRepo.save(som);
 			}
 		}
 	}
-	
-	
+		
 	private void saveError(String errorText) {
 		errorRepo.save(new ErrorRecord(errorText));
 	}

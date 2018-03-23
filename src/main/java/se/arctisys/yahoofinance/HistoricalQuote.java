@@ -120,7 +120,7 @@ public class HistoricalQuote {
     
     @Override
     public String toString() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         String dateStr = dateFormat.format(this.date.getTime());
         return this.symbol + "@" + dateStr + ": " + this.low + "-" + this.high + ", " + 
                 this.open + "->" + this.close + " (" + this.adjClose + ")";

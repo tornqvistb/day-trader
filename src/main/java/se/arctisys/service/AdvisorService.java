@@ -80,7 +80,8 @@ public class AdvisorService {
 	}
 	
 	private boolean timeToTrade() throws ParseException {
-		
+		return true;
+		/*
 		boolean result = false;
 		// Check if time has passed trading time (property 17.00)
 		String tradingTime = propertyService.getString(PropertyConstants.TRADING_TIME);
@@ -92,6 +93,7 @@ public class AdvisorService {
 			}
 		}
 		return result;
+		*/
 	}
 	
 	private String doSell(UserShare userShare, TradingUser user) {
