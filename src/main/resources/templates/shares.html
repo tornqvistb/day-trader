@@ -7,8 +7,9 @@
 
 <body>
 	<div th:include="header" th:remove="tag"></div>
+	
 	<div class="container">
-
+		<h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
 		<ul class="nav nav-pills">
 		  <li class="nav-item">
 		    <a class="nav-link active" href="/DayTrader/shares/">Mina aktier</a>

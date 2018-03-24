@@ -3,13 +3,11 @@ package se.arctisys.service;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import se.arctisys.constants.PropertyConstants;
@@ -21,10 +19,9 @@ import se.arctisys.repository.ShareDayRateRepository;
 import se.arctisys.repository.ShareOnMarketRepository;
 import se.arctisys.repository.ShareRepository;
 import se.arctisys.util.Util;
-import yahoofinance.histquotes.HistoricalQuote;
-import yahoofinance.histquotes2.QueryInterval;
-import yahoofinance.query2v8.HistQuotesQuery2V8Request;
-import yahoofinance.quotes.stock.StockQuote;
+import se.arctisys.yahoofinance.QueryInterval;
+import se.arctisys.yahoofinance.Quote;
+import se.arctisys.yahoofinance.QuotesRequest;
 
 /**
  * Created by Björn Törnqvist, ArctiSys AB, 2016-02
@@ -59,12 +56,12 @@ public class FinanceAPIService {
 				// Should be one year ago
 				Calendar calendar = Util.getYearsFromNow(propService.getInt(PropertyConstants.YEARS_TO_COLLECT_HISTORY));
 				
-				HistQuotesQuery2V8Request request = new HistQuotesQuery2V8Request(share.getId(), calendar, Calendar.getInstance(), QueryInterval.DAILY);
+				QuotesRequest request = new QuotesRequest(share.getId(), calendar, Calendar.getInstance(), QueryInterval.DAILY, "");
 				
-				List<HistoricalQuote> quotes = request.getResult();
+				List<Quote> quotes = request.getResult();
 				
-				for (HistoricalQuote quote : quotes) {
-					ShareDayRate dayRate = getDayRateHist(quote, share, new ShareDayRate());
+				for (Quote quote : quotes) {
+					ShareDayRate dayRate = getDayRate(quote, share, new ShareDayRate());
 					
 					dayRateRepo.save(dayRate);
 				}
@@ -93,13 +90,13 @@ public class FinanceAPIService {
 			}
 			Calendar yesterday = Util.getDaysFromNow(1);
 			Calendar tomorrow = Util.getTomorrow();
-			HistQuotesQuery2V8Request request = new HistQuotesQuery2V8Request(share.getId(), yesterday, tomorrow, QueryInterval.DAILY);
-			List<HistoricalQuote> quotes = request.getResult();
+			QuotesRequest request = new QuotesRequest(share.getId(), yesterday, tomorrow, QueryInterval.DAILY,"");
+			List<Quote> quotes = request.getResult();
 			
 			if (!quotes.isEmpty()) {
-				HistoricalQuote quoteToday = quotes.get(quotes.size() - 1);
+				Quote quoteToday = quotes.get(quotes.size() - 1);
 				if (Util.isToday(quoteToday.getDate().getTime())) {
-					dayRate = getDayRateHist(quoteToday, share, dayRate);
+					dayRate = getDayRate(quoteToday, share, dayRate);
 					try {
 						dayRate = calculatorService.setMovingAverages(dayRate, share);
 					} catch (ParseException e) {
@@ -111,26 +108,8 @@ public class FinanceAPIService {
 			
 		}
 	}
-
-	private ShareDayRate getDayRate(StockQuote quote, Share share, ShareDayRate dayRate) {
-		dayRate.setEmptyValues();
-		dayRate.setShare(share);
-		try {
-			dayRate.setActualDate(new Date());
-			dayRate.setBuyRate(quote.getBid().doubleValue());
-			dayRate.setMaxRate(quote.getDayHigh().doubleValue());
-			dayRate.setMinRate(quote.getDayLow().doubleValue());
-			dayRate.setSellRate(quote.getAsk().doubleValue());
-			dayRate.setTradedVolume(quote.getVolume());
-			dayRate = calculatorService.setMovingAverages(dayRate, share);
-		} catch (Exception e) {
-			LOG.debug("Failed to parse Quote, returning empty record");			
-		}
-		return dayRate;
-	}
-
 	
-	private ShareDayRate getDayRateHist(HistoricalQuote quote, Share share, ShareDayRate dayRate) {
+	private ShareDayRate getDayRate(Quote quote, Share share, ShareDayRate dayRate) {
 		dayRate.setEmptyValues();
 		dayRate.setShare(share);
 		try {

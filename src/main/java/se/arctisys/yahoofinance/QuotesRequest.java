@@ -3,6 +3,7 @@ package se.arctisys.yahoofinance;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.net.URLConnection;
@@ -13,6 +14,7 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,25 +22,20 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import se.arctisys.yahoofinance.Utils;
-//import se.arctisys.yahoofinance.YahooFinance;
-import se.arctisys.yahoofinance.HistoricalQuote;
-import se.arctisys.yahoofinance.QueryInterval;
-import se.arctisys.yahoofinance.RedirectableRequest;
-
 /**
  * @author Stijn Strickx
  */
-public class HistQuotesQuery2V8Request {
+public class QuotesRequest {
 
-    private static final Logger log = LoggerFactory.getLogger(HistQuotesQuery2V8Request.class);
+    private static final Logger log = LoggerFactory.getLogger(QuotesRequest.class);
     private static final ObjectMapper objectMapper = new ObjectMapper();
     public static final int CONNECTION_TIMEOUT = 10000;
-    public static final String HISTQUOTESQUERY2V8_BASE_URL = "https://query2.finance.yahoo.com/v8/finance/chart/";
+    //public static final String HISTQUOTESQUERY2V8_BASE_URL = "https://query2.finance.yahoo.com/v8/finance/chart/";
     private final String symbol;
     private final Calendar from;
     private final Calendar to;
     private final QueryInterval interval;
+    private final String quotesBaseUrl;
 
     public static final Calendar DEFAULT_FROM = Calendar.getInstance();
 
@@ -47,39 +44,41 @@ public class HistQuotesQuery2V8Request {
     }
     public static final Calendar DEFAULT_TO = Calendar.getInstance();
     public static final QueryInterval DEFAULT_INTERVAL = QueryInterval.MONTHLY;
-
-    public HistQuotesQuery2V8Request(String symbol) {
+/*
+    public QuotesRequest(String symbol) {
         this(symbol, DEFAULT_INTERVAL);
     }
 
-    public HistQuotesQuery2V8Request(String symbol, QueryInterval interval) {
+    public QuotesRequest(String symbol, QueryInterval interval) {
         this(symbol, DEFAULT_FROM, DEFAULT_TO, interval);
     }
 
 
-    public HistQuotesQuery2V8Request(String symbol, Calendar from, Calendar to) {
+    public QuotesRequest(String symbol, Calendar from, Calendar to) {
         this(symbol, from, to, DEFAULT_INTERVAL);
     }
-    
-    public HistQuotesQuery2V8Request(String symbol, Calendar from, Calendar to, QueryInterval interval) {
+*/    
+    public QuotesRequest(String symbol, Calendar from, Calendar to, QueryInterval interval, String quotesBaseUrl) {
         this.symbol = symbol;
         this.from = this.cleanHistCalendar(from);
         this.to = this.cleanHistCalendar(to);
         this.interval = interval;
+        this.quotesBaseUrl = quotesBaseUrl;
     }
-
-    public HistQuotesQuery2V8Request(String symbol, Date from, Date to) {
+/*
+    public QuotesRequest(String symbol, Date from, Date to) {
         this(symbol, from, to, DEFAULT_INTERVAL);
     }
-    
-    public HistQuotesQuery2V8Request(String symbol, Date from, Date to, QueryInterval interval) {
+    */
+   /* 
+    public QuotesRequest(String symbol, Date from, Date to, QueryInterval interval) {
         this(symbol, interval);
         this.from.setTime(from);
         this.to.setTime(to);
         this.cleanHistCalendar(this.from);
         this.cleanHistCalendar(this.to);
     }
-
+*/
     /**
      * Put everything smaller than days at 0
      * @param cal calendar to be cleaned
@@ -92,7 +91,7 @@ public class HistQuotesQuery2V8Request {
         return cal;
     }
 
-    public List<HistoricalQuote> getResult() throws IOException {
+    public List<Quote> getResult() throws IOException {
         String json = getJson();
         JsonNode resultNode = objectMapper.readTree(json).get("chart").get("result").get(0);
         JsonNode timestamps = resultNode.get("timestamp");
@@ -106,7 +105,7 @@ public class HistQuotesQuery2V8Request {
         //JsonNode adjCloses = indicators.get("adjclose").get(0).get("adjclose");
         //JsonNode adjCloses = indicators.get("quote").get(0);
 
-        List<HistoricalQuote> result = new ArrayList<HistoricalQuote>();
+        List<Quote> result = new ArrayList<Quote>();
         for (int i = 0; i < timestamps.size(); i++) {
             try {
 				long timestamp = timestamps.get(i).asLong();
@@ -119,7 +118,7 @@ public class HistQuotesQuery2V8Request {
 				BigDecimal low = lows.get(i).decimalValue();
 				BigDecimal close = closes.get(i).decimalValue();
 
-				HistoricalQuote quote = new HistoricalQuote(
+				Quote quote = new Quote(
 				    symbol,
 				    calendar,
 				    open,
@@ -155,7 +154,7 @@ public class HistQuotesQuery2V8Request {
         }
         params.put("events", "div|split");
 
-        String url = HISTQUOTESQUERY2V8_BASE_URL + URLEncoder.encode(this.symbol , "UTF-8") + "?" + Utils.getURLParameters(params);
+        String url = quotesBaseUrl + URLEncoder.encode(this.symbol , "UTF-8") + "?" + getURLParameters(params);
 
         // Get CSV from Yahoo
         log.info("Sending request: " + url);
@@ -176,6 +175,26 @@ public class HistQuotesQuery2V8Request {
             builder.append(line);
         }
         return builder.toString();
+    }
+    private String getURLParameters(Map<String, String> params) {
+        StringBuilder sb = new StringBuilder();
+
+        for (Entry<String, String> entry : params.entrySet()) {
+            if (sb.length() > 0) {
+                sb.append("&");
+            }
+            String key = entry.getKey();
+            String value = entry.getValue();
+            try {
+                key = URLEncoder.encode(key, "UTF-8");
+                value = URLEncoder.encode(value, "UTF-8");
+            } catch (UnsupportedEncodingException ex) {
+                log.error(ex.getMessage(), ex);
+                // Still try to continue with unencoded values
+            }
+            sb.append(String.format("%s=%s", key, value));
+        }
+        return sb.toString();
     }
 
 }

@@ -4,8 +4,8 @@ import java.util.Calendar;
 import java.util.List;
 
 import se.arctisys.util.Util;
-import se.arctisys.yahoofinance.HistQuotesQuery2V8Request;
-import se.arctisys.yahoofinance.HistoricalQuote;
+import se.arctisys.yahoofinance.QuotesRequest;
+import se.arctisys.yahoofinance.Quote;
 import se.arctisys.yahoofinance.QueryInterval;
 
 public class YahooTester {
@@ -17,9 +17,9 @@ public class YahooTester {
 		try {
 			Calendar today = Calendar.getInstance();
 			Calendar start = Util.getYearsFromNow(1);
-			HistQuotesQuery2V8Request request = new HistQuotesQuery2V8Request("SEB-A.ST", start, today, QueryInterval.DAILY);
-			List<HistoricalQuote> quotes = request.getResult();
-			for (HistoricalQuote quote : quotes) {
+			QuotesRequest request = new QuotesRequest("SEB-A.ST", start, today, QueryInterval.DAILY);
+			List<Quote> quotes = request.getResult();
+			for (Quote quote : quotes) {
 				System.out.println(quote.toString());
 			}
 		} catch (Exception e) {
@@ -35,11 +35,11 @@ public class YahooTester {
 			Calendar tomorrow = Util.getTomorrow();
 			//Calendar today = Calendar.getInstance();
 			//HistQuotesQuery2V8Request request = new HistQuotesQuery2V8Request("SEB-A.ST", yesterday, today, QueryInterval.DAILY);
-			HistQuotesQuery2V8Request request = new HistQuotesQuery2V8Request("ACAN-B.ST", yesterday, tomorrow, QueryInterval.MINUTE);
+			QuotesRequest request = new QuotesRequest("ACAN-B.ST", yesterday, tomorrow, QueryInterval.MINUTE);
 			System.out.println("Test 1");
-			List<HistoricalQuote> quotes = request.getResult();
+			List<Quote> quotes = request.getResult();
 			System.out.println("Test 2");
-			for (HistoricalQuote quote : quotes) {
+			for (Quote quote : quotes) {
 				System.out.println(quote.toString());
 			}
 		} catch (Exception e) {
@@ -56,11 +56,11 @@ public class YahooTester {
 			Calendar tomorrow = Util.getTomorrow();
 			//Calendar today = Calendar.getInstance();
 			//HistQuotesQuery2V8Request request = new HistQuotesQuery2V8Request("SEB-A.ST", yesterday, today, QueryInterval.DAILY);
-			HistQuotesQuery2V8Request request = new HistQuotesQuery2V8Request("ACAN-B.ST", yesterday, tomorrow, QueryInterval.DAILY);
+			QuotesRequest request = new QuotesRequest("ACAN-B.ST", yesterday, tomorrow, QueryInterval.DAILY);
 			System.out.println("Test 1");
-			List<HistoricalQuote> quotes = request.getResult();
+			List<Quote> quotes = request.getResult();
 			System.out.println("Test 2");
-			for (HistoricalQuote quote : quotes) {
+			for (Quote quote : quotes) {
 				System.out.println(quote.toString());
 			}
 		} catch (Exception e) {

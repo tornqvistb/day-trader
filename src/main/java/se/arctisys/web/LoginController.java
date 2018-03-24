@@ -3,19 +3,20 @@ package se.arctisys.web;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class LoginController {
-	
-	 @GetMapping("/login")
-	public String showLoginForm(ModelMap model) {
-		System.out.println("Hej");
-		return "login";
+
+	@GetMapping("/home")
+	public String renderHomePage(ModelMap model) {
+		System.out.println("Rendering home page");
+		return "home";
 	}
-	@RequestMapping("/index")
-	public String showStartPage(ModelMap model) {
-		return "index";
+	@GetMapping("/login")
+	public String showLoginForm(ModelMap model) {
+		System.out.println("Rendering login page");
+		return "login";
 	}
 	
 }

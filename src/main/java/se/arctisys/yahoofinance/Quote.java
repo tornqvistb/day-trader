@@ -10,7 +10,7 @@ import java.util.Calendar;
  * 
  * @author Stijn Strickx
  */
-public class HistoricalQuote {
+public class Quote {
     
     private String symbol;
     
@@ -25,9 +25,9 @@ public class HistoricalQuote {
     
     private Long volume;
     
-    public HistoricalQuote() {}
+    public Quote() {}
 
-    public HistoricalQuote(String symbol, Calendar date, BigDecimal open, BigDecimal low, BigDecimal high, BigDecimal close, BigDecimal adjClose, Long volume) {
+    public Quote(String symbol, Calendar date, BigDecimal open, BigDecimal low, BigDecimal high, BigDecimal close, BigDecimal adjClose, Long volume) {
         this.symbol = symbol;
         this.date = date;
         this.open = open;

@@ -6,11 +6,13 @@
 		aria-label="Toggle navigation">
 		<span class="navbar-toggler-icon"></span>
 	</button>
-	<a class="navbar-brand" href="#">ArctiSys Trader</a>
-
+	<a class="navbar-brand" href="/DayTrader/home">ArctiSys Trader</a>	
+        <form th:action="@{/logout}" method="post">
+            <input type="submit" value="Sign Out"/>
+        </form>
 	<div class="collapse navbar-collapse" id="navbarsExampleDefault">
 		<ul class="navbar-nav mr-auto">
-			<li class="nav-item active"><a class="nav-link" href="/DayTrader/index">Hem
+			<li class="nav-item active"><a class="nav-link" href="/DayTrader/home">Hem
 					<span class="sr-only">(current)</span>
 			</a></li>
 			<!-- 
