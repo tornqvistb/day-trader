@@ -1,11 +1,26 @@
 package se.arctisys.domain;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
-
-import javax.persistence.*;
-import java.util.Set;
 
 /**
  * Created by tornqvist on 2018-03-23.
@@ -15,9 +30,9 @@ import java.util.Set;
 public class User {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "user_id")
-	private int id;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private int userId;
 	
 	@Column(name = "email")
 	@Email(message = "*Please provide a valid Email")
@@ -48,6 +63,11 @@ public class User {
 	@JoinTable(name = "USER_ROLE", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "role_id"))
 	private Set<Role> roles;
 
+	@OneToOne(cascade=CascadeType.ALL, fetch=FetchType.EAGER, mappedBy="user")
+	private Account account;
+	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER, mappedBy="user")
+	private Set<UserShare> userShares = new HashSet<UserShare>();	
+	
 	public String getEmail() {
 		return email;
 	}
@@ -71,15 +91,7 @@ public class User {
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
+	
 	public String getPassword() {
 		return password;
 	}
@@ -111,5 +123,23 @@ public class User {
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
+	public Set<UserShare> getUserShares() {
+		return userShares;
+	}
 
+	public void setUserShares(Set<UserShare> userShares) {
+		this.userShares = userShares;
+	}
+	public Account getAccount() {
+		return account;
+	}
+
+	public void setAccount(Account account) {
+		this.account = account;
+	}	
+
+	@Transient
+	public String getName() {
+		return firstName + " " + lastName;
+	}
 }

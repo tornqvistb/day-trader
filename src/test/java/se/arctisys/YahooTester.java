@@ -4,9 +4,9 @@ import java.util.Calendar;
 import java.util.List;
 
 import se.arctisys.util.Util;
-import se.arctisys.yahoofinance.QuotesRequest;
-import se.arctisys.yahoofinance.Quote;
 import se.arctisys.yahoofinance.QueryInterval;
+import se.arctisys.yahoofinance.Quote;
+import se.arctisys.yahoofinance.QuotesRequest;
 
 public class YahooTester {
 
@@ -17,7 +17,7 @@ public class YahooTester {
 		try {
 			Calendar today = Calendar.getInstance();
 			Calendar start = Util.getYearsFromNow(1);
-			QuotesRequest request = new QuotesRequest("SEB-A.ST", start, today, QueryInterval.DAILY);
+			QuotesRequest request = new QuotesRequest("SEB-A.ST", start, today, QueryInterval.DAILY, QUOTE_URL);
 			List<Quote> quotes = request.getResult();
 			for (Quote quote : quotes) {
 				System.out.println(quote.toString());
@@ -35,7 +35,7 @@ public class YahooTester {
 			Calendar tomorrow = Util.getTomorrow();
 			//Calendar today = Calendar.getInstance();
 			//HistQuotesQuery2V8Request request = new HistQuotesQuery2V8Request("SEB-A.ST", yesterday, today, QueryInterval.DAILY);
-			QuotesRequest request = new QuotesRequest("ACAN-B.ST", yesterday, tomorrow, QueryInterval.MINUTE);
+			QuotesRequest request = new QuotesRequest("ACAN-B.ST", yesterday, tomorrow, QueryInterval.MINUTE, QUOTE_URL);
 			System.out.println("Test 1");
 			List<Quote> quotes = request.getResult();
 			System.out.println("Test 2");
@@ -56,12 +56,12 @@ public class YahooTester {
 			Calendar tomorrow = Util.getTomorrow();
 			//Calendar today = Calendar.getInstance();
 			//HistQuotesQuery2V8Request request = new HistQuotesQuery2V8Request("SEB-A.ST", yesterday, today, QueryInterval.DAILY);
-			QuotesRequest request = new QuotesRequest("ACAN-B.ST", yesterday, tomorrow, QueryInterval.DAILY);
+			QuotesRequest request = new QuotesRequest("ACAN-B.ST", yesterday, tomorrow, QueryInterval.DAILY, QUOTE_URL);
 			System.out.println("Test 1");
 			List<Quote> quotes = request.getResult();
 			System.out.println("Test 2");
 			for (Quote quote : quotes) {
-				System.out.println(quote.toString());
+				System.out.println(quote.toString());	
 			}
 		} catch (Exception e) {
 			System.out.println("Exception: " + e.getMessage());

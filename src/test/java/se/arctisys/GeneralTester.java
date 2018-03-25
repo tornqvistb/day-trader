@@ -1,13 +1,7 @@
 package se.arctisys;
 
-import java.io.IOException;
-import java.security.Timestamp;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
-
-import yahoofinance.Stock;
-import yahoofinance.YahooFinance;
 
 public class GeneralTester {
 

@@ -10,7 +10,6 @@ import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +29,6 @@ public class QuotesRequest {
     private static final Logger log = LoggerFactory.getLogger(QuotesRequest.class);
     private static final ObjectMapper objectMapper = new ObjectMapper();
     public static final int CONNECTION_TIMEOUT = 10000;
-    //public static final String HISTQUOTESQUERY2V8_BASE_URL = "https://query2.finance.yahoo.com/v8/finance/chart/";
     private final String symbol;
     private final Calendar from;
     private final Calendar to;
@@ -44,20 +42,7 @@ public class QuotesRequest {
     }
     public static final Calendar DEFAULT_TO = Calendar.getInstance();
     public static final QueryInterval DEFAULT_INTERVAL = QueryInterval.MONTHLY;
-/*
-    public QuotesRequest(String symbol) {
-        this(symbol, DEFAULT_INTERVAL);
-    }
 
-    public QuotesRequest(String symbol, QueryInterval interval) {
-        this(symbol, DEFAULT_FROM, DEFAULT_TO, interval);
-    }
-
-
-    public QuotesRequest(String symbol, Calendar from, Calendar to) {
-        this(symbol, from, to, DEFAULT_INTERVAL);
-    }
-*/    
     public QuotesRequest(String symbol, Calendar from, Calendar to, QueryInterval interval, String quotesBaseUrl) {
         this.symbol = symbol;
         this.from = this.cleanHistCalendar(from);
@@ -65,20 +50,7 @@ public class QuotesRequest {
         this.interval = interval;
         this.quotesBaseUrl = quotesBaseUrl;
     }
-/*
-    public QuotesRequest(String symbol, Date from, Date to) {
-        this(symbol, from, to, DEFAULT_INTERVAL);
-    }
-    */
-   /* 
-    public QuotesRequest(String symbol, Date from, Date to, QueryInterval interval) {
-        this(symbol, interval);
-        this.from.setTime(from);
-        this.to.setTime(to);
-        this.cleanHistCalendar(this.from);
-        this.cleanHistCalendar(this.to);
-    }
-*/
+
     /**
      * Put everything smaller than days at 0
      * @param cal calendar to be cleaned

@@ -18,5 +18,9 @@ public class LoginController {
 		System.out.println("Rendering login page");
 		return "login";
 	}
+	@GetMapping("/403")
+	public String showUnauthorizedPage(ModelMap model) {
+		return "403";
+	}
 	
 }

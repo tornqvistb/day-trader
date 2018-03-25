@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -22,7 +23,7 @@ public class Account {
 	private Double minimumBalance;
 	private Set<AccountHistory> accountHistory = new HashSet<AccountHistory>();
 	private Date creationDate;
-	private TradingUser tradingUser;
+	private User user;
 	
 	public Account() {
 		super();
@@ -76,11 +77,11 @@ public class Account {
 		this.actualBalance = actualBalance - decrease;
 	}
 	@OneToOne
-	public TradingUser getTradingUser() {
-		return tradingUser;
+	public User getUser() {
+		return user;
 	}
-	public void setTradingUser(TradingUser tradingUser) {
-		this.tradingUser = tradingUser;
+	public void setUser(User user) {
+		this.user = user;
 	}
 	
 }

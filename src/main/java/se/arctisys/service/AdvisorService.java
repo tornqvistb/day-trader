@@ -15,13 +15,13 @@ import se.arctisys.domain.Email;
 import se.arctisys.domain.ShareDayRate;
 import se.arctisys.domain.ShareHolding;
 import se.arctisys.domain.ShareTransaction;
-import se.arctisys.domain.TradingUser;
+import se.arctisys.domain.User;
 import se.arctisys.domain.UserShare;
 import se.arctisys.repository.AccountRepository;
 import se.arctisys.repository.EmailRepository;
 import se.arctisys.repository.ShareTransactionRepository;
 import se.arctisys.repository.StockHoldingRepository;
-import se.arctisys.repository.TradingUserRepository;
+import se.arctisys.repository.UserRepository;
 import se.arctisys.repository.UserShareRepository;
 import se.arctisys.util.Util;
 
@@ -31,7 +31,7 @@ public class AdvisorService {
 	@Autowired
 	private PropertyService propertyService;
 	@Autowired
-	private TradingUserRepository userRepo;
+	private UserRepository userRepo;
 	@Autowired
 	private ShareTransactionRepository transactionRepo;
 	@Autowired
@@ -51,13 +51,13 @@ public class AdvisorService {
 		// Check if time has passed trading time (property 17.00)
 		if (timeToTrade()) {
 			
-			// loop through the TradingUsers
-			for (TradingUser user : userRepo.findAll()) {
+			// loop through the Users
+			for (User user : userRepo.findAll()) {
 				LOG.info("Time to trade");
 				Email email = new Email();
 				// loop through the shares
 				for (UserShare userShare : user.getUserShares()) {
-					LOG.info("Usershare: " + userShare.getTradingUser().getName() + ", " + userShare.getShare().getId());
+					LOG.info("Usershare: " + userShare.getUser().getName() + ", " + userShare.getShare().getId());
 					// for each share, check day rate for today
 					String action = strategyService.checkForAction(userShare);
 					if (action.equals(TradeConstants.ACTION_BUY)) {
@@ -96,7 +96,7 @@ public class AdvisorService {
 		*/
 	}
 	
-	private String doSell(UserShare userShare, TradingUser user) {
+	private String doSell(UserShare userShare, User user) {
 		ShareDayRate dayRate = userShare.getShare().getLastDayRate();
 		Double amount = userShare.getShareHolding().getNumberOfShares() * dayRate.getSellRate();
 		ShareTransaction transaction = new ShareTransaction();
@@ -111,17 +111,17 @@ public class AdvisorService {
 		// Update account with incoming amount
 		Account account = user.getAccount();
 		account.increaseBalance(amount);
-		account.setTradingUser(user);
+		account.setUser(user);
 		accountRepo.save(account);
 		// Update user share
 		userShare.setLastSellDate(new Date());
-		userShare.setTradingUser(user);
+		userShare.setUser(user);
 		userShareRepo.save(userShare);
 		return "Recommendation: Sell " + userShare.getShare().getDescription()  + ", no of shares: " + userShare.getShareHolding().getNumberOfShares() + ", amount: " + amount;
 	}
 
 	
-	private String doBuy(UserShare userShare, TradingUser user) {
+	private String doBuy(UserShare userShare, User user) {
 		
 		ShareDayRate dayRate = userShare.getShare().getLastDayRate();
 		// Calculate how many shares to buy (based on share buy amount and money on account)
@@ -151,12 +151,12 @@ public class AdvisorService {
 		// Update account with outgoing amount
 		Account account = user.getAccount();
 		account.decreaseBalance(buyAmount);
-		account.setTradingUser(user);
+		account.setUser(user);
 		LOG.info("Before save account");
 		accountRepo.save(account);	
 		// Update user share
 		userShare.setLastBuyDate(new Date());
-		userShare.setTradingUser(user);
+		userShare.setUser(user);
 		userShareRepo.save(userShare);
 		return "Recommendation: Buy " + userShare.getShare().getDescription() + ", no of shares: " + noOfShares + ", amount: " + buyAmount;
 	}

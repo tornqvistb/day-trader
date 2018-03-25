@@ -56,7 +56,7 @@ public class FinanceAPIService {
 				// Should be one year ago
 				Calendar calendar = Util.getYearsFromNow(propService.getInt(PropertyConstants.YEARS_TO_COLLECT_HISTORY));
 				
-				QuotesRequest request = new QuotesRequest(share.getId(), calendar, Calendar.getInstance(), QueryInterval.DAILY, "");
+				QuotesRequest request = new QuotesRequest(share.getId(), calendar, Calendar.getInstance(), QueryInterval.DAILY, propService.getString(PropertyConstants.QUOTES_BASE_URL));
 				
 				List<Quote> quotes = request.getResult();
 				
@@ -88,9 +88,9 @@ public class FinanceAPIService {
 					LOG.info("Is not today: " + share.getId());						
 				}				
 			}
-			Calendar yesterday = Util.getDaysFromNow(1);
+			Calendar startDay = Util.getDaysFromNow(3);
 			Calendar tomorrow = Util.getTomorrow();
-			QuotesRequest request = new QuotesRequest(share.getId(), yesterday, tomorrow, QueryInterval.DAILY,"");
+			QuotesRequest request = new QuotesRequest(share.getId(), startDay, tomorrow, QueryInterval.DAILY,propService.getString(PropertyConstants.QUOTES_BASE_URL));
 			List<Quote> quotes = request.getResult();
 			
 			if (!quotes.isEmpty()) {

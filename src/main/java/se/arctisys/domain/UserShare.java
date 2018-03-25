@@ -19,7 +19,7 @@ import javax.persistence.Transient;
 public class UserShare {
 
 	private Long id;
-	private TradingUser tradingUser;
+	private User user;
 	private Share share;
 	private Date creationDate;
 	private Date lastBuyDate;
@@ -44,12 +44,12 @@ public class UserShare {
 		this.id = id;
 	}
 	@ManyToOne
-	public TradingUser getTradingUser() {
-		return tradingUser;
+	public User getUser() {
+		return user;
 	}
 
-	public void setTradingUser(TradingUser tradingUser) {
-		this.tradingUser = tradingUser;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	@ManyToOne
