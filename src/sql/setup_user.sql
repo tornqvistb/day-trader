@@ -35,3 +35,13 @@ insert into share (id, description, share_on_market_id) values ('ABB.ST', 'ABB',
 
 insert into user_share (id, user_user_id, share_id, buy_amount, strategy_id) values (1, 1, 'AAK.ST', 5000, 1);
 insert into user_share (id, user_user_id, share_id, buy_amount, strategy_id) values (2, 1, 'ABB.ST', 5000, 1);
+
+-- test users
+insert into user (user_id, email, first_name, last_name, active, username, password) values (2, 'user@gmail.com', 'Common', 'User', 1, 'commonuser', 'stensture');
+insert into user_role (user_id, role_id) values (2, 1);
+insert into account (user_user_id, id, actual_balance, minimum_balance) values (2, 2, 50000, 0);
+
+insert into user (user_id, email, first_name, last_name, active, username, password) values (3, 'admin@gmail.com', 'Admin', 'User', 1, 'adminuser', 'stensture');
+insert into user_role (user_id, role_id) values (3, 2);
+insert into account (user_user_id, id, actual_balance, minimum_balance) values (3, 3, 50000, 0);
+

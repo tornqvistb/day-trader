@@ -16,12 +16,7 @@ public class StockListController {
 	
 	@Autowired
 	private ShareRepository shareRepo;
-	
-	@RequestMapping("/")
-	public String showStartPage() {
-		return "redirect:shares";
-	}
-		
+			
 	@RequestMapping("/shares")
 	public String showOrderList(ModelMap model) {
 		model.addAttribute("reqAttr", new RequestAttributes(0));
