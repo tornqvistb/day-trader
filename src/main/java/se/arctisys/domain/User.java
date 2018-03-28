@@ -15,6 +15,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -22,11 +23,17 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import se.arctisys.constraints.FieldMatch;
+
 /**
  * Created by tornqvist on 2018-03-23.
  */
 @Entity
 @Table(name = "user")
+@FieldMatch.List({
+    @FieldMatch(first = "password", second = "confirmPassword", message = "Lösenorden måste vara lika"),
+    //@FieldMatch(first = "email", second = "confirmEmail", message = "The email fields must match")
+})
 public class User {
 
 	@Id
@@ -35,25 +42,29 @@ public class User {
 	private int userId;
 	
 	@Column(name = "email")
-	@Email(message = "*Please provide a valid Email")
-	@NotEmpty(message = "*Please provide an email")
+	@Email(message = "*Ange en korrekt epost-adress")
+	@NotEmpty(message = "*Ange en epost-adress")
 	private String email;
 	
 	@Column(name = "password")
-	@Length(min = 5, message = "*Your password must have at least 5 characters")
-	@NotEmpty(message = "*Please provide your password")
+	@Length(min = 8, message = "*Ditt lösenord måste vara minst 8 tecken")
+	@NotEmpty(message = "*Ange ett lösenord")
 	private String password;
+
+	@Column(name = "confirm_password")
+	@Length(min = 8, message = "*Ditt lösenord måste vara minst 8 tecken")
+	@NotEmpty(message = "*Bekräfta ditt lösenord")
+	private String confirmPassword;
 	
 	@Column(name = "username")
-	@NotEmpty(message = "*Please provide your name")
 	private String username;
 	
 	@Column(name = "last_name")
-	@NotEmpty(message = "*Please provide your last name")
+	@NotEmpty(message = "*Ange ditt efternamn")
 	private String lastName;
 
 	@Column(name = "first_name")
-	@NotEmpty(message = "*Please provide your first name")
+	@NotEmpty(message = "*Ange ditt förnamn")
 	private String firstName;
 
 	@Column(name = "active")
@@ -65,7 +76,9 @@ public class User {
 
 	@OneToOne(cascade=CascadeType.ALL, fetch=FetchType.EAGER, mappedBy="user")
 	private Account account;
+	
 	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER, mappedBy="user")
+	@OrderBy("creationDate")	
 	private Set<UserShare> userShares = new HashSet<UserShare>();	
 	
 	public String getEmail() {
@@ -141,5 +154,13 @@ public class User {
 	@Transient
 	public String getName() {
 		return firstName + " " + lastName;
+	}
+
+	public String getConfirmPassword() {
+		return confirmPassword;
+	}
+
+	public void setConfirmPassword(String confirmPassword) {
+		this.confirmPassword = confirmPassword;
 	}
 }

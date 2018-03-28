@@ -25,8 +25,9 @@ public class Account {
 	private User user;
 	
 	public Account() {
-		super();
 		this.creationDate = new Date();
+		this.actualBalance = 0.0;
+		this.minimumBalance = 0.0;		
 	}
 	@Id
 	@GeneratedValue

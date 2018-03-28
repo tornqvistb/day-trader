@@ -12,7 +12,7 @@
 		<hr />
 		<ul class="nav nav-pills">
 		  <li class="nav-item">
-		    <a class="nav-link active" th:href="@{/user/mystocks}">Min portfölj</a>
+		    <a class="nav-link active" th:href="@{/user/myshares}">Min portfölj</a>
 		  </li>
 		  <li class="nav-item">
 		    <a class="nav-link" th:href="@{/user/account}">Mina uppgifter</a>
@@ -30,6 +30,7 @@
 		<h3>Mina aktier</h3>
 		<table class="table table-striped table-responsive">
 			<thead>
+			
 				<tr>
 					<th>Id</th>
 					<th>Namn</th>
@@ -42,39 +43,19 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
-					<td><a th:href="@{/user/transactions}">ACAN-B.ST</a></td>
-					<td>Acando B</td>
+				<tr th:each="userShare : ${userShares}">
+					<td><a th:text="${userShare.share.id}" th:href="@{/user/share/} + ${userShare.share.id}">TEST</a></td>					
+					<td th:text="${userShare.share.shareOnMarket.name}">TEST</td>
 					<td>Defensiv</td>
-					<td>25,50</td>
-					<td>0</td>
-					<td>0</td>
-					<td>0</td>
-					<td>0</td>
-				</tr>
-				<tr>
-					<td><a th:href="@{/user/transactions}">CATE.ST</a></td>
-					<td>Catena</td>
-					<td>Medel</td>
-					<td>50,50</td>
-					<td>7</td>
-					<td>4870</td>
-					<td>-199</td>
-					<td>-4,1</td>
-				</tr>
-				<tr>
-					<td><a th:href="@{/user/transactions}">GUNN.ST</a></td>
-					<td>Gunnebo</td>
-					<td>Offensiv</td>
-					<td>75,50</td>
+					<td>10,50</td>
 					<td>10</td>
-					<td>7550</td>
-					<td>530</td>
+					<td>100</td>
 					<td>10</td>
+					<td>1000</td>
 				</tr>
 			</tbody>
 		</table>
-		<a class="btn btn-primary" th:href="@{/user/addstock}" role="button">Lägg till aktie »</a>
+		<a class="btn btn-primary" th:href="@{/user/addshare}" role="button">Lägg till aktie »</a>
 	</div>
 	<div th:include="footer" th:remove="tag" />
 </body>
