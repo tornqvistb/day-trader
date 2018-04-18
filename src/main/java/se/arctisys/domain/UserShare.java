@@ -15,6 +15,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.Transient;
 
+import org.apache.commons.math3.util.Precision;
+
 @Entity
 public class UserShare {
 
@@ -121,4 +123,29 @@ public class UserShare {
 		}
 		return result;
 	}	
+	@Transient
+	public Long getNumberOfShares() {
+		if (hasShareHolding()) {
+			return this.shareHolding.getNumberOfShares();
+		} else {
+			return 0L;
+		}
+	}
+	@Transient
+	public Double getLastShareValue() {
+		if (!this.share.getDayRates().isEmpty()) {
+			return Precision.round(this.share.getLastDayRate().getBuyRate(), 2);
+		} else {
+			return 0.0;
+		}
+	}
+	@Transient
+	public Double getHoldingValue() {
+		if (hasShareHolding()) {
+			return Precision.round(this.shareHolding.getNumberOfShares() * getLastShareValue(), 2);
+		} else {
+			return 0.0;
+		}
+	}
+
 }

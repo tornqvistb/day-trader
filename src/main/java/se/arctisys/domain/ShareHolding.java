@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
+import org.apache.commons.math3.util.Precision;
+
 @Entity
 public class ShareHolding {
 	private Long id;
@@ -41,6 +43,7 @@ public class ShareHolding {
 	public Date getCreationDate() {
 		return creationDate;
 	}
+	
 	public void setCreationDate(Date creationDate) {
 		this.creationDate = creationDate;
 	}
@@ -68,5 +71,14 @@ public class ShareHolding {
 	public void setUserShare(UserShare userShare) {
 		this.userShare = userShare;
 	}
-	
+	/*
+	@Transient
+	public Double getHoldingChange() {
+		if (hasShareHolding()) {
+			return Precision.round(this.shareHolding.getNumberOfShares() * getLastShareValue(), 2);
+		} else {
+			return 0.0;
+		}
+	}	
+	*/
 }
