@@ -21,6 +21,7 @@ public class Share {
 	private Set<ShareDayRate> dayRates = new HashSet<ShareDayRate>();
 	private Date creationDate;
 	private ShareOnMarket shareOnMarket;
+	private String status;
 	
 	public Share() {
 		super();
@@ -28,12 +29,13 @@ public class Share {
 	}
 	
 
-	public Share(String id, String description, ShareOnMarket shareOnMarket) {
+	public Share(String id, String description, ShareOnMarket shareOnMarket, String status) {
 		super();
 		this.id = id;
 		this.description = description;
 		this.shareOnMarket = shareOnMarket;
 		this.creationDate = new Date();
+		this.status = status;
 	}
 
 	@Id
@@ -87,6 +89,16 @@ public class Share {
 
 	public void setShareOnMarket(ShareOnMarket shareOnMarket) {
 		this.shareOnMarket = shareOnMarket;
+	}
+
+
+	public String getStatus() {
+		return status;
+	}
+
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 }

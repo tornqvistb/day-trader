@@ -67,9 +67,6 @@ public class LoginController {
 	public String registerUser(ModelMap model, @Valid @ModelAttribute User user, BindingResult bindingResult) {
 		System.out.println("In registerUser");
 		if (bindingResult.hasErrors()) {
-			for (ObjectError error : bindingResult.getAllErrors()) {
-				System.out.println(error.toString());
-			}
 			return "register";
 		}
 		if (!userRepo.findUsersByEmail(user.getEmail()).isEmpty()) {

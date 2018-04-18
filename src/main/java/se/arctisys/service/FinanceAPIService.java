@@ -31,11 +31,15 @@ public class FinanceAPIService {
 
 	private static final Logger LOG = LoggerFactory.getLogger(FinanceAPIService.class);
 
+	@Autowired
 	private PropertyService propService;
+	@Autowired
 	private ShareRepository shareRepo;
+	@Autowired
 	private ShareDayRateRepository dayRateRepo;
 	@Autowired
 	private ShareOnMarketRepository somRepo;
+	@Autowired
 	private CalculatorService calculatorService;
 
 
@@ -47,8 +51,7 @@ public class FinanceAPIService {
 			LOG.info("Share Id : " + shareId);
 			Share share = shareRepo.findOne(shareId);
 			if (share == null) {
-				share = new Share(shareId, som.getName(), som);
-				share.setId(shareId);
+				share = new Share(shareId, som.getName(), som, TradeConstants.SHARE_STATUS_NEW);
 				shareRepo.save(share);
 				share = shareRepo.findOne(shareId);
 			}
@@ -72,11 +75,13 @@ public class FinanceAPIService {
 			}
 			som.setStatus(TradeConstants.SHARE_STATUS_IMPORTED);
 			somRepo.save(som);
+			share.setStatus(TradeConstants.SHARE_STATUS_IMPORTED);
+			shareRepo.save(share);
 		}
 	}
 	
 	public void storeCurrentRates() throws IOException {
-		for (Share share : shareRepo.findAll()) {
+		for (Share share : shareRepo.findByStatus(TradeConstants.SHARE_STATUS_IMPORTED)) {
 			
 			ShareDayRate dayRate = new ShareDayRate();
 			if (share.getDayRates().size() > 0) {				
@@ -123,25 +128,6 @@ public class FinanceAPIService {
 			LOG.debug("Failed to parse HistoricalQuote, returning empty record");			
 		}
 		return dayRate;
-	}
-
-	@Autowired
-	public void setPropService(PropertyService propService) {
-		this.propService = propService;
-	}
-
-	@Autowired
-	public void setShareRepo(ShareRepository shareRepo) {
-		this.shareRepo = shareRepo;
-	}
-
-	@Autowired
-	public void setShareDayRateRepo(ShareDayRateRepository dayRateRepo) {
-		this.dayRateRepo = dayRateRepo;
-	}
-	@Autowired
-	public void setCalculatorService(CalculatorService calculatorService) {
-		this.calculatorService = calculatorService;
 	}
 
 }

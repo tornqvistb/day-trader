@@ -23,34 +23,31 @@
 	</div>
 	<hr />
 	<div class="container">
+		<div th:if="${error}" class="alert alert-danger">
+            <span th:text="${error}">Test</span>
+        </div>
 		<h3>Lägg till aktie i din portfölj</h3>
-		<form action="">
+		<form th:action="@{/user/addshare}" th:object="${order}" method="post">
 			<div class="form-group">
+				<p class="field-error-message" th:if="${#fields.hasErrors('shareId')}" th:errors="*{shareId}"></p>
 	  			<label for="stock">Välj aktie:</label>
-	  			<select class="form-control" id="stock">
-	  				<option>Astra Zenica</option>
-					<option>Volvo</option>
-				    <option>ABB</option>
+	  			<select class="form-control" id="stock" th:field="${order.shareId}" >
+	  				<option th:each="share : ${allShares}" th:value="${share.id}" th:text="${share.description}">Volvo</option>
 				</select>
 			</div>
 						
 			<div class="form-group">
-				<label for="amount">Köpbelopp:</label> <input type="number"
-					class="form-control" id="amount" />
+				<p class="field-error-message" th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}"></p>
+				<label for="amount">Köpbelopp:</label> 
+				<input type="number" class="form-control" id="amount" th:field="${order.amount}"/>
 			</div>
 			<div class="form-group">
+				<p class="field-error-message" th:if="${#fields.hasErrors('strategyId')}" th:errors="*{strategyId}"></p>
 	  			<label for="strategy">Välj strategi:</label>
-	  			<select class="form-control" id="stock">
-	  				<option>Defensiv</option>
-					<option>Medel</option>
-				    <option>Offensiv</option>
+	  			<select class="form-control" id="stock" th:field="${order.strategyId}">
+	  				<option th:each="strategy : ${allStrategies}" th:value="${strategy.id}" th:text="${strategy.description}">Kortsiktig</option>
 				</select>
 			</div>
-			<!-- 			
-			<div class="checkbox">
-				<label><input type="checkbox"/> Remember me</label>
-			</div>
-			 -->
 			<button type="submit" class="btn btn-primary">Lägg till</button>
 		</form>
 	</div>

@@ -25,7 +25,6 @@ public class UserShare {
 	private Date lastBuyDate;
 	private Date lastSellDate;
 	private Long buyAmount;
-	private Long frequency;
 	private ShareHolding shareHolding;
 	private Set<ShareTransaction> transactions = new HashSet<ShareTransaction>();
 	private Strategy strategy;
@@ -87,14 +86,6 @@ public class UserShare {
 
 	public void setBuyAmount(Long buyAmount) {
 		this.buyAmount = buyAmount;
-	}
-
-	public Long getFrequency() {
-		return frequency;
-	}
-
-	public void setFrequency(Long frequency) {
-		this.frequency = frequency;
 	}
 
 	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER, mappedBy="userShare")

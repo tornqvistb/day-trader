@@ -39,7 +39,6 @@ public class RequestAttributes {
 	}
 	public void setSystemProperties(List<SystemProperty> systemProperties) {
 		this.systemProperties = systemProperties;
-	}
-	
+	}	
 	
 }

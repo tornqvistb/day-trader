@@ -15,10 +15,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import se.arctisys.constants.PropertyConstants;
+import se.arctisys.constants.TradeConstants;
 import se.arctisys.domain.ErrorRecord;
+import se.arctisys.domain.Share;
 import se.arctisys.domain.ShareOnMarket;
 import se.arctisys.repository.ErrorRepository;
 import se.arctisys.repository.ShareOnMarketRepository;
+import se.arctisys.repository.ShareRepository;
 
 /**
  * Created by Björn Törnqvist, ArctiSys AB, 2016-02
@@ -30,9 +33,14 @@ public class SiteReaderService {
 
 	private static final Logger LOG = LoggerFactory.getLogger(SiteReaderService.class);
 
+	@Autowired
 	private ErrorRepository errorRepo;
+	@Autowired
 	private PropertyService propService;
+	@Autowired
 	private ShareOnMarketRepository SOMRepo;
+	@Autowired
+	private ShareRepository shareRepo;
 	
 	public void storeAllStocksOnMarket() throws ParseException {
 		LOG.info("Going to read from site");
@@ -73,25 +81,14 @@ public class SiteReaderService {
 					);
 			if (SOMRepo.findOne(som.getId()) == null) {
 				SOMRepo.save(som);
+				Share share = new Share(som.getId(), som.getName(), som, TradeConstants.SHARE_STATUS_NEW);
+				shareRepo.save(share);
 			}
 		}
 	}
 		
 	private void saveError(String errorText) {
 		errorRepo.save(new ErrorRecord(errorText));
-	}
-
-	@Autowired
-	public void setErrorRepo(ErrorRepository errorRepo) {
-		this.errorRepo = errorRepo;
-	}
-	@Autowired
-	public void setPropService(PropertyService propService) {
-		this.propService = propService;
-	}
-	@Autowired
-	public void setShareOnMarketRepo(ShareOnMarketRepository SOMRepo) {
-		this.SOMRepo = SOMRepo;
 	}
 
 }
