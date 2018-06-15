@@ -18,11 +18,14 @@ import se.arctisys.model.BackTestInput;
 import se.arctisys.model.BackTestResult;
 import se.arctisys.repository.ShareRepository;
 import se.arctisys.repository.StrategyRepository;
+import se.arctisys.service.BackTestService;
 import se.arctisys.util.Util;
 
 @Controller
-public class HistoryTestController {
-	
+public class BackTestController {
+
+	@Autowired
+	private BackTestService backTestService;
 	@Autowired
 	private StrategyRepository strategyRepo;
 	@Autowired
@@ -32,16 +35,16 @@ public class HistoryTestController {
 	public String showHistoryTest(ModelMap model) {
 		try {
 
-			BackTestInput backTestInput = new BackTestInput();
-			backTestInput.setStartDate(Util.getDateByDaysBack(365L));
-			backTestInput.setEndDate(new Date());
-			model.addAttribute("backTestInput", backTestInput);
+			BackTestInput input = new BackTestInput();
+			input.setStartDate(Util.getDateByDaysBack(365L));
+			input.setEndDate(new Date());
+			model.addAttribute("backTestInput", input);
 			model.addAttribute("backTestResult", null);
 			fillLists(model);
 
 		} catch (ParseException e) {
 		}
-		return "userHistoryTest";
+		return "userBackTest";
 	}
 
 	private void fillLists (ModelMap model) {
@@ -49,8 +52,8 @@ public class HistoryTestController {
 		model.addAttribute("allStrategies", strategyRepo.findAll());				
 	}
 	
-	@PostMapping("/user/historytest")
-	public String runHistoryTest(ModelMap model, @Valid @ModelAttribute BackTestInput backTestInput, BindingResult bindingResult) {
+	@PostMapping("/user/backtest")
+	public String runHistoryTest(ModelMap model, @Valid @ModelAttribute BackTestInput input, BindingResult bindingResult) {
 		System.out.println("Posted historytest");
 		if (bindingResult.hasErrors()) {
 			String errorText = "";
@@ -58,14 +61,12 @@ public class HistoryTestController {
 				errorText = errorText + error.getDefaultMessage();
 			}						
 		} else {
-			BackTestResult result = new BackTestResult();
-			result.setStartValue(2000.0);
-			result.setEndValue(3000.0);
+			BackTestResult result = backTestService.performBackTest(input);
 			model.addAttribute("backTestResult", result);
 		}
-		model.addAttribute("backTestInput", backTestInput);
+		model.addAttribute("backTestInput", input);
 		fillLists(model);
-		return "userHistoryTest";
+		return "userBackTest";
 	}
 	
 }

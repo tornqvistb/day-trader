@@ -92,5 +92,13 @@ public class StrategyService {
 		}
 		return result;
 	}
+
+	public void setDayRate(ShareDayRate dayRate) {
+		this.dayRate = dayRate;
+	}
+
+	public void setStrategy(Strategy strategy) {
+		this.strategy = strategy;
+	}
 	
 }

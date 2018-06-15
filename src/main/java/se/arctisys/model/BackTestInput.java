@@ -21,7 +21,7 @@ public class BackTestInput {
 	private String shareId;
 	
 	@NotNull(message="*Ange ett belopp")
-	private Double amount;
+	private Integer amount;
 	
 	@NotEmpty(message = "*Välj en strategi")
 	private String strategyId;
@@ -50,10 +50,10 @@ public class BackTestInput {
 	public void setStrategyId(String strategyId) {
 		this.strategyId = strategyId;
 	}
-	public Double getAmount() {
+	public Integer getAmount() {
 		return amount;
 	}
-	public void setAmount(Double amount) {
+	public void setAmount(Integer amount) {
 		this.amount = amount;
 	}	
 	

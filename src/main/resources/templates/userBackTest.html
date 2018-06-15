@@ -28,7 +28,7 @@
 	<hr />
 	<div class="container">		
 		<h3>Historiktest</h3>
-		<form th:action="@{/user/historytest}" th:object="${backTestInput}" method="post">						
+		<form th:action="@{/user/backtest}" th:object="${backTestInput}" method="post">						
 			<div class="form-group">
 				<p class="field-error-message" th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}"></p>
 				<label class="control-label" for="startdate">Startdatum:</label> 
