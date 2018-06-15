@@ -44,7 +44,7 @@
 			</thead>
 			<tbody>
 				<tr th:each="userShare : ${userShares}">
-					<td><a th:text="${userShare.share.id}" th:href="@{/user/share/} + ${userShare.share.id}">TEST</a></td>					
+					<td><a th:text="${userShare.share.id}" th:href="@{/user/share/} + ${userShare.id}">TEST</a></td>					
 					<td th:text="${userShare.share.description}">TEST</td>
 					<td th:text="${userShare.strategy.description}">Defensiv</td>
 					<td th:text="${userShare.lastShareValue}">10,50</td>

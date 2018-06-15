@@ -13,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import se.arctisys.constants.TradeConstants;
@@ -51,10 +52,6 @@ public class MySharesController {
 	@GetMapping("/user/addshare")
 	public String addStock(ModelMap model) {
 		fillLists(model);
-		/*
-		model.addAttribute("allShares", removeUserSharesFromList(shareRepo.findAll(), user.getUserShares()));
-		model.addAttribute("allStrategies", strategyRepo.findAll());
-		*/
 		model.addAttribute("order", new UserOrder());
 		return "userAddShare";
 	}
@@ -110,5 +107,12 @@ public class MySharesController {
 		User user = userService.getCurrentUser();
 		model.addAttribute("allShares", removeUserSharesFromList(shareRepo.findAll(), user.getUserShares()));
 		model.addAttribute("allStrategies", strategyRepo.findAll());		
+	}
+	
+	@GetMapping("/user/share/{id}")	
+	public String showUserShare(@PathVariable Long id, ModelMap model) {
+		UserShare userShare = userShareRepo.getOne(id);
+		model.addAttribute("userShare", userShare);
+		return "userMyShareDetail";
 	}
 }

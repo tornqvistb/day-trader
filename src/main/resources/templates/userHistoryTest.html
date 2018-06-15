@@ -28,89 +28,91 @@
 	<hr />
 	<div class="container">		
 		<h3>Historiktest</h3>
-		<form action="">
-						
+		<form th:action="@{/user/historytest}" th:object="${backTestInput}" method="post">						
 			<div class="form-group">
+				<p class="field-error-message" th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}"></p>
 				<label class="control-label" for="startdate">Startdatum:</label> 
-				<input type="date" class="form-control" id="startdate" />
+				<input type="date" class="form-control" id="startdate" th:field="${backTestInput.startDate}"/>
 			</div>
 			<div class="form-group">
+				<p class="field-error-message" th:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}"></p>
 				<label class="control-label" for="enddate">Slutdatum:</label> 
-				<input type="date" class="form-control" id="enddate" />
+				<input type="date" class="form-control" id="enddate" th:field="${backTestInput.endDate}"/>
 			</div>
-						<div class="form-group">
-	  			<label for="stock">Välj aktie:</label>
-	  			<select class="form-control" id="stock">
-	  				<option>Astra Zenica</option>
-					<option>Volvo</option>
-				    <option>ABB</option>
+			<div class="form-group">
+				<p class="field-error-message" th:if="${#fields.hasErrors('shareId')}" th:errors="*{shareId}"></p>
+	  			<label for="shareId">Välj aktie:</label>	  		
+	  			<select class="form-control" id="shareId" th:field="${backTestInput.shareId}" >
+	  				<option th:each="share : ${allShares}" th:value="${share.id}" th:text="${share.description}">Volvo</option>
 				</select>
-			</div>
-						
-			<div class="form-group">
-				<label for="amount">Köpbelopp:</label> <input type="number"
-					class="form-control" id="amount" />
+	  				  			
 			</div>
 			<div class="form-group">
+				<p class="field-error-message" th:if="${#fields.hasErrors('strategyId')}" th:errors="*{strategyId}"></p>
 	  			<label for="strategy">Välj strategi:</label>
-	  			<select class="form-control" id="stock">
-	  				<option>Defensiv</option>
-					<option>Medel</option>
-				    <option>Offensiv</option>
-				</select>
+	  			<select class="form-control" id="strategyId" th:field="${backTestInput.strategyId}">
+	  				<option th:each="strategy : ${allStrategies}" th:value="${strategy.id}" th:text="${strategy.description}">Kortsiktig</option>
+				</select>	  			
+			</div>
+			<div class="form-group">
+				<p class="field-error-message" th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}"></p>
+				<label for="amount">Köpbelopp:</label> 
+				<input type="number" class="form-control" id="amount" th:field="*{amount}"/>
 			</div>
 			
 			<button type="submit" class="btn btn-primary">Kör</button>
 		</form>
 		<hr />
-		<h4>Resultat</h4>
-		<h5>Värdeförändring</h5>
-		<p>Startvärde: 50000</p>
-		<p>Slutvärde: 70000</p>
-		<p>Värdeförändring: 20000kr (35%)</p>
-		<h5>Transaktioner</h5>
-		<table class="table table-striped">
-			<thead>
-				<tr>
-					<th>Tidpunkt</th>
-					<th>ID</th>
-					<th>Namn</th>
-					<th>Köp/Sälj</th>					
-					<th>Kurs</th>
-					<th>Antal aktier</th>
-					<th>Summa</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>2018-03-01 10:32</td>
-					<td>CATE.ST</td>
-					<td>Catena</td>
-					<td>Köp</td>
-					<td>25,50</td>
-					<td>7</td>
-					<td>4870</td>
-				</tr>
-				<tr>
-					<td>2018-02-28 12:32</td>
-					<td>CATE.ST</td>
-					<td>Catena</td>
-					<td>Sälj</td>
-					<td>27,50</td>
-					<td>7</td>
-					<td>5070</td>
-				</tr>
-				<tr>
-					<td>s0a8-03-01 10:32</td>
-					<td>CATE.ST</td>
-					<td>Catena</td>
-					<td>Köp</td>
-					<td>23,50</td>
-					<td>7</td>
-					<td>4770</td>
-				</tr>
-			</tbody>
-		</table>
+		<div id="result" th:if="${backTestResult}">
+			<h4>Resultat</h4>
+			<h5>Värdeförändring</h5>
+			<p>Startvärde: <span th:text="${backTestResult.startValue}"></span></p>
+			<p>Slutvärde: <span th:text="${backTestResult.endValue}"></span></p>
+			<p>Värdeförändring: <span th:text="${backTestResult.profitAmount}"></span> kr (<span th:text="${backTestResult.profitPercentage}"></span>)</p>
+			<h5>Transaktioner</h5>
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>Tidpunkt</th>
+						<th>ID</th>
+						<th>Namn</th>
+						<th>Köp/Sälj</th>					
+						<th>Kurs</th>
+						<th>Antal aktier</th>
+						<th>Summa</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>2018-03-01 10:32</td>
+						<td>CATE.ST</td>
+						<td>Catena</td>
+						<td>Köp</td>
+						<td>25,50</td>
+						<td>7</td>
+						<td>4870</td>
+					</tr>
+					<tr>
+						<td>2018-02-28 12:32</td>
+						<td>CATE.ST</td>
+						<td>Catena</td>
+						<td>Sälj</td>
+						<td>27,50</td>
+						<td>7</td>
+						<td>5070</td>
+					</tr>
+					<tr>
+						<td>s0a8-03-01 10:32</td>
+						<td>CATE.ST</td>
+						<td>Catena</td>
+						<td>Köp</td>
+						<td>23,50</td>
+						<td>7</td>
+						<td>4770</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 	</div>
 	<div th:include="footer" th:remove="tag" />
 </body>
