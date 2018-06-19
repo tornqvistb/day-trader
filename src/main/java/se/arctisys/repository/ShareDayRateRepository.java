@@ -18,7 +18,7 @@ public interface ShareDayRateRepository extends JpaRepository<ShareDayRate, Long
 	/**
 	 * Method to get list of dayrates between two dates for a certain share.
 	 */	
-	@Query("SELECT s FROM ShareDayRate s WHERE s...")
+	@Query("SELECT s FROM ShareDayRate s WHERE 1 = 1")
     public List<User> getDayRatesBetweenTwoDatesForShare(@Param("startDate") Date startDate, 
     		@Param("endDate") Date endDate,
     		@Param("share") Share share);

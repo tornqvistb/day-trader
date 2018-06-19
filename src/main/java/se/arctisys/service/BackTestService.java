@@ -31,6 +31,8 @@ public class BackTestService {
 		 */
 		strategyService.setStrategy(strategyRepo.getOne(input.getStrategyId()));
 		
+		
+		
 		result.setStartValue(2000.0);
 		result.setEndValue(3000.0);
 		return result;

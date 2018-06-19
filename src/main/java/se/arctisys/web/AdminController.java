@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AdminController {
 	
 	@GetMapping("/admin/start")
-	public String showHistoryTest(ModelMap model) {		
+	public String showAdminMenu(ModelMap model) {		
 		return "admin-start";
 	}
 	

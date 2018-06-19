@@ -31,8 +31,8 @@ public class BackTestController {
 	@Autowired
 	private ShareRepository shareRepo;
 	
-	@GetMapping("/user/historytest")
-	public String showHistoryTest(ModelMap model) {
+	@GetMapping("/user/backtest")
+	public String showBackTest(ModelMap model) {
 		try {
 
 			BackTestInput input = new BackTestInput();
@@ -53,8 +53,8 @@ public class BackTestController {
 	}
 	
 	@PostMapping("/user/backtest")
-	public String runHistoryTest(ModelMap model, @Valid @ModelAttribute BackTestInput input, BindingResult bindingResult) {
-		System.out.println("Posted historytest");
+	public String runBackTest(ModelMap model, @Valid @ModelAttribute BackTestInput input, BindingResult bindingResult) {
+		System.out.println("Posted backtest");
 		if (bindingResult.hasErrors()) {
 			String errorText = "";
 			for (ObjectError error : bindingResult.getAllErrors()) {
