@@ -15,4 +15,26 @@ insert into system_property (id, string_value, number_value) values ('moving-ave
 insert into system_property (id, string_value, number_value) values ('moving-average-medium', '', 20);
 insert into system_property (id, string_value, number_value) values ('moving-average-long', '', 50);
 
+insert into strategy()
+
+INSERT INTO strategy (id, compare_long_to_medium, compare_medium_to_short, compare_short_to_current, description, multiple_long_to_medium, multiple_medium_to_short, multiple_short_to_current) 
+VALUES ('1', b'0', b'0', b'1', 'kort_102', '1.02', '1.02', '1.02');
+INSERT INTO strategy (id, compare_long_to_medium, compare_medium_to_short, compare_short_to_current, description, multiple_long_to_medium, multiple_medium_to_short, multiple_short_to_current) 
+VALUES ('2', b'0', b'1', b'0', 'mellan_102', '1.02', '1.02', '1.02');
+INSERT INTO strategy (id, compare_long_to_medium, compare_medium_to_short, compare_short_to_current, description, multiple_long_to_medium, multiple_medium_to_short, multiple_short_to_current) 
+VALUES ('3', b'1', b'0', b'0', 'lång_102', '1.02', '1.02', '1.02');
+
+INSERT INTO strategy (id, compare_long_to_medium, compare_medium_to_short, compare_short_to_current, description, multiple_long_to_medium, multiple_medium_to_short, multiple_short_to_current) 
+VALUES ('4', b'0', b'0', b'1', 'kort_1015', '1.015', '1.015', '1.015');
+INSERT INTO strategy (id, compare_long_to_medium, compare_medium_to_short, compare_short_to_current, description, multiple_long_to_medium, multiple_medium_to_short, multiple_short_to_current) 
+VALUES ('5', b'0', b'1', b'0', 'mellan_1015', '1.015', '1.015', '1.015');
+INSERT INTO strategy (id, compare_long_to_medium, compare_medium_to_short, compare_short_to_current, description, multiple_long_to_medium, multiple_medium_to_short, multiple_short_to_current) 
+VALUES ('6', b'1', b'0', b'0', 'lång_1015', '1.015', '1.015', '1.015');
+
+INSERT INTO strategy (id, compare_long_to_medium, compare_medium_to_short, compare_short_to_current, description, multiple_long_to_medium, multiple_medium_to_short, multiple_short_to_current) 
+VALUES ('7', b'0', b'1', b'1', 'kort_mellan_102', '1.02', '1.02', '1.02');
+
+INSERT INTO strategy (id, compare_long_to_medium, compare_medium_to_short, compare_short_to_current, description, multiple_long_to_medium, multiple_medium_to_short, multiple_short_to_current) 
+VALUES ('8', b'1', b'1', b'0', 'mellan_lång_102', '1.02', '1.02', '1.02');
+
 commit;

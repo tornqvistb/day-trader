@@ -151,7 +151,7 @@ public class CalculatorService {
 		return profit;
 	}
 	
-	private Transaction getTrans(ShareDayRate dayRate, String transactionType, Integer noOfShares) {
+	private Transaction getTrans(ShareDayRate dayRate, String transactionType, Long noOfShares) {
 		Transaction trans = new Transaction();
 		trans.setAmount(noOfShares * dayRate.getBuyRate());
 		trans.setNoOfShares(noOfShares);

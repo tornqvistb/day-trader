@@ -10,11 +10,11 @@ public class Strategy {
 	private String id;
 	private String description;
 	private Boolean compareLongToMedium;
-	private Long multipleLongToMedium;
+	private Double multipleLongToMedium;
 	private Boolean compareMediumToShort;
-	private Long multipleMediumToShort;
+	private Double multipleMediumToShort;
 	private Boolean compareShortToCurrent;
-	private Long multipleShortToCurrent;
+	private Double multipleShortToCurrent;
 	private Date creationDate;
 	
 	public Strategy() {
@@ -40,10 +40,10 @@ public class Strategy {
 	public void setCompareLongToMedium(Boolean compareLongToMedium) {
 		this.compareLongToMedium = compareLongToMedium;
 	}
-	public Long getMultipleLongToMedium() {
+	public Double getMultipleLongToMedium() {
 		return multipleLongToMedium;
 	}
-	public void setMultipleLongToMedium(Long multipleLongToMedium) {
+	public void setMultipleLongToMedium(Double multipleLongToMedium) {
 		this.multipleLongToMedium = multipleLongToMedium;
 	}
 	public Boolean getCompareMediumToShort() {
@@ -52,10 +52,10 @@ public class Strategy {
 	public void setCompareMediumToShort(Boolean compareMediumToShort) {
 		this.compareMediumToShort = compareMediumToShort;
 	}
-	public Long getMultipleMediumToShort() {
+	public Double getMultipleMediumToShort() {
 		return multipleMediumToShort;
 	}
-	public void setMultipleMediumToShort(Long multipleMediumToShort) {
+	public void setMultipleMediumToShort(Double multipleMediumToShort) {
 		this.multipleMediumToShort = multipleMediumToShort;
 	}
 	public Boolean getCompareShortToCurrent() {
@@ -64,10 +64,10 @@ public class Strategy {
 	public void setCompareShortToCurrent(Boolean compareShortToCurrent) {
 		this.compareShortToCurrent = compareShortToCurrent;
 	}
-	public Long getMultipleShortToCurrent() {
+	public Double getMultipleShortToCurrent() {
 		return multipleShortToCurrent;
 	}
-	public void setMultipleShortToCurrent(Long multipleShortToCurrent) {
+	public void setMultipleShortToCurrent(Double multipleShortToCurrent) {
 		this.multipleShortToCurrent = multipleShortToCurrent;
 	}
 	public Date getCreationDate() {

@@ -42,8 +42,8 @@ public class StrategyService {
 		}
 		return action;
 	}
-	
-	private boolean timeToSell() {
+	/*
+	protected boolean timeToSell() {
 		boolean result = true;
 		if (strategy.getCompareLongToMedium()) {
 			if (dayRate.getMovingAverageMedium() > dayRate.getMovingAverageLong() * strategy.getMultipleLongToMedium()) {
@@ -67,8 +67,37 @@ public class StrategyService {
 		}
 		return result;
 	}
+	*/
+	protected boolean timeToSell() {
+		boolean result = true;
+		if (strategy.getCompareLongToMedium()) {
+			if (dayRate.getMovingAverageMedium() > dayRate.getMovingAverageLong() * strategy.getMultipleLongToMedium()) {
+				// Passed check
+			} else {
+				LOG.debug("timeToSell, failed test medium > long");
+				return false;
+			}
+		}
+		if (strategy.getCompareMediumToShort()) {
+			if (dayRate.getMovingAverageShort() > dayRate.getMovingAverageMedium() * strategy.getMultipleMediumToShort()) {
+				// Passed check
+			} else {
+				LOG.debug("timeToSell, failed test short > medium");
+				return false;
+			}
+		}
+		if (strategy.getCompareShortToCurrent()) {
+			if (dayRate.getSellRate() > dayRate.getMovingAverageShort() * strategy.getMultipleShortToCurrent()) {
+				// Passed check
+			} else {
+				LOG.debug("timeToSell, failed test current > short");
+				return false;
+			}
+		}
+		return result;
+	}
 
-	private boolean timeToBuy() {
+	protected boolean timeToBuy() {
 		boolean result = true;
 		if (strategy.getCompareLongToMedium()) {
 			if (dayRate.getMovingAverageMedium() < dayRate.getMovingAverageLong() * strategy.getMultipleLongToMedium()) {
@@ -77,12 +106,16 @@ public class StrategyService {
 				LOG.debug("timeToBuy, failed test medium < long");
 				return false;
 			}
+		}
+		if (strategy.getCompareMediumToShort()) {
 			if (dayRate.getMovingAverageShort() < dayRate.getMovingAverageMedium() * strategy.getMultipleMediumToShort()) {
 				// Passed check
 			} else {
 				LOG.debug("timeToBuy, failed test short < medium");
 				return false;
 			}
+		}
+		if (strategy.getCompareShortToCurrent()) {
 			if (dayRate.getSellRate() < dayRate.getMovingAverageShort() * strategy.getMultipleShortToCurrent()) {
 				// Passed check
 			} else {

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import se.arctisys.constants.TradeConstants;
 import se.arctisys.model.BackTestInput;
 import se.arctisys.model.BackTestResult;
 import se.arctisys.repository.ShareRepository;
@@ -36,8 +37,9 @@ public class BackTestController {
 		try {
 
 			BackTestInput input = new BackTestInput();
-			input.setStartDate(Util.getDateByDaysBack(365L));
+			input.setStartDate(Util.getDateByDaysBack(300L));
 			input.setEndDate(new Date());
+			input.setAmount(10000);
 			model.addAttribute("backTestInput", input);
 			model.addAttribute("backTestResult", null);
 			fillLists(model);
@@ -48,7 +50,7 @@ public class BackTestController {
 	}
 
 	private void fillLists (ModelMap model) {
-		model.addAttribute("allShares", shareRepo.findAll());
+		model.addAttribute("allShares", shareRepo.findByStatus(TradeConstants.SHARE_STATUS_IMPORTED));
 		model.addAttribute("allStrategies", strategyRepo.findAll());				
 	}
 	

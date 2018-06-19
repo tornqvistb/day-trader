@@ -1,6 +1,7 @@
 package se.arctisys.util;
 
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -8,8 +9,13 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class Util {
 
+	private static final Logger LOG = LoggerFactory.getLogger(Util.class);
+	
 	public static String dateToString(Date date) {
 		String result = new SimpleDateFormat("yyyy-MM-dd").format(date);
 		return result;		
@@ -113,5 +119,13 @@ public class Util {
 		Calendar cal = Calendar.getInstance();
 	    cal.add(Calendar.HOUR, 24);
 	    return cal;
+	}
+	public static Double formatDouble(Double value) {
+		try {			
+			return Math.round(value * 100.0) / 100.0;
+		} catch (NumberFormatException e) {
+			LOG.info("NumberFormatException for " + value);
+			return value;
+		}
 	}
 }

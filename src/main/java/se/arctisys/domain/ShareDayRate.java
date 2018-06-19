@@ -61,6 +61,11 @@ public class ShareDayRate {
 	public Date getActualDate() {
 		return actualDate;
 	}
+	@Transient
+	public String getActualDateDisplay() {		
+		String result = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(actualDate);
+		return result;		
+	}
 	public void setActualDate(Date actualDate) {
 		this.actualDate = actualDate;
 	}

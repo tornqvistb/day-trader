@@ -1,5 +1,6 @@
 package se.arctisys;
 
+import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -17,6 +18,17 @@ public class GeneralTester {
 		System.out.println(time);
 		time=new java.util.Date((long)1511276160*1000);
 		System.out.println(time);
+		
+		DecimalFormat df = new DecimalFormat("#.##"); 
+		Double d1 = 1.0;
+		System.out.println("d1: " + d1 + " - " + df.format(d1));
+		Double d2 = 1.1;
+		System.out.println("d2: " + d2 + " - " + df.format(d2));
+		Double d3 = 1.12;
+		System.out.println("d3: " + d3 + " - " + df.format(d3));
+		Double d4 = 1.124;
+		System.out.println("d4: " + d4 + " - " + df.format(d4));
+			
 		
 	}
 		
