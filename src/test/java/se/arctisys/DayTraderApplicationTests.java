@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -22,6 +23,7 @@ import se.arctisys.util.Util;
 @RunWith(SpringJUnit4ClassRunner.class)
 //@SpringApplicationConfiguration(classes = DayTraderApplication.class)
 @WebAppConfiguration
+@Ignore
 public class DayTraderApplicationTests {
 
 	private static final Logger LOG = LoggerFactory.getLogger(DayTraderApplicationTests.class);

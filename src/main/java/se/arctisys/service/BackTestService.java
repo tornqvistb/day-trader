@@ -1,23 +1,32 @@
 package se.arctisys.service;
 
+import static se.arctisys.constants.TradeConstants.JOB_STATUS_DONE;
+import static se.arctisys.constants.TradeConstants.JOB_STATUS_START;
 import static se.arctisys.constants.TradeConstants.TRANSACTION_TYPE_BUY;
 import static se.arctisys.constants.TradeConstants.TRANSACTION_TYPE_SELL;
 
+import java.util.Date;
 import java.util.List;
+
+import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import se.arctisys.domain.BackTestInput;
+import se.arctisys.domain.BackTestJob;
 import se.arctisys.domain.ShareDayRate;
+import se.arctisys.domain.Strategy;
 import se.arctisys.model.BackTestHolding;
-import se.arctisys.model.BackTestInput;
 import se.arctisys.model.BackTestResult;
 import se.arctisys.model.Transaction;
+import se.arctisys.repository.BackTestJobRepository;
 import se.arctisys.repository.ShareDayRateRepository;
 import se.arctisys.repository.StrategyRepository;
 
+@Transactional
 @Service
 public class BackTestService {	
 
@@ -27,6 +36,8 @@ public class BackTestService {
 	private StrategyRepository strategyRepo;
 	@Autowired
 	private ShareDayRateRepository dayRateRepo;	
+	@Autowired
+	private BackTestJobRepository jobRepo;	
 		
 	private static final Logger LOG = LoggerFactory.getLogger(CalculatorService.class);
 
@@ -39,7 +50,14 @@ public class BackTestService {
 		result = new BackTestResult();
 		holding = new BackTestHolding(); 
 		holding.setAvailable(Double.valueOf(input.getAmount()));
-		strategyService.setStrategy(strategyRepo.getOne(input.getStrategyId()));
+		Strategy strategy = strategyRepo.getOne(input.getStrategyId());
+		if (strategy != null) {
+			LOG.info("strategy is not null");
+		} else {
+			LOG.info("strategy is null");
+		}
+		strategyService.setStrategy(strategy);
+		
 		List<ShareDayRate> dayRates = dayRateRepo.getDayRatesBetweenTwoDatesForShare(input.getStartDate(), input.getEndDate(), input.getShareId());
 		result.setStartValue(Double.valueOf(input.getAmount()));
 		String lastTransaction = TRANSACTION_TYPE_SELL;
@@ -50,6 +68,7 @@ public class BackTestService {
 				LOG.debug("Backtest buyRate: " + dayRate.getBuyRate());
 				LOG.debug("Backtest sellRate: " + dayRate.getSellRate());
 				strategyService.setDayRate(dayRate);
+				strategyService.setStrategy(strategyRepo.getOne(input.getStrategyId()));
 				if (TRANSACTION_TYPE_SELL.equals(lastTransaction)) {
 					if (strategyService.timeToBuy()) {
 						LOG.info("Time to buy: " + dayRate.getActualDateDisplay() + ", rate: " + dayRate.getBuyRate());
@@ -104,5 +123,20 @@ public class BackTestService {
 		result.getTransactions().add(trans);
 	}
 
+	public void runBackTestJobs() {
+		List<BackTestJob> jobs = jobRepo.findByStatus(JOB_STATUS_START);
+		for (BackTestJob job : jobs) {
+			LOG.info("Running job " + job.getName());
+			for (BackTestInput input : job.getInputList()) {
+				LOG.info("job entity " + input.getShareId());
+				BackTestResult result = performBackTest(input);
+				LOG.info("Back test " + input.getShareId() + " done with end value " + result.getEndValue());
+			}
+			job.setExecutionDate(new Date());
+			job.setStatus(JOB_STATUS_DONE);
+			jobRepo.save(job);
+		}
+		
+	}
 	
 }

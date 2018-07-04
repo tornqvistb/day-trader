@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import se.arctisys.constants.TradeConstants;
-import se.arctisys.model.BackTestInput;
+import se.arctisys.domain.BackTestInput;
 import se.arctisys.model.BackTestResult;
 import se.arctisys.repository.ShareRepository;
 import se.arctisys.repository.StrategyRepository;

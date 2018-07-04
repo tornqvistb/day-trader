@@ -1,13 +1,20 @@
-package se.arctisys.model;
+package se.arctisys.domain;
 
 import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
+@Entity
 public class BackTestInput {	
+	
+	private Long id;
 	
 	@NotNull(message = "*Välj ett startdatum")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -25,7 +32,17 @@ public class BackTestInput {
 	
 	@NotEmpty(message = "*Välj en strategi")
 	private String strategyId;
+
+	private BackTestJob backTestJob; 
 	
+	@Id
+	@GeneratedValue
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
 	public Date getStartDate() {
 		return startDate;
 	}
@@ -55,6 +72,13 @@ public class BackTestInput {
 	}
 	public void setAmount(Integer amount) {
 		this.amount = amount;
-	}	
+	}
+	@ManyToOne
+	public BackTestJob getBackTestJob() {
+		return backTestJob;
+	}
+	public void setBackTestJob(BackTestJob backTestJob) {
+		this.backTestJob = backTestJob;
+	}
 	
 }

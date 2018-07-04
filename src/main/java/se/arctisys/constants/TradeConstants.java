@@ -20,9 +20,12 @@ public class TradeConstants {
 	public static final String SHARE_STATUS_START_IMPORT = "startimport";
 	public static final String SHARE_STATUS_IMPORTED = "imported";
 
+	public static final String JOB_STATUS_NEW = "new";
+	public static final String JOB_STATUS_START = "start";
+	public static final String JOB_STATUS_DONE = "done";
+	
 	public static final String ACTION_BUY = "BUY";
 	public static final String ACTION_SELL = "SELL";
 	public static final String NO_ACTION = "NO_ACTION";
-	
-	
+		
 }

@@ -8,6 +8,7 @@ import org.quartz.JobExecutionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import se.arctisys.service.AdvisorService;
+import se.arctisys.service.BackTestService;
 import se.arctisys.service.FinanceAPIService;
 import se.arctisys.service.MailSenderService;
 import se.arctisys.service.SiteReaderService;
@@ -24,6 +25,8 @@ public class MainImportJob implements Job {
     private AdvisorService advisorService;
     @Autowired
     private MailSenderService mailService;
+    @Autowired
+    private BackTestService backTestService;
     
 
     @Override
@@ -33,8 +36,9 @@ public class MainImportJob implements Job {
 			importService.readHistory();
 			importService.storeCurrentRates();
 			advisorService.checkForSignals();
-			// execute orders with bank...
 			mailService.checkMailsToSend();
+			// execute orders with bank...
+			backTestService.runBackTestJobs();
 		} catch (ParseException | IOException e) {
 			e.printStackTrace();
 		}

@@ -44,6 +44,7 @@ public class StrategyServiceTest {
 		longStrategy.setMultipleMediumToShort(1.01);
 		longStrategy.setMultipleLongToMedium(1.01);
 
+		rate1 = new ShareDayRate();
 		rate1.setEmptyValues();
 		rate1.setMovingAverageShort(100.0);		
 		rate1.setMovingAverageMedium(100.0);
@@ -57,6 +58,7 @@ public class StrategyServiceTest {
 	@Test
 	public void test() {
 		assert (service != null);
+		
 		
 	}
 
