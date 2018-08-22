@@ -50,7 +50,7 @@ public class BackTestService {
 		result = new BackTestResult();
 		holding = new BackTestHolding(); 
 		holding.setAvailable(Double.valueOf(input.getAmount()));
-		Strategy strategy = strategyRepo.getOne(input.getStrategyId());
+		Strategy strategy = strategyRepo.getOne(input.getStrategy().getId());
 		if (strategy != null) {
 			LOG.info("strategy is not null");
 		} else {
@@ -58,7 +58,7 @@ public class BackTestService {
 		}
 		strategyService.setStrategy(strategy);
 		
-		List<ShareDayRate> dayRates = dayRateRepo.getDayRatesBetweenTwoDatesForShare(input.getStartDate(), input.getEndDate(), input.getShareId());
+		List<ShareDayRate> dayRates = dayRateRepo.getDayRatesBetweenTwoDatesForShare(input.getStartDate(), input.getEndDate(), input.getShare().getId());
 		result.setStartValue(Double.valueOf(input.getAmount()));
 		String lastTransaction = TRANSACTION_TYPE_SELL;
 		Double lastSellRate = 0.0;
@@ -68,7 +68,7 @@ public class BackTestService {
 				LOG.debug("Backtest buyRate: " + dayRate.getBuyRate());
 				LOG.debug("Backtest sellRate: " + dayRate.getSellRate());
 				strategyService.setDayRate(dayRate);
-				strategyService.setStrategy(strategyRepo.getOne(input.getStrategyId()));
+				strategyService.setStrategy(strategyRepo.getOne(input.getStrategy().getId()));
 				if (TRANSACTION_TYPE_SELL.equals(lastTransaction)) {
 					if (strategyService.timeToBuy()) {
 						LOG.info("Time to buy: " + dayRate.getActualDateDisplay() + ", rate: " + dayRate.getBuyRate());
@@ -128,9 +128,9 @@ public class BackTestService {
 		for (BackTestJob job : jobs) {
 			LOG.info("Running job " + job.getName());
 			for (BackTestInput input : job.getInputList()) {
-				LOG.info("job entity " + input.getShareId());
+				LOG.info("job entity " + input.getShare().getId());
 				BackTestResult result = performBackTest(input);
-				LOG.info("Back test " + input.getShareId() + " done with end value " + result.getEndValue());
+				LOG.info("Back test " + input.getShare().getId() + " done with end value " + result.getEndValue());
 			}
 			job.setExecutionDate(new Date());
 			job.setStatus(JOB_STATUS_DONE);

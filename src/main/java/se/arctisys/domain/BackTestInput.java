@@ -24,14 +24,12 @@ public class BackTestInput {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date endDate;
 	
-	@NotEmpty(message = "*Välj en aktie")
-	private String shareId;
+	private Share share;
 	
 	@NotNull(message="*Ange ett belopp")
 	private Integer amount;
 	
-	@NotEmpty(message = "*Välj en strategi")
-	private String strategyId;
+	private Strategy strategy;
 
 	private BackTestJob backTestJob; 
 	
@@ -55,18 +53,6 @@ public class BackTestInput {
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
-	public String getShareId() {
-		return shareId;
-	}
-	public void setShareId(String shareId) {
-		this.shareId = shareId;
-	}
-	public String getStrategyId() {
-		return strategyId;
-	}
-	public void setStrategyId(String strategyId) {
-		this.strategyId = strategyId;
-	}
 	public Integer getAmount() {
 		return amount;
 	}
@@ -79,6 +65,20 @@ public class BackTestInput {
 	}
 	public void setBackTestJob(BackTestJob backTestJob) {
 		this.backTestJob = backTestJob;
+	}
+	@ManyToOne
+	public Share getShare() {
+		return share;
+	}
+	public void setShare(Share share) {
+		this.share = share;
+	}
+	@ManyToOne
+	public Strategy getStrategy() {
+		return strategy;
+	}
+	public void setStrategy(Strategy strategy) {
+		this.strategy = strategy;
 	}
 	
 }

@@ -50,10 +50,10 @@
 					</div>
 					<div class="form-group">
 						<p class="field-error-message"
-							th:if="${#fields.hasErrors('shareId')}" th:errors="*{shareId}"></p>
+							th:if="${#fields.hasErrors('share.id')}" th:errors="*{share.idd}"></p>
 						<label for="shareId">Välj aktie:</label> <select
 							class="form-control" id="shareId"
-							th:field="${backTestInput.shareId}">
+							th:field="${backTestInput.share.id}">
 							<option th:each="share : ${allShares}" th:value="${share.id}"
 								th:text="${share.description}">Volvo</option>
 						</select>
@@ -61,11 +61,11 @@
 					</div>
 					<div class="form-group">
 						<p class="field-error-message"
-							th:if="${#fields.hasErrors('strategyId')}"
-							th:errors="*{strategyId}"></p>
-						<label for="strategy">Välj strategi:</label> <select
+							th:if="${#fields.hasErrors('strategy.id')}"
+							th:errors="*{strategy.id}"></p>
+						<label for="strategyId">Välj strategi:</label> <select
 							class="form-control" id="strategyId"
-							th:field="${backTestInput.strategyId}">
+							th:field="${backTestInput.strategy.id}">
 							<option th:each="strategy : ${allStrategies}"
 								th:value="${strategy.id}" th:text="${strategy.description}">Kortsiktig</option>
 						</select>
