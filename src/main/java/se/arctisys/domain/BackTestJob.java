@@ -10,6 +10,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
+
+import se.arctisys.constants.TradeConstants;
 
 @Entity
 public class BackTestJob {
@@ -36,6 +39,20 @@ public class BackTestJob {
 	}
 	public String getStatus() {
 		return status;
+	}
+	@Transient
+	public String getStatusReadable() {
+		String result = "";
+		if (status != null) {
+			if (TradeConstants.JOB_STATUS_NEW.equals(status)) {
+				result = TradeConstants.JOB_STATUS_NEW_READABLE;
+			} else if (TradeConstants.JOB_STATUS_START.equals(status)) {
+				result = TradeConstants.JOB_STATUS_START_READABLE;
+			} else if (TradeConstants.JOB_STATUS_DONE.equals(status)) {
+				result = TradeConstants.JOB_STATUS_DONE_READABLE;
+			} 
+		}
+		return result;
 	}
 	public void setStatus(String status) {
 		this.status = status;

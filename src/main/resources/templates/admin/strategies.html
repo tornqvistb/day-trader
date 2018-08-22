@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+
+<html lang="sv" class="js" xmlns:th="http://www.thymeleaf.org">
+
+<meta charset="utf-8" />
+<head th:include="head" th:remove="tag" />
+
+<body>
+	<div th:include="header" th:remove="tag"></div>
+	<div class="container">
+		<h2>Administration</h2>
+		
+		
+		<hr />
+		<ul class="nav nav-pills">
+		  <li class="nav-item">
+		    <a class="nav-link" th:href="@{/admin/start}">Admin - start</a>
+		  </li>
+		  <li class="nav-item">
+		    <a class="nav-link" th:href="@{/admin/backtestjob}">Historiktest - jobb</a>
+		  </li>
+		  <li class="nav-item">
+		    <a class="nav-link active" th:href="@{/admin/strategies}">Strategier</a>
+		  </li>
+		  <li class="nav-item">
+		    <a class="nav-link" th:href="@{/admin/users}">Användare</a>
+		  </li>
+		  <li class="nav-item">
+		    <a class="nav-link" th:href="@{/admin/sysconfig}">Systemkonfiguration</a>
+		  </li>
+		</ul>
+	</div>
+	<hr />
+	<div class="container">		
+		<h3>Strategier</h3>
+		<table class="table table-striped table-responsive">
+			<thead>	
+				<tr>
+					<th>Id</th>
+					<th>Benämning</th>
+					<th>Matcha långsikt mot medel</th>
+					<th>Multipel (lång/medel)</th>
+					<th>Matcha medelsikt mot kort</th>
+					<th>Multipel (medel/kort)</th>
+					<th>Matcha kortsikt mot aktuellt</th>
+					<th>Multipel (kort/aktuellt)</th>
+					<th>Skapat datum</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="strategy : ${strategies}">
+					<td><a th:text="${strategy.id}" th:href="@{/admin/strategy/} + ${strategy.id}">TEST</a></td>					
+					<td th:text="${strategy.description}">TEST</td>
+					<td th:text="${strategy.compareLongToMedium}">TEST</td>
+					<td th:text="${strategy.multipleLongToMedium}">TEST</td>
+					<td th:text="${strategy.compareMediumToShort}">TEST</td>
+					<td th:text="${strategy.multipleMediumToShort}">TEST</td>
+					<td th:text="${strategy.compareShortToCurrent}">TEST</td>
+					<td th:text="${strategy.multipleShortToCurrent}">TEST</td>
+					<td th:text="${strategy.creationDate}">2018-01-01</td>
+				</tr>
+			</tbody>
+		</table>
+		<a class="btn btn-primary" th:href="@{/admin/addstrategy}" role="button">Skapa ny strategi »</a>
+		
+	</div>
+	<div th:include="footer" th:remove="tag" />
+</body>
+</html>

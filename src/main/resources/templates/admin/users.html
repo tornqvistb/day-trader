@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+
+<html lang="sv" class="js" xmlns:th="http://www.thymeleaf.org">
+
+<meta charset="utf-8" />
+<head th:include="head" th:remove="tag" />
+
+<body>
+	<div th:include="header" th:remove="tag"></div>
+	<div class="container">
+		<h2>Administration</h2>
+		
+		
+		<hr />
+		<ul class="nav nav-pills">
+		  <li class="nav-item">
+		    <a class="nav-link" th:href="@{/admin/start}">Admin - start</a>
+		  </li>
+		  <li class="nav-item">
+		    <a class="nav-link" th:href="@{/admin/backtestjob}">Historiktest - jobb</a>
+		  </li>
+		  <li class="nav-item">
+		    <a class="nav-link" th:href="@{/admin/strategies}">Strategier</a>
+		  </li>
+		  <li class="nav-item">
+		    <a class="nav-link active" th:href="@{/admin/users}">Användare</a>
+		  </li>
+		  <li class="nav-item">
+		    <a class="nav-link" th:href="@{/admin/sysconfig}">Systemkonfiguration</a>
+		  </li>
+		</ul>
+	</div>
+	<hr />
+	<div class="container">		
+		<h3>Användare</h3>
+		<table class="table table-striped table-responsive">
+			<thead>	
+				<tr>
+					<th>Id</th>
+					<th>Användarnamn</th>
+					<th>Förnamn</th>
+					<th>Efternamn</th>
+					<th>E-post</th>
+					<th>Lösenord</th>
+					<th>Aktiverad</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="user : ${users}">
+					<td><a th:text="${user.userId}" th:href="@{/admin/user/} + ${user.userId}">1</a></td>					
+					<td th:text="${user.username}">kalkul</td>
+					<td th:text="${user.firstName}">Kalle</td>
+					<td th:text="${user.lastName}">Kula</td>
+					<td th:text="${user.email}">kallekula@hotmail.com</td>
+					<td th:text="${user.password}">kalpswd</td>
+					<td th:text="${user.active}">1</td>
+				</tr>
+			</tbody>
+		</table>
+		<a class="btn btn-primary" th:href="@{/admin/adduser}" role="button">Skapa ny användare »</a>
+		
+	</div>
+	<div th:include="footer" th:remove="tag" />
+</body>
+</html>

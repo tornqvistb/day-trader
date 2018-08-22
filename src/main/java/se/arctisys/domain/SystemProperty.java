@@ -7,6 +7,7 @@ import javax.persistence.Id;
 public class SystemProperty {
 
 	private String id;
+	private String description;
 	private String stringValue;
 	private Long numberValue;              
 	@Id
@@ -27,6 +28,12 @@ public class SystemProperty {
 	}
 	public void setNumberValue(Long numberValue) {
 		this.numberValue = numberValue;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	
 }

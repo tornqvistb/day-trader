@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+<html lang="sv" class="js" xmlns:th="http://www.thymeleaf.org">
+
+<meta charset="utf-8" />
+<head th:include="head" th:remove="tag" />
+
+<body>
+	<div th:include="header" th:remove="tag"></div>
+	<div class="container">
+		<h2>Administration</h2>
+		
+		
+		<hr />
+		<ul class="nav nav-pills">
+		  <li class="nav-item">
+		    <a class="nav-link active" th:href="@{/admin/start}">Admin - start</a>
+		  </li>
+		  <li class="nav-item">
+		    <a class="nav-link" th:href="@{/admin/backtestjob}">Historiktest - jobb</a>
+		  </li>
+		  <li class="nav-item">
+		    <a class="nav-link" th:href="@{/admin/strategies}">Strategier</a>
+		  </li>
+		  <li class="nav-item">
+		    <a class="nav-link" th:href="@{/admin/users}">Användare</a>
+		  </li>
+		  <li class="nav-item">
+		    <a class="nav-link" th:href="@{/admin/sysconfig}">Systemkonfiguration</a>
+		  </li>
+		</ul>
+	</div>
+	<hr />
+	<div class="container">		
+		<h3>Startsida för Administration</h3>
+		
+	</div>
+	<div th:include="footer" th:remove="tag" />
+</body>
+</html>

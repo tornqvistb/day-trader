@@ -163,4 +163,8 @@ public class User {
 	public void setConfirmPassword(String confirmPassword) {
 		this.confirmPassword = confirmPassword;
 	}
+
+	public int getUserId() {
+		return userId;
+	}
 }
