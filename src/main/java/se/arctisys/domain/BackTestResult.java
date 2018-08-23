@@ -1,4 +1,4 @@
-package se.arctisys.model;
+package se.arctisys.domain;
 
 import java.util.ArrayList;
 import java.util.List;

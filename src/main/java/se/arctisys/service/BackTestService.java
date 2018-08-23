@@ -17,11 +17,11 @@ import org.springframework.stereotype.Service;
 
 import se.arctisys.domain.BackTestInput;
 import se.arctisys.domain.BackTestJob;
+import se.arctisys.domain.BackTestResult;
 import se.arctisys.domain.ShareDayRate;
 import se.arctisys.domain.Strategy;
+import se.arctisys.domain.Transaction;
 import se.arctisys.model.BackTestHolding;
-import se.arctisys.model.BackTestResult;
-import se.arctisys.model.Transaction;
 import se.arctisys.repository.BackTestJobRepository;
 import se.arctisys.repository.ShareDayRateRepository;
 import se.arctisys.repository.StrategyRepository;

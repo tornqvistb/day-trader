@@ -4,7 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
+import se.arctisys.domain.BackTestJob;
+import se.arctisys.domain.UserShare;
 import se.arctisys.repository.BackTestJobRepository;
 
 @Controller
@@ -18,7 +21,16 @@ public class BackTestJobController {
 	public String backTestJob(ModelMap model) {
 		model.addAttribute("backTestJobs", backTestJobRepo.findAll());
 		return "admin/back-test-job";
-	}	
+	}
+	
+	@GetMapping("/admin/backtestjob/{id}")	
+	public String showJob(@PathVariable Long id, ModelMap model) {
+		BackTestJob job = backTestJobRepo.getOne(id);
+		model.addAttribute("backTestJob", job);
+		return "admin/back-test-job-details";
+	}
+
+	
 	/*
 	@GetMapping("/user/myshares")
 	public String showMyStocks(ModelMap model) {	

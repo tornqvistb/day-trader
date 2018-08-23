@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import se.arctisys.domain.Transaction;
+
 public class Profit {
 
 	private Double result;

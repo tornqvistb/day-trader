@@ -1,14 +1,15 @@
 package se.arctisys.domain;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
@@ -79,6 +80,16 @@ public class BackTestInput {
 	}
 	public void setStrategy(Strategy strategy) {
 		this.strategy = strategy;
+	}
+	@Transient
+	public String getStartDateReadable() {	
+		SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd");
+		return sdfDate.format(startDate);
+	}
+	@Transient
+	public String getEndDateReadable() {	
+		SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd");
+		return sdfDate.format(endDate);
 	}
 	
 }
