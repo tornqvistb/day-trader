@@ -10,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Transient;
 
 import se.arctisys.constants.TradeConstants;
@@ -64,6 +65,7 @@ public class BackTestJob {
 		this.executionDate = executionDate;
 	}
 	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER, mappedBy="backTestJob")
+	@OrderBy("id")
 	public Set<BackTestInput> getInputList() {
 		return inputList;
 	}

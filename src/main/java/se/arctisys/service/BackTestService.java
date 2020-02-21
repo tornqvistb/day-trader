@@ -88,6 +88,7 @@ public class BackTestService {
 		
 		result.setEndValueAvailable(holding.getAvailable());
 		result.setEndValueInStocks(holding.getNoOfShares() * lastSellRate);
+		result.setInput(inputPar);
 		return result;
 	}
 
@@ -130,6 +131,7 @@ public class BackTestService {
 			for (BackTestInput input : job.getInputList()) {
 				LOG.info("job entity " + input.getShare().getId());
 				BackTestResult result = performBackTest(input);
+				input.setBackTestResult(result);
 				LOG.info("Back test " + input.getShare().getId() + " done with end value " + result.getEndValue());
 			}
 			job.setExecutionDate(new Date());

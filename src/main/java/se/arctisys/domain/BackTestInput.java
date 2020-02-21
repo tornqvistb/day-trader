@@ -3,10 +3,13 @@ package se.arctisys.domain;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
@@ -34,6 +37,8 @@ public class BackTestInput {
 
 	private BackTestJob backTestJob; 
 	
+	private BackTestResult backTestResult;
+	
 	@Id
 	@GeneratedValue
 	public Long getId() {
@@ -59,6 +64,13 @@ public class BackTestInput {
 	}
 	public void setAmount(Integer amount) {
 		this.amount = amount;
+	}
+	@OneToOne(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	public BackTestResult getBackTestResult() {
+		return backTestResult;
+	}
+	public void setBackTestResult(BackTestResult backTestResult) {
+		this.backTestResult = backTestResult;
 	}
 	@ManyToOne
 	public BackTestJob getBackTestJob() {
